@@ -11,6 +11,7 @@ plugins {
     id 'application'
     id 'java'
     id 'eclipse'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 repositories {
@@ -35,7 +36,14 @@ dependencies {
 	//implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
     
+    // https://mvnrepository.com/artifact/org.openjfx/javafx
+	implementation group: 'org.openjfx', name: 'javafx', version: '11', ext: 'pom'
     
+}
+
+javafx {
+    version = "17.0.1"
+    modules = [ 'javafx.controls' ]
 }
 
 application {
