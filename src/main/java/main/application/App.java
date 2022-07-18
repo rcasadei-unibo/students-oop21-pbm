@@ -32,4 +32,8 @@ public class App extends Application {
  public static void main(String[] args) {
         launch(args);
     }
+ 
+public Object getGreeting() {
+	return "something";
+}
 }
