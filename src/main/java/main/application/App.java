@@ -1,5 +1,8 @@
 package main.application;
 
+import java.io.IOException;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,6 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
  
 public class App extends Application {
     @Override
@@ -29,7 +35,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
- public static void main(String[] args) {
+ public static void main(String[] args){
         launch(args);
     }
  

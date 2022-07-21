@@ -30,7 +30,7 @@ public final class TestAccount {
 		acc2.deposit(2000);
 		try {
 			acc2.withdraw(200);
-			if(acc2.getBalance() <= 1800) {
+			if(acc2.getBalance() < 1800) {
 				fail();
 			}
 		} catch (Exception e) {
