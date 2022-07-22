@@ -4,8 +4,9 @@ package main.model.market;
  * An interface that models a market to allow people to BUY or SELL equities
  * on the markets(stock, cryptocurrency, NFT, bonds, swaps, etc...).
  *	
+ *@param <X> the abstract Equity
  */
-public interface MarketHoldings {
+public interface MarketHoldings<X>{
 	
 	/**
 	 *	buy the specified asset on the market.
@@ -17,7 +18,7 @@ public interface MarketHoldings {
 	 * @throws IllegalArgumentException if the user is not allowed
 	 * for this operation, be it not owning an equity or not enough shares.
 	 */
-	void buyAssets(Equity ticker, double shares);
+	void buyAsset(X ticker, double shares);
 	
 	/**
 	 *	buy the specified asset on the market.
@@ -30,7 +31,7 @@ public interface MarketHoldings {
 	 * for this operation, be it not owning an equity or not enough shares.
 	 * 
 	 */
-	void sellAssets(Equity ticker, double shares);
+	void sellAsset(X ticker, double shares);
 	
 	/**
 	 *	get the total worth in this market.
