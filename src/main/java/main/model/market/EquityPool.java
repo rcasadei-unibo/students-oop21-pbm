@@ -1,8 +1,16 @@
 package main.model.market;
 
-import java.math.BigDecimal;
-
-public interface EquityPool {
+public final class EquityPool {
 	
-	void getEquity(String symbol);
+	private EquityPool() {
+		super();
+	}
+
+	public static Equity requestEquity(final String symbol) {
+		return new EquityImpl(symbol);
+	}
+	
+	public static double getEquityPrice(final String symbol) {
+		return new EquityImpl(symbol).getPrice();
+	}
 }
