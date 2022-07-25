@@ -1,16 +1,24 @@
 package main.model.market;
 
-public final class EquityPool {
-	
-	private EquityPool() {
-		super();
-	}
+import com.google.common.base.Optional;
 
-	public static Equity requestEquity(final String symbol) {
-		return new EquityImpl(symbol);
-	}
+/**
+ * This interface models a place to retrieve Equities and its price.
+ * The implementation can vary a lot based on the third parties' API. 
+ */
+public interface EquityPool {
 	
-	public static double getEquityPrice(final String symbol) {
-		return new EquityImpl(symbol).getPrice();
-	}
+	/**
+	 * Retrieve the requested Equity's price.
+	 * @param symbol the equity's ticker.
+	 * @return an optional of price in double, it might be absent.
+	 */
+	Optional<Double> getEquityPrice(String symbol);
+	
+	/**
+	 * Retrieve the requested Equity itself.
+	 * @param symbol the equity's ticker.
+	 * @return an optional of equity, it might be absent.
+	 */
+	Optional<Equity> getEquity(String symbol);
 }
