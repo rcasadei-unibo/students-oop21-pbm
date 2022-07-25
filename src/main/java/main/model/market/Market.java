@@ -32,9 +32,9 @@ public interface Market{
 	
 	/**
 	 *	get the total worth in this market.
-	 *
+	 * @param order the order to calculate its value
 	 * @return the value in USD.
 	 */
-	double getAssetsNetWorth();
+	double getAssetsNetWorth(Order order);
 	
 }

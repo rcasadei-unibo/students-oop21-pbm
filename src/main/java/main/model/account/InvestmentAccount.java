@@ -35,19 +35,17 @@ public interface InvestmentAccount extends Account{
 	 * 
 	 * @return the total earning in percentage
 	 */
-	double getReturnInPercentage(double netWorthInvested);
+	double getReturnInPercentage(double netWorthInvested);	
 	
 	/**
-	 * When a user buys an asset, it will be considered as invested money.
-	 * 
-	 * @param moneyBought the money used to buy assets.
+	 * invest money.
+	 * @param amounts amount to invest
 	 */
-	void increaseInvestedMoney(double moneyBought);
+	void invest(double amounts);
 	
 	/**
-	 *  When a user sells an asset, invested money will decrease.
-	 * 
-	 * @param moneySold
+	 * cash out from the market.
+	 * @param amounts to cash out
 	 */
-	void decreaseInvestedMoney(double moneySold);
+	void cashout(double amounts);
 }

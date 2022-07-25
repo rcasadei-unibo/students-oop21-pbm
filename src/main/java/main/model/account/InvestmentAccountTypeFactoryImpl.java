@@ -91,19 +91,12 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 				return predicate.test(state, amount);
 			}
 
-			/**
-			 * The program reaches this point only if they bought the share successfully And
-			 * money has been charged successfully. Thus I think check is not really needed.
-			 * Also because it's an indicator, it's not real money like "balance"
-			 */
-			@Override
-			public void increaseInvestedMoney(final double moneyBought) {
+			private void increaseInvestedMoney(final double moneyBought) {
 				this.investedBalance += moneyBought;
 
 			}
 
-			@Override
-			public void decreaseInvestedMoney(final double moneySold) {
+			private void decreaseInvestedMoney(final double moneySold) {
 				this.investedBalance -= moneySold;
 
 			}
@@ -121,6 +114,18 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 			@Override
 			public double getReturn(final double netWorthInvested) {
 				return netWorthInvested - this.getInvestedBalance();
+			}
+
+			@Override
+			public void invest(final double amounts) {
+				withdraw(amounts);
+				increaseInvestedMoney(amounts);
+			}
+
+			@Override
+			public void cashout(final double amounts) {
+				deposit(amounts);
+				decreaseInvestedMoney(amounts);
 			}
 
 		};
