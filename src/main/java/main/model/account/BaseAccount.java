@@ -6,9 +6,12 @@ package main.model.account;
  * 
  */
 public abstract class BaseAccount implements Account {
-
+	
 	private double balance;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void withdraw(final double amount) {
 		if (checkWithdrawValidity(amount)) {
@@ -17,7 +20,10 @@ public abstract class BaseAccount implements Account {
 			throw new NotEnoughFundsException();
 		}
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deposit(final double amount) {
 		if (checkDepositValidity(amount)) {
@@ -26,7 +32,10 @@ public abstract class BaseAccount implements Account {
 			throw new IllegalArgumentException();
 		}
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getBalance() {
 		return this.balance;

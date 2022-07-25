@@ -12,7 +12,10 @@ public class EquityStock extends EquityImpl {
 		super(symbol);
 		stock = yahoofinance.YahooFinance.get(getSymbol());
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getPrice() {
 		return stock.getQuote().getPrice().doubleValue();

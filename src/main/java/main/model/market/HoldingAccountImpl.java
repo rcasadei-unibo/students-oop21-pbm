@@ -1,17 +1,14 @@
 package main.model.market;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.common.base.Optional;
-
 public class HoldingAccountImpl implements HoldingAccount {
-
-	private Map<String, Double> holdings;
-	private EquityPool equityPool;
+	
+	private final Map<String, Double> holdings;
+	private final EquityPool equityPool;
 
 	public HoldingAccountImpl(final Map<String, Double> holdings, final EquityPool ep) {
 		super();
@@ -22,11 +19,18 @@ public class HoldingAccountImpl implements HoldingAccount {
 	public HoldingAccountImpl(final EquityPool ep) {
 		this(new HashMap<>(), ep);
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Set<String> getHoldingSymbols() {
 		return holdings.entrySet().stream().map(x -> x.getKey()).collect(Collectors.toSet());
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getTotalValue(){
 		/**
@@ -39,6 +43,9 @@ public class HoldingAccountImpl implements HoldingAccount {
 				.sum();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateHoldingsForBuying(final Order order) {
 		final String key = order.getEquity().getSymbol();
@@ -48,7 +55,10 @@ public class HoldingAccountImpl implements HoldingAccount {
 		holdings.computeIfAbsent(key, k -> shares);
 
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateHoldingsForSelling(final Order order) {
 		final String key = order.getEquity().getSymbol();
@@ -57,7 +67,10 @@ public class HoldingAccountImpl implements HoldingAccount {
 		holdings.computeIfPresent(key, (k, val) -> val - shares);
 
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean hasEnoughShares(final Order order) {
 		return holdings.get(order.getEquity().getSymbol()) >= order.getShares();

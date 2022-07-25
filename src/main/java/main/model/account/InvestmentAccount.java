@@ -25,7 +25,7 @@ public interface InvestmentAccount extends Account{
 	 * 
 	 * @return the total earning
 	 */
-	double getEarnings(double netWorthInvested);
+	double getReturn(double netWorthInvested);
 	
 
 	/**
@@ -35,7 +35,7 @@ public interface InvestmentAccount extends Account{
 	 * 
 	 * @return the total earning in percentage
 	 */
-	double getEarningsInPercentage(double netWorthInvested);
+	double getReturnInPercentage(double netWorthInvested);
 	
 	/**
 	 * When a user buys an asset, it will be considered as invested money.

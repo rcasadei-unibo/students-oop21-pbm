@@ -1,37 +1,34 @@
 package main.model.market;
 
+import main.model.account.InvestmentAccount;
+
 /**
  * An interface that models a market to allow people to BUY or SELL equities
  * on the markets(stock, cryptocurrency, NFT, bonds, swaps, etc...).
- *	
- *@param <X> the abstract Equity
  */
-public interface MarketHoldings<X>{
+public interface Market{
 	
 	/**
-	 *	buy the specified asset on the market.
-	 *
-	 * @param ticker the thing you want to buy
+	 *	buy the specified assert on the market.
 	 * 
-	 * @param shares the fraction of an equity
-	 * 
+	 * @param invAcc the investing account
+	 * @param holdAcc the holding account
+	 * @param order transaction order
 	 * @throws IllegalArgumentException if the user is not allowed
 	 * for this operation, be it not owning an equity or not enough shares.
 	 */
-	void buyAsset(X ticker, double shares);
+	void buyAsset(InvestmentAccount invAcc, HoldingAccount holdAcc, Order order);
 	
 	/**
-	 *	buy the specified asset on the market.
-	 *
-	 * @param ticker the thing you want to buy
+	 * sell the specified assert on the market.
 	 * 
-	 * @param shares the fraction of an equity
-	 * 
+	 * @param invAcc the investing account
+	 * @param holdAcc the holding account
+	 * @param order transaction order
 	 * @throws IllegalArgumentException if the user is not allowed
 	 * for this operation, be it not owning an equity or not enough shares.
-	 * 
 	 */
-	void sellAsset(X ticker, double shares);
+	void sellAsset(InvestmentAccount invAcc, HoldingAccount holdAcc, Order order);
 	
 	/**
 	 *	get the total worth in this market.
@@ -39,4 +36,5 @@ public interface MarketHoldings<X>{
 	 * @return the value in USD.
 	 */
 	double getAssetsNetWorth();
+	
 }
