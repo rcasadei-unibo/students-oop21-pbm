@@ -1,8 +1,21 @@
 package main.model.market;
 
-import java.math.BigDecimal;
-
-public interface EquityPool {
+/**
+ * This interface models an equity.
+ * It can be everything that consists of a name and a price.
+ */
+public interface Equity {
 	
-	void getEquity(String symbol);
+	/**
+	 * Get the price of the asset.
+	 * @return the price in double.
+	 */
+	double getPrice();
+	
+	/**
+	 * Get the symbol of the asset.
+	 * @return the name in string.
+	 */
+	String getSymbol();
+	
 }
