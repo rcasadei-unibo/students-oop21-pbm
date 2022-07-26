@@ -7,9 +7,9 @@ public class ProfileCredentials {
     private final String surname;
     private final String fc;
     private final String eMail;
-    private String password;
+    private Password password;
 
-    public ProfileCredentials(final String name, final String surname, final String fc, final String eMail, final String password) {
+    public ProfileCredentials(final String name, final String surname, final String fc, final String eMail, final Password password) {
         this.name = name;
         this.surname = surname;
         this.fc = fc;
@@ -28,7 +28,7 @@ public class ProfileCredentials {
      * 
      * @return Surname
      */
-    public String getSurName() {
+    public String getSurname() {
         return this.surname;
     }
 
@@ -53,14 +53,14 @@ public class ProfileCredentials {
      * @return password
      */
     public String getPassword() {
-        return this.password;
+        return this.password.getPassword();
     }
 
     /**
      * updates old password to new password.
      * @param newPassword
      */
-    public void updatePassword(final String newPassword) {
+    public void updatePassword(final Password newPassword) {
         this.password = newPassword;
     }
 }
