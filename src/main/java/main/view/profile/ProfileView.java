@@ -13,7 +13,6 @@ public class ProfileView extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         // TODO Auto-generated method stub
-        
     }
 
 }
