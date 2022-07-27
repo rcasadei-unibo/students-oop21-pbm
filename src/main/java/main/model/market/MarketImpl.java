@@ -3,7 +3,7 @@ package main.model.market;
 import main.model.account.InvestmentAccount;
 
 public class MarketImpl implements Market {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -15,7 +15,7 @@ public class MarketImpl implements Market {
 		invAcc.invest(getAssetsNetWorth(order));
 		holdAcc.updateHoldingsForBuying(order);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -24,10 +24,13 @@ public class MarketImpl implements Market {
 		if (!callThirdApiForSelling(order)) {
 			return;
 		}
-		invAcc.cashout(getAssetsNetWorth(order));
-		holdAcc.updateHoldingsForSelling(order);
+		if (holdAcc.hasEnoughShares(order)) {
+			holdAcc.updateHoldingsForSelling(order);
+			invAcc.cashout(getAssetsNetWorth(order));
+		}
+		
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

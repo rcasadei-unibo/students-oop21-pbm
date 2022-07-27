@@ -39,4 +39,12 @@ public interface HoldingAccount {
 	 * @return boolean true if the shares is enough, false otherwise.
 	 */
 	boolean hasEnoughShares(Order order);
+	
+	/**
+	 * to look at how many shares i own over a company.
+	 * 
+	 * @param symbol the stock's ticker
+	 * @return shares in double
+	 */
+	double howManyShares(String symbol);
 }
