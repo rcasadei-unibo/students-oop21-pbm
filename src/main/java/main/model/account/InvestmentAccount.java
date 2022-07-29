@@ -6,8 +6,7 @@ package main.model.account;
  * the other part is invested worth.
  * 
  */
-public interface InvestmentAccount extends Account{
-	
+public interface InvestmentAccount extends Account {
 
 	/**
 	 *	get the invested amount of money.
