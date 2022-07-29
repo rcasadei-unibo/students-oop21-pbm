@@ -68,7 +68,7 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 			}
 
 			private boolean canWithdraw(final double amount) {
-				return (operationFee.apply(amount) + amount) >= this.getBalance() && predicate.test(state, amount)
+				return (operationFee.apply(amount) + amount) <= this.getBalance() && predicate.test(state, amount)
 						&& changeState(stateChanger);
 
 			}
@@ -124,8 +124,8 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 
 			@Override
 			public void cashout(final double amounts) {
-				deposit(amounts);
 				decreaseInvestedMoney(amounts);
+				deposit(amounts);
 			}
 
 		};

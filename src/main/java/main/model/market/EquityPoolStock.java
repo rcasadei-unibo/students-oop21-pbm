@@ -7,7 +7,7 @@ import com.google.common.base.Optional;
 public final class EquityPoolStock implements EquityPool {
 
 	
-	private EquityPoolStock() {
+	public EquityPoolStock() {
 		super();
 	}
 
