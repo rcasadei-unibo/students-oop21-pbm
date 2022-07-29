@@ -1,45 +1,20 @@
 package main.application;
 
-import java.io.IOException;
-import java.util.List;
+import main.control.Controller;
+import main.control.ControllerImpl;
+import main.view.View;
+import main.view.ViewImpl;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-import yahoofinance.histquotes.HistoricalQuote;
- 
-public class App extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("It's time to make it works!");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("personal-budger-manager!!!");
-            }
-        });
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+public final class App {
+	
+	//private static final Controller C = new ControllerImpl();
+	//private static final View V = new ViewImpl();
 
- Scene scene = new Scene(root, 300, 250);
+	private App() {
+	}
 
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
- public static void main(String[] args){
-        launch(args);
-    }
- 
-public Object getGreeting() {
-	return "something";
-}
+	public static void main(final String[] args) {
+		new ViewImpl().show(args);
+	}
+
 }

@@ -76,4 +76,13 @@ public class HoldingAccountImpl implements HoldingAccount {
 		return holdings.get(order.getEquity().getSymbol()) >= order.getShares();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double howManyShares(final String symbol) {
+		return holdings.containsKey(symbol) ? holdings.get(symbol).doubleValue()
+				: 0.0 ;
+	}
+
 }

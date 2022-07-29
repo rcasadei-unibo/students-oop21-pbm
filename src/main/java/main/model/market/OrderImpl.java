@@ -11,6 +11,10 @@ public class OrderImpl implements Order{
 		super();
 		this.order = order;
 	}
+	
+	public OrderImpl(final Equity equity, final double shares) {
+		this(new Pair<>(equity, shares));
+	}
 
 	/**
 	 * {@inheritDoc}

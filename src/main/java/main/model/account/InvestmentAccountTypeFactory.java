@@ -21,7 +21,12 @@ public interface InvestmentAccountTypeFactory {
 	InvestmentAccount createForFree();
 	
 	/**
-	 * Each operation has a cost.
+	 * Each operation has a cost. You pass the parameter as a lambda function
+	 * such as (f -> f * feeRate) whereas the feeRate is like about 0.05 of the 
+	 * total transaction. 
+	 * 
+	 * If the total amount of tansaction is let's say 100, feeRate = 0.05, then 
+	 * it will charge a fee of 5. the remaining should be 95 
 	 * 
 	 * @param fees the applied operation fees
 	 * 
