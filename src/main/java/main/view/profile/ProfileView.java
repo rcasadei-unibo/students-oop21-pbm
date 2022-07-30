@@ -8,11 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class ProfileView extends Application {
-
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        // TODO Auto-generated method stub
-    }
-
+public class ProfileView {
+    
 }
