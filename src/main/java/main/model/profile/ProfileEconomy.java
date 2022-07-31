@@ -1,48 +1,39 @@
-
 package main.model.profile;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 import main.model.account.InvestmentAccount;
+import main.model.market.HoldingAccount;
 
-public class ProfileEconomy {
-
-    private double totalBalance;
-    private final List<InvestmentAccount> invAccs = new ArrayList<>();
-    //da aggiungere cose
-
+public interface ProfileEconomy {
     /**
-     * 
-     * @return InvestmentAccounts
+     * get all Investment Accounts.
+     * @return List of InvestmentAccounts
      */
-    public List<InvestmentAccount> getInvestmentAccounts() {
-        return Collections.unmodifiableList(this.invAccs);
-    }
+    List<InvestmentAccount> getInvestmentAccounts();
 
     /**
-     * 
+     * get all Holding Accounts.
+     * @return List of HoldingAccounts
+     */
+    List<HoldingAccount> getHoldingAccounts();
+
+    /**
+     * add a new Investment Account.
      * @param newAccount
      */
-    public void newInvestmentAccount(final InvestmentAccount newAccount) {
-        this.invAccs.add(newAccount);
-        setTotalBalance(newAccount.getBalance());
-    }
+    void newInvestmentAccount(InvestmentAccount newAccount);
 
     /**
-     * Set totalBalance to new amount.
-     * 
-     * @param amount updated amount of totalBalance.
+     * add new Holding Account.
+     * @param newAccount
      */
-    private void setTotalBalance(final double amount) {
-         this.totalBalance += amount;
-    }
+    void newHoldingAccount(HoldingAccount newAccount);
 
     /**
+     * return overall profile Balance that is the sum of
+     * the worth all Accounts.
      * @return profile total balance.
      */
-    public double getTotalBalance() {
-        return this.totalBalance;
-    }
-
+    double getTotalBalance();
 }
