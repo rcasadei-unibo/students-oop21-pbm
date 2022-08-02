@@ -11,6 +11,8 @@ public interface GUIFactory {
 	
 	Pane createHorizontalPanel();
 	
+	Pane createVerticalPanel();
+	
 	Button createButton(String name);
 	
 	Scene createScene(Pane panel);

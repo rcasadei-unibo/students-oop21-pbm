@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import main.util.Pair;
 
@@ -45,6 +46,14 @@ public final class GUIFactoryImpl implements GUIFactory {
 		hbox.setSpacing(panelSpacing);
 		return hbox;
 	}
+
+    @Override
+    public Pane createVerticalPanel() {
+        final VBox vbox = new VBox();
+        vbox.setPadding(panelInsets);
+        vbox.setSpacing(panelSpacing);
+        return vbox;
+    }
 	
 
 	@Override
@@ -75,7 +84,7 @@ public final class GUIFactoryImpl implements GUIFactory {
 
 		private final Function<Double, Double> fx;
 		private final Function<Double, Double> fy;
-		
+
 		public Builder(final double x, final double y) {
 			super();
 			fx = p -> x * p;
@@ -109,11 +118,11 @@ public final class GUIFactoryImpl implements GUIFactory {
 			this.panelSpacing = h * p;
 			return this;
 		}
-		
+
 		public final GUIFactoryImpl build() {
 			return new GUIFactoryImpl(buttonSize, panelInsets, panelSpacing, sceneSize);
 		}
-		
+
 
 	}
 
