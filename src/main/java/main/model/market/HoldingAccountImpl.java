@@ -32,7 +32,7 @@ public class HoldingAccountImpl implements HoldingAccount {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public double getTotalValue(){
+	public double getTotalValue() {
 		/**
 		 * the x.getKey().get() might be absent. 
 		 * So I need to decide whether to tell the user to wait or 

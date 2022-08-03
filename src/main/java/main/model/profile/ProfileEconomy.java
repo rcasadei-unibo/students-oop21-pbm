@@ -22,13 +22,13 @@ public interface ProfileEconomy {
      * add a new Investment Account.
      * @param newAccount
      */
-    void newInvestmentAccount(InvestmentAccount newAccount);
+    void addInvestmentAccount(InvestmentAccount newAccount);
 
     /**
      * add new Holding Account.
      * @param newAccount
      */
-    void newHoldingAccount(HoldingAccount newAccount);
+    void addHoldingAccount(HoldingAccount newAccount);
 
     /**
      * return overall profile Balance that is the sum of

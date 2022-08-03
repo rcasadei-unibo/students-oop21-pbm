@@ -18,14 +18,13 @@ public class ProfileCredentials {
     }
 
     /**
-     * 
      * @return Name
      */
     public String getName() {
         return this.name;
     }
+
     /**
-     * 
      * @return Surname
      */
     public String getSurname() {
@@ -33,7 +32,6 @@ public class ProfileCredentials {
     }
 
     /**
-     * 
      * @return fiscal code
      */
     public String getFc() {
@@ -41,7 +39,6 @@ public class ProfileCredentials {
     }
 
     /**
-     * 
      * @return email
      */
     public String getEMail() {
@@ -49,7 +46,6 @@ public class ProfileCredentials {
     }
 
     /**
-     * 
      * @return password
      */
     public String getPassword() {

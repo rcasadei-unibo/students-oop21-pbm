@@ -2,7 +2,6 @@
 package main.model.profile;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import main.model.account.InvestmentAccount;
 import main.model.market.HoldingAccount;
@@ -18,27 +17,27 @@ public class ProfileEconomyImpl implements ProfileEconomy {
      * {@inheritDoc}
      */
     public List<InvestmentAccount> getInvestmentAccounts() {
-        return Collections.unmodifiableList(this.invAccs);
+        return this.invAccs;
     }
 
     /**
      * {@inheritDoc}
      */
     public List<HoldingAccount> getHoldingAccounts() {
-        return Collections.unmodifiableList(this.holAccs);
+        return this.holAccs;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void newInvestmentAccount(final InvestmentAccount newAccount) {
+    public void addInvestmentAccount(final InvestmentAccount newAccount) {
         this.invAccs.add(newAccount);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void newHoldingAccount(final HoldingAccount newAccount) {
+    public void addHoldingAccount(final HoldingAccount newAccount) {
         this.holAccs.add(newAccount);
     }
 
@@ -47,8 +46,9 @@ public class ProfileEconomyImpl implements ProfileEconomy {
      * @param amount updated amount of totalBalance.
      */
     private void updateTotalBalance() {
-         this.invAccs.forEach(acc -> this.totalBalance += acc.getBalance());
-         this.holAccs.forEach(acc -> this.totalBalance += acc.getTotalValue());
+        this.totalBalance = 0.0;
+        this.invAccs.forEach(acc -> this.totalBalance += acc.getBalance());
+        this.holAccs.forEach(acc -> this.totalBalance += acc.getTotalValue());
     }
 
     /**
