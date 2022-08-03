@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * This interface models every interaction from GUI of investmentPage to Logic.
+ * All the Lists returned here should be unmodifiable, because it's likely that 
+ * theses methods will be executed on different threads, in order to make it simple
+ * it does not handle mutual exclusion of data.
  *
  */
 public interface InvestmentViewObserver {
