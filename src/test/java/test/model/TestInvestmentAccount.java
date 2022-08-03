@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
+import main.model.account.Account;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
@@ -17,6 +18,15 @@ public class TestInvestmentAccount {
 	private static double feeRate = 0.05;
 	private InvestmentAccount acc2 = accFactory.createWithOperationFees(f -> f * feeRate);
 
+	@Test
+	public void testAccountType() {
+	    //so basically investmentAccount is a subtype of Account
+	    //but if i use Account, i will lose the ability of using 
+	    //methods from sub interfaces. Interesting but not useful.
+	    final Account acc = accFactory.createForFree();
+	}
+	
+	
 	@Test
 	public void testDeposit() {
 		acc1.deposit(200);
