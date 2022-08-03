@@ -36,41 +36,17 @@ public class ViewImpl extends Application implements View {
 		this.guiFactory = b.build();
 
 		primaryStage.setTitle("Bugmate - personal use");
-		primaryStage.setScene(getLoginScene(primaryStage));
+		primaryStage.setScene(getLoginScene(primaryStage, getMainScene()));
 		//primaryStage.setScene(getMainScene());
 		primaryStage.centerOnScreen();
 		primaryStage.show();
 
 	}
 
-	private Scene getLoginScene(final Stage primaryStage) {
-	    final int wRatio = 5;
-	    final int hRatio = 3;
-	    final BorderPane root = new BorderPane();
-	    final Pane layout = guiFactory.createVerticalPanel();
+	private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
+	    final LoginScene loginscene = new LoginScene(primaryStage, mainScene);
 
-	    final TextField name = new TextField();
-	    name.setPromptText("nome");
-	    final TextField surName = new TextField();
-        surName.setPromptText("cognome");
-        final TextField fc = new TextField();
-        fc.setPromptText("codice fiscale");
-        final TextField eMail = new TextField();
-        eMail.setPromptText("e-Mail");
-        final TextField password = new TextField();
-        password.setPromptText("password");
-        final TextField confPass = new TextField();
-        confPass.setPromptText("conferma password");
-
-        final Button confirm = guiFactory.createButton("conferma");
-        confirm.setOnAction(e -> {
-            primaryStage.setScene(getMainScene());
-            primaryStage.centerOnScreen();
-        });
-
-	    layout.getChildren().addAll(name, surName, fc, eMail, password, confPass, confirm);
-	    root.setCenter(layout);
-        return new Scene(root, Screen.getPrimary().getBounds().getWidth() / wRatio, Screen.getPrimary().getBounds().getHeight() / hRatio);
+        return loginscene.getScene();
     }
 
     protected Scene getMainScene() {
