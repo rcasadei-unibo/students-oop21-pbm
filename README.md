@@ -4,7 +4,7 @@
 Bugmate is a personal manager that keeps your wallet organzided that MUST supports:
 
 - [ ] gestione visualizzazione storico in base al periodo
-- [ ] gestione di uno o piu' profili
+- [x] gestione di uno o piu' profili
 - [ ] gestione conti e salvadanai
 - [ ] gestione delle spese
 - [x] gestione degli investimenti 
@@ -27,5 +27,18 @@ Challenges:
 
 ## Use
 
-You can build the project using gradle:
+You can build the project using gradle after cloning the project:
+
+```bash
+git clone git@github.com:Song-z-h/personal-budget-manager.git
+cd personal-budget-manager
+./gradlew build
+```
+
+To run the program:
+```bash
+./gradlew run
+```
+
+
 
