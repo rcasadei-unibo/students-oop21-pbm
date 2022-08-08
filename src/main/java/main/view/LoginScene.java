@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class LoginScene {
+public class LoginScene{
 
     private static final int W_RATIO = 5;
     private static final int H_RATIO = 3;

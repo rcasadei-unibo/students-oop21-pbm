@@ -19,17 +19,14 @@ public class JavaFxView extends Application implements View {
 
     private GUIFactory guiFactory;
     private BorderPane root;
-    private Stage stage;
-    private Controller controller;
-    private Scene mainScene;
-    private CustomScene investScene;
+    private static Stage stage;
+    private static Controller controller;
+    private static CustomScene investScene;
     private Pane menuBar;
 
     public JavaFxView() {
         super();
-        //this is a problem, if initialize everything in the constructor, i won't be able to access the screen size.
-        //if i initialize everything after, then I don't have the access to the controller.
-        menuBar = createMenuBar();
+
     }
 
     @Override
@@ -37,17 +34,18 @@ public class JavaFxView extends Application implements View {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
-        mainScene = getMainScene();
+
+        menuBar = createMenuBar();
+
+        final Scene mainScene = getMainScene();
         stage = primaryStage;
         primaryStage.setTitle("Bugmate - personal use");
         primaryStage.setScene(getLoginScene(primaryStage, mainScene));
         primaryStage.centerOnScreen();
         primaryStage.show();
-        
-        System.out.println(controller);
-        
-        investScene = new InvestmentScene(mainScene, stage, createMenuBar(),
-                Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
+
+        investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
+                Screen.getPrimary().getBounds().getHeight());
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
@@ -67,22 +65,18 @@ public class JavaFxView extends Application implements View {
         bankAccount.setOnAction(e -> getBankAccountPage());
         expenses.setOnAction(e -> getExpenditurePage());
         savings.setOnAction(e -> getSavingPage());
-
         menuBar.getChildren().addAll(profilo, investment, expenses, bankAccount, savings);
         return menuBar;
     }
 
     private Scene getMainScene() {
         root = new BorderPane();
-        root.setTop(createMenuBar());
+        root.setTop(menuBar);
         return guiFactory.createScene(root);
     }
 
     private void getInvestmentPage() {
-        System.out.println(controller);
-       // if(this.controller == null) System.out.println();
-//           controller.updateMarketInfo();
-       // Platform.runLater(() -> stage.setScene(investScene.getScene()));
+        controller.updateMarketInfo();
 
     }
 
@@ -108,9 +102,7 @@ public class JavaFxView extends Application implements View {
 
     @Override
     public void setObserver(final Controller observer) {
-        Platform.startup(() -> {});
-        Platform.runLater(() ->  this.controller = observer);
-       
+        controller = observer;
     }
 
     @Override
@@ -121,12 +113,10 @@ public class JavaFxView extends Application implements View {
     @Override
     public void marketUpdates(final Queue<List<?>> queue) {
         investScene.updateEverythingNeeded(queue);
-
-    }
-
-    @Override
-    public Controller getObserver() {
-        return this.controller;
+        try {
+            Platform.runLater(() -> stage.setScene(investScene.getScene()));
+        } catch (IllegalArgumentException e) {
+        }
     }
 
 }
