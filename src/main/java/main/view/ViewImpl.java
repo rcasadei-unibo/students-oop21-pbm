@@ -49,9 +49,9 @@ import main.model.profile.ProfileEconomyImpl;
 
 public class ViewImpl extends Application implements View {
 
-	private GUIFactory guiFactory;
-	private BorderPane root;
-
+    private GUIFactory guiFactory;
+    private BorderPane root;
+    private Stage window;
 	@Override
 	public void show(final String[] args) {
 		launch(args);
@@ -59,20 +59,20 @@ public class ViewImpl extends Application implements View {
 
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
+	    this.window = primaryStage;
 		final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
 		        Screen.getPrimary().getBounds().getHeight());
 		this.guiFactory = b.build();
 
-		primaryStage.setTitle("Bugmate - personal use");
-		primaryStage.setScene(getLoginScene(primaryStage, getMainScene()));
-		//primaryStage.setScene(getMainScene());
-		primaryStage.centerOnScreen();
-		primaryStage.show();
+		this.window.setTitle("Bugmate - personal use");
+		this.window.setScene(getLoginScene());
+		this.window.centerOnScreen();
+		this.window.show();
 
 	}
 
-	private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
-	    final LoginScene loginscene = new LoginScene(primaryStage, mainScene);
+	private Scene getLoginScene() {
+	    final LoginScene loginscene = new LoginScene(this.window, getMainScene());
 
         return loginscene.getScene();
     }
@@ -85,7 +85,7 @@ public class ViewImpl extends Application implements View {
 				savings = guiFactory.createButton("Salvadanai");
 
 		investment.setOnAction(e -> getInvestmentPage());
-		profilo.setOnAction(e -> getProfilePage(root));
+		profilo.setOnAction(e -> getProfilePage());
 		bankAccount.setOnAction(e -> getBankAccountPage());
 		expenses.setOnAction(e -> getExpenditurePage());
 		savings.setOnAction(e -> getSavingPage());
@@ -131,7 +131,7 @@ public class ViewImpl extends Application implements View {
 	                ,guiFactory.transformStringIntoText(prices, 10)
 	                ,guiFactory.transformStringIntoText(shares, 10)
 	                ,guiFactory.transformStringIntoText(value, 10)));
-	    
+
 		final Pane topBar = guiFactory.createHorizontalPanel();
 		final Button buy = guiFactory.createButton("Buy"), sell = guiFactory.createButton("Sell");
 		topBar.getChildren().addAll(buy, sell);
@@ -139,12 +139,8 @@ public class ViewImpl extends Application implements View {
 
 	}
 
-	private void getProfilePage(final BorderPane root) {
-		//guiFactory.createInformationBox("da implementare alessandro").showAndWait();
-        final Pane profilePage = new StackPane();
-        final Label sium = new Label("SIUUUUM");
-        profilePage.getChildren().add(sium);
-        root.setCenter(profilePage);
+	private void getProfilePage() {
+        final ProfilePage profilePage = new ProfilePage(this.window, this.root);
 	}
 
 	private void getBankAccountPage() {
