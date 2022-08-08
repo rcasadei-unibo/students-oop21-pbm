@@ -140,7 +140,7 @@ public class ViewImpl extends Application implements View {
 	}
 
 	private void getProfilePage() {
-        final ProfilePage profilePage = new ProfilePage(this.window, this.root);
+        final ProfilePage profilePage = new ProfilePage(this.root);
 	}
 
 	private void getBankAccountPage() {

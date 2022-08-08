@@ -5,14 +5,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 public class ProfilePage {
 
     private static final int TEXT_DIM = 10;
     private GUIFactory guiFactory;
 
-    public ProfilePage(final Stage window, final BorderPane root) {
+    public ProfilePage(final BorderPane root) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
