@@ -15,24 +15,18 @@ import java.util.stream.IntStream;
 import main.model.market.EquityPool;
 import main.model.market.EquityPoolStock;
 import main.model.profile.ProfileEconomy;
+import main.view.View;
 
 public final class InvestmentViewObserverimpl implements InvestmentViewObserver {
 
     private final ProfileEconomy profile;
     private final EquityPool ep;
- // java.util.concurrent.Executor typically provides a pool of threads...
-    private final Executor exec;
+   // private final View view;
 
     public InvestmentViewObserverimpl(final ProfileEconomy profile) {
         super();
         this.profile = profile;
         ep = new EquityPoolStock();
-        // create executor that uses daemon threads:
-        exec = Executors.newCachedThreadPool(runnable -> {
-            final Thread t = new Thread(runnable);
-            t.setDaemon(true);
-            return t;
-        });
     }
 
     @Override

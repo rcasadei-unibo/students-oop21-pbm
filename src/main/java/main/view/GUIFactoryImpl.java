@@ -196,11 +196,12 @@ public final class GUIFactoryImpl implements GUIFactory {
     public <T> Text createText(final T s, final int size) {
         String str = "";
         if (s instanceof Number) {
-            str = new DecimalFormat("#.##").format(s);
+            str = new DecimalFormat("#.#######").format(s);
         } else if (s instanceof String) {
             str = s.toString();
         }
         final Text t = new Text(str);
+        //magic number ....i 'll settle it later.
         t.setFont(Font.font("Verdana", FontWeight.NORMAL, size + 0.005 * length));
         return t;
     }
