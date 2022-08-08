@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -37,7 +38,7 @@ public class LoginScene {
             primaryStage.centerOnScreen();
         });
 
-        final Button register = this.guiFactory.createButton("registrati");
+        final Button register = this.guiFactory.createButton("Registrati");
         register.setOnAction(e -> {
             primaryStage.setScene(new RegistrationView(primaryStage, mainScene).getScene());
             primaryStage.centerOnScreen();

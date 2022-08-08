@@ -28,8 +28,8 @@ public class ProfilePage {
         final Text email = this.guiFactory.createText("\ncontroller.getEmail()\n", TEXT_DIM);
 
         final Pane centerLayout = this.guiFactory.createVerticalPanel();
-        final Text nInvAcc = this.guiFactory.createText("\ncontroller.getInvAccs\n", TEXT_DIM);
-        final Text nHolAcc = this.guiFactory.createText("\ncontroller.getHolAccs\n", TEXT_DIM);
+        final Text nInvAcc = this.guiFactory.createText("\ncontroller.getInvAccs()\n", TEXT_DIM);
+        final Text nHolAcc = this.guiFactory.createText("\ncontroller.getHolAccs()\n", TEXT_DIM);
  
         final Pane bottomLayout = this.guiFactory.createHorizontalPanel();
 
