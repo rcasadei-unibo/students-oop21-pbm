@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
 import main.model.account.InvestmentAccount;
@@ -32,30 +33,29 @@ public class ControllerImpl implements Controller {
         super();
         // profile should be read from somewhere...If nobody does this work, i will do
         // it later: such as reading from the configuration file
-        //based on the configuration, reads from various platform, be it locally, from
-        //a database or create a new one. 
+        // based on the configuration, reads from various platform, be it locally, from
+        // a database or create a new one.
         profile = new ProfileEconomyImpl();
-        
-      InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
-      InvestmentAccount invAcc = f.createForFree();
-      HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock());
-      Market m = new MarketImpl();
-      EquityPool ep = new EquityPoolStock();
-      invAcc.deposit(10000);
-      Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
-      m.buyAsset(invAcc, hAcc, o);
-      o = new OrderImpl(ep.getEquity("AAPL").get(), 0.3);
-      m.buyAsset(invAcc, hAcc, o);
-      o = new OrderImpl(ep.getEquity("GME").get(), 3.0);
-      m.buyAsset(invAcc, hAcc, o);
-      o = new OrderImpl(ep.getEquity("JNJ").get(), 5.0);
-      m.buyAsset(invAcc, hAcc, o);
-      o = new OrderImpl(ep.getEquity("ETH-USD").get(), 1.0);
-      m.buyAsset(invAcc, hAcc, o);
-      profile.addHoldingAccount(hAcc);
-      profile.addInvestmentAccount(invAcc);
-        
-        
+
+        InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
+        InvestmentAccount invAcc = f.createForFree();
+        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock());
+        Market m = new MarketImpl();
+        EquityPool ep = new EquityPoolStock();
+        invAcc.deposit(10000);
+        Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
+        m.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("AAPL").get(), 0.3);
+        m.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("GME").get(), 3.0);
+        m.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("JNJ").get(), 5.0);
+        m.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("ETH-USD").get(), 1.0);
+        m.buyAsset(invAcc, hAcc, o);
+        profile.addHoldingAccount(hAcc);
+        profile.addInvestmentAccount(invAcc);
+
         this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
@@ -79,16 +79,26 @@ public class ControllerImpl implements Controller {
     @Override
     public void updateMarketInfo() {
         final InvestmentViewObserver ivo = new InvestmentViewObserverimpl(profile);
-        final Queue<List<?>> queue = new LinkedList<>();
-        final List<String> symbols = ivo.getAllHoldingSymbols();
-        final List<Double> shares = ivo.getAllHoldingShares(symbols);
-        final List<Double> prices = ivo.getAllHoldingInPrices(symbols);
-        queue.add(symbols);
-        queue.add(prices);
-        queue.add(shares);
-        queue.add(ivo.getAllHoldingInValue(prices, shares));
-        views.forEach(v -> v.marketUpdates(queue));
 
+        Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
+            @Override
+            public Queue<List<?>> call() {
+                final Queue<List<?>> queue = new LinkedList<>();
+                final List<String> symbols = ivo.getAllHoldingSymbols();
+                final List<Double> shares = ivo.getAllHoldingShares(symbols);
+                final List<Double> prices = ivo.getAllHoldingInPrices(symbols);
+                queue.add(symbols);
+                queue.add(prices);
+                queue.add(shares);
+                queue.add(ivo.getAllHoldingInValue(prices, shares));
+                return queue;
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            views.forEach(v -> v.marketUpdates(task.getValue()));
+        });
+        new Thread(task).start();
     }
 
 }
