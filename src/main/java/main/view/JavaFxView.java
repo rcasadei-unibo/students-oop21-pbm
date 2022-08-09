@@ -81,11 +81,7 @@ public class JavaFxView extends Application implements View {
     }
 
     private void getProfilePage(final BorderPane root) {
-        // guiFactory.createInformationBox("da implementare alessandro").showAndWait();
-        final Pane profilePage = new StackPane();
-        final Label sium = new Label("SIUUUUM");
-        profilePage.getChildren().add(sium);
-        root.setCenter(profilePage);
+        this.controller.showProfile();;
     }
 
     private void getBankAccountPage() {

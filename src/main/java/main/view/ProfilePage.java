@@ -10,11 +10,13 @@ public class ProfilePage {
 
     private static final int TEXT_DIM = 10;
     private GUIFactory guiFactory;
+    private final BorderPane root;
 
-    public ProfilePage(final BorderPane root) {
+    public ProfilePage() {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
+        this.root = new BorderPane();
 
         final Pane rightLayout = this.guiFactory.createVerticalPanel();
         final Button changePassword = this.guiFactory.createButton("cambia password");

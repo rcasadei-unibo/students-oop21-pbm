@@ -7,6 +7,6 @@ import javafx.scene.Scene;
 
 public interface CustomScene {
     Scene getScene();
-    
+
     void updateEverythingNeeded(Queue<List<?>> things);
 }

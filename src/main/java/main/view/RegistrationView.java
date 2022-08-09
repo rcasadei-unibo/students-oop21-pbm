@@ -39,7 +39,7 @@ public class RegistrationView {
         confPass.setPromptText("conferma password");
 
         final Pane buttonLayout = this.guiFactory.createHorizontalPanel();
-        final Button register = this.guiFactory.createButton("registrati");
+        final Button register = this.guiFactory.createButton("Registrati");
         register.setOnAction(e -> {
             primaryStage.setScene(mainScene);
             primaryStage.centerOnScreen();
