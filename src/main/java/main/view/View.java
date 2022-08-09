@@ -1,15 +1,22 @@
 package main.view;
 
+import java.util.List;
+import java.util.Queue;
+
+import main.control.Controller;
+
 /**
- * This interface models an independent implementation of 
- * GUI.
+ * This interface models an independent implementation of GUI.
  *
  */
 public interface View {
-	
-	/**
-	 * Display contents.
-	 * @param args the params from main
-	 */
-	void show(String[] args);
+
+    void marketUpdates(Queue<List<?>> queue);
+
+    /**
+     * @param observer the controller to attach
+     */
+    void setObserver(Controller observer);
+
+    void show(String[] args);
 }

@@ -1,9 +1,13 @@
 package main.application;
 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import javafx.application.Platform;
 import main.control.Controller;
 import main.control.ControllerImpl;
 import main.view.View;
-import main.view.ViewImpl;
+import main.view.JavaFxView;
 
 public final class App {
 	
@@ -14,6 +18,9 @@ public final class App {
 	}
 
 	public static void main(final String[] args) {
-		new ViewImpl().show(args);
+	    new ControllerImpl(args, new JavaFxView());
+	   
+	    
+		
 	}
 }
