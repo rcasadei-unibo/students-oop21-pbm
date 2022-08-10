@@ -16,4 +16,8 @@ public interface Controller {
 	void sellStocks(String symbol, double shares, String id);
 	
 	void updateMarketInfo();
+
+	// Ale's part
+
+	void showProfile();
 }

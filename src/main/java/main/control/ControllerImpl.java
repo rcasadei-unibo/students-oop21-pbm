@@ -101,4 +101,10 @@ public class ControllerImpl implements Controller {
         new Thread(task).start();
     }
 
+    @Override
+    public void showProfile() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
