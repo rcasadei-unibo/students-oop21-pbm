@@ -99,6 +99,7 @@ public class JavaFxView extends Application implements View {
     @Override
     public void setObserver(final Controller observer) {
         controller = observer;
+        
     }
 
     @Override
