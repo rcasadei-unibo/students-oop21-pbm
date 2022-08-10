@@ -29,15 +29,17 @@ public final class GUIFactoryImpl implements GUIFactory {
     private final double panelSpacing;
     private final Pair<Double, Double> sceneSize;
     private final double length;
+    private final double textSize;
 
     private GUIFactoryImpl(final Pair<Double, Double> buttonSize, final Insets panelInsets, final double panelSpacing,
-            final Pair<Double, Double> sceneSize) {
+            final Pair<Double, Double> sceneSize, final double textSize) {
         super();
         this.buttonSize = buttonSize;
         this.panelInsets = panelInsets;
         this.panelSpacing = panelSpacing;
         this.sceneSize = sceneSize;
-        length =  Math.sqrt(sceneSize.getX() * sceneSize.getX() + sceneSize.getY() * sceneSize.getY());
+        this.textSize = textSize;
+        length = Math.sqrt(sceneSize.getX() * sceneSize.getX() + sceneSize.getY() * sceneSize.getY());
     }
 
     @Override
@@ -87,6 +89,7 @@ public final class GUIFactoryImpl implements GUIFactory {
         private static final double INSETSX = 0.015;
         private static final double INSETSY = 0.015;
         private static final double PANELSPACING = 0.001;
+        private static final double TEXTSIZE = 0.005;
 
         private Pair<Double, Double> buttonSize;
         private Pair<Double, Double> sceneSize;
@@ -94,6 +97,7 @@ public final class GUIFactoryImpl implements GUIFactory {
         private double panelSpacing;
         private final double x;
         private final double y;
+        private double textSize;
 
         private final Function<Double, Double> fx;
         private final Function<Double, Double> fy;
@@ -109,6 +113,7 @@ public final class GUIFactoryImpl implements GUIFactory {
             this.panelSpacing = h * PANELSPACING;
             this.x = x;
             this.y = y;
+            this.textSize = TEXTSIZE;
         }
 
         /**
@@ -146,6 +151,17 @@ public final class GUIFactoryImpl implements GUIFactory {
         }
 
         /**
+         * Set font size.
+         * 
+         * @param p pertantage of scale
+         * @return the object itself.
+         */
+        public Builder textSize(final double p) {
+            this.textSize = p;
+            return this;
+        }
+
+        /**
          * set panel spacing size.
          * 
          * @param p percentage to multiply the screen size.
@@ -158,7 +174,7 @@ public final class GUIFactoryImpl implements GUIFactory {
         }
 
         public final GUIFactoryImpl build() {
-            return new GUIFactoryImpl(buttonSize, panelInsets, panelSpacing, sceneSize);
+            return new GUIFactoryImpl(buttonSize, panelInsets, panelSpacing, sceneSize, textSize);
         }
 
     }
@@ -196,13 +212,13 @@ public final class GUIFactoryImpl implements GUIFactory {
     public <T> Text createText(final T s, final int size) {
         String str = "";
         if (s instanceof Number) {
-            str = new DecimalFormat("#.#######").format(s);
+            str = new DecimalFormat("#.##").format(s);
         } else if (s instanceof String) {
             str = s.toString();
         }
         final Text t = new Text(str);
-        //magic number ....i 'll settle it later.
-        t.setFont(Font.font("Verdana", FontWeight.NORMAL, size + 0.005 * length));
+        // magic number ....i 'll settle it later.
+        t.setFont(Font.font("Verdana", FontWeight.NORMAL, size + textSize * length));
         return t;
     }
 
