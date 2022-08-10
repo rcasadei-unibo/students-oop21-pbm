@@ -1,4 +1,4 @@
-package main.view;
+package main.view.profile;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import main.view.GUIFactory;
+import main.view.GUIFactoryImpl;
 
 public class LoginScene{
 

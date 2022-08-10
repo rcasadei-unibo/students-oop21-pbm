@@ -14,6 +14,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
 import main.view.Investment.InvestmentScene;
+import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 

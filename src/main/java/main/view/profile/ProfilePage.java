@@ -1,10 +1,12 @@
-package main.view;
+package main.view.profile;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import main.view.GUIFactory;
+import main.view.GUIFactoryImpl;
 
 public class ProfilePage {
 
