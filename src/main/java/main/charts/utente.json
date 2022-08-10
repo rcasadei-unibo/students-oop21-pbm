@@ -1,0 +1,190 @@
+{"users" : [  
+	    {  
+	        "nome" : "Gino",
+	        "cognome" : "Pino",
+	        "email" : "gino@gin.com",
+	        "username" : "Gin",
+	        "password": "cacca",
+	        "conti":[
+			{
+			"nomeConto" : "BPER", 
+			"movimenti" : [
+				{
+				"nomeOperazione" : "stipendio", 
+				"ammontare" : "1000",
+				"data" : "01/01/2022",
+				"ora" : "12:30"
+				},
+				{
+				"nomeOperazione" : "prelievo", 
+				"ammontare" : "-500",
+				"data" : "02/01/2022",
+				"ora" : "10:30"
+				},
+				{
+				"nomeOperazione" : "affitto", 
+				"ammontare" : "-300",
+				"data" : "03/01/2022",
+				"ora" : "22:30"
+				}
+				]
+			},
+			{
+			"nomeConto" : "Intesa Sanpaolo", 
+			"movimenti" : [
+				{
+				"nomeOperazione" : "stipendio", 
+				"ammontare" : "2000",
+				"data" : "02/01/2022",
+				"ora" : "12:30"
+				},
+				{
+				"nomeOperazione" : "Conad", 
+				"ammontare" : "-123.52",
+				"data" : "02/01/2022",
+				"ora" : "16:30"
+				},
+				{
+				"nomeOperazione" : "Emmergenze", 
+				"ammontare" : "-200",
+				"data" : "03/01/2022",
+				"ora" : "10:30"
+				}
+				]
+			}
+			],
+		"Salvadanaii":[
+			{
+			"nomeSalvadanio" : "Emmergenze", 
+			"movimenti" : [
+				{
+				"nomeConto" : "IntesaSanpaolo", 
+				"ammontare" : "200",
+				"valuta" : "euro",
+				"data" : "03/01/2022",
+				"ora" : "12:30"
+				}
+				]
+			},
+			{
+			"nomeSalvadanio" : "Vacanze", 
+			"movimenti" : [
+				{
+				"nomeConto" : "ethereum", 
+				"ammontare" : "2",
+				"valuta" : "eth",
+				"data" : "03/01/2022",
+				"ora" : "12:30"
+				}
+				]
+			}
+			],
+			
+		"CryptoAsset" : [
+			{
+			"nomeCryptoValuta" : "ethereum",
+			"simboloValuta" : "eth",
+			"movimenti" : [
+				{
+				"nomeOperazione" : "Regalo", 
+				"ammontare" : "5",
+				"data" : "01/01/2022",
+				"ora" : "02:30"
+				},
+				{
+				"nomeOperazione" : "Vacanze", 
+				"ammontare" : "-2",
+				"data" : "03/01/2022",
+				"ora" : "12:30"
+				}
+			]
+			},
+			{
+			"nomeCryptoValuta" : "bitcoin",
+			"simboloValuta" : "btc",
+			"movimenti" : [
+				{
+				"nomeOperazione" : "exchange", 
+				"ammontare" : "0.5684",
+				"data" : "02/01/2022",
+				"ora" : "12:30"
+				}
+			]
+			}
+			
+		]
+			
+	   },
+	   
+	   {  
+	        "nome" : "Pippo",
+	        "cognome" : "Pluto",
+	        "email" : "paperino@inf.com",
+	        "username" : "nerd",
+	        "password": "oopspacca",
+	        "conti":[
+			{
+			"nomeConto" : "BPER", 
+			"movimenti" : [
+				{
+				"nomeOperazione" : "stipendio", 
+				"ammontare" : "3000",
+				"data" : "01/01/2022",
+				"ora" : "12:30"
+				},
+				{
+				"nomeOperazione" : "affitto", 
+				"ammontare" : "-500",
+				"data" : "03/01/2022",
+				"ora" : "22:30"
+				}
+				]
+			},
+			{
+			"nomeConto" : "Intesa Sanpaolo", 
+			"movimenti" : [
+				{
+				"nomeOperazione" : "progetto figo", 
+				"ammontare" : "19999.99",
+				"data" : "02/01/2022",
+				"ora" : "12:30"
+				},
+				{
+				"nomeOperazione" : "Conad", 
+				"ammontare" : "-99.99",
+				"data" : "05/01/2022",
+				"ora" : "16:30"
+				},
+				{
+				"nomeOperazione" : "ethereum", 
+				"ammontare" : "-10000",
+				"data" : "05/01/2022",
+				"ora" : "18:30"
+				}
+				]
+			}
+			],
+		"Salvadanaii":[
+			
+			],
+			
+		"CryptoAsset" : [
+			{
+			"nomeCryptoValuta" : "ethereum",
+			"simboloValuta" : "eth",
+			"movimenti" : [
+				{
+				"nomeOperazione" : "Intesa Sanpaolo", 
+				"ammontare" : "5.68314",
+				"data" : "05/01/2022",
+				"ora" : "18:30"
+				}
+			]
+			},	
+		]
+			
+	   }
+		
+		
+	]
+}

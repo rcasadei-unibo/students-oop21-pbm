@@ -1,0 +1,105 @@
+[  
+    {  
+        "name":"Bitcoin",
+        "value":[
+		{
+		"year" : "2022", 
+		"months" : [
+			{
+			"month" : "jan", 
+			"days" : [
+				{"day" : "1", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "46217.5",
+				"closeDayUSD" : "47738.0"}
+				{"day" : "2", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "47738.7",
+				"closeDayUSD" : "47311.8"}
+				{"day" : "3", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "47293.9",
+				"closeDayUSD" : "46430.2"}
+				],
+			"openMonthUSD" : "",
+			"closeMonthUSD" : ""}
+			]
+		"openYearUSD" : "",
+		"closeYearUSD"	: ""}
+		]
+	},
+	
+	{  
+        "name":"Ethereum",
+        "value":[
+		{
+		"year" : "2022", 
+		"months" : [
+			{
+			"month" : "jan", 
+			"days" : [
+				{"day" : "1", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "2602.71",
+				"closeDayUSD" : "2686.82"}
+				{"day" : "2", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "2600.12",
+				"closeDayUSD" : "2602.77"}
+				{"day" : "3", 
+				"hours" : [
+					{"hour" : "00", 
+					"minutes" : [ 
+						{"minute": "00", "openMinuteUSD" : "", "closeMinuteUSD" : ""}
+						],
+					"openHourUSD" : "",
+					"closeHourUSD" : ""}
+					],
+				"openDayUSD" : "2545.95",
+				"closeDayUSD" : "2600.02"}
+				],
+			"openMonthUSD" : "",
+			"closeMonthUSD" : ""}
+			]
+		"openYearUSD" : "",
+		"closeYearUSD"	: ""}
+		]
+	}
+	
+]
+
