@@ -45,6 +45,7 @@ public class InvestmentScene extends BaseScene {
     private final Pane menuBar;
     private final Scene scene;
     private final AutoCompleteTextField symbolName;
+    private final ComboBox<String> accountComboBox;
 
     public InvestmentScene(final Scene mainScene, final Stage primaryStage, final Pane menuBar,
             final double screenWidth, final double screenHeight, final Controller controller) {
@@ -58,6 +59,7 @@ public class InvestmentScene extends BaseScene {
         scene = getGadgets().createScene(root);
         this.menuBar = menuBar;
         this.accountBox = FXCollections.observableArrayList();
+        accountComboBox = new ComboBox<>(accountBox);
         symbolName = new AutoCompleteTextField();
         createMenu();
     }
@@ -89,7 +91,6 @@ public class InvestmentScene extends BaseScene {
             return change;
         }));
 
-        final ComboBox<String> accountComboBox = new ComboBox<>(accountBox);
         buy.setOnAction(e -> {
             getController().buyStocks(symbolName.getText(), Double.parseDouble(numberShare.getText()),
                     accountComboBox.getValue());
@@ -122,10 +123,10 @@ public class InvestmentScene extends BaseScene {
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE));
         accountBox.clear();
-        accountBox.addAll((Collection<? extends String>) iter.next());
+        accountBox.addAll((Collection<? extends String>) iter.next());        
+        accountComboBox.getSelectionModel().selectFirst();
         symbolName.getEntries().clear();
         symbolName.getEntries().addAll(symbols);
-        
 
         root.setCenter(n);
     }
