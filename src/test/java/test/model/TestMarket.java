@@ -28,7 +28,7 @@ import main.model.market.OrderImpl;
 public class TestMarket {
 
 	private final InvestmentAccountTypeFactory accFactory = new InvestmentAccountTypeFactoryImpl();
-	private final InvestmentAccount acc1 = accFactory.createForFree();
+	private final InvestmentAccount acc1 = accFactory.createForFree("Revolut");
 	private final EquityPool ep = new EquityPoolStock();
 	private final HoldingAccount hacc1 = new HoldingAccountImpl(ep);
 	private final Market market = new MarketImpl();
@@ -58,7 +58,7 @@ public class TestMarket {
 			market.sellAsset(acc1, hacc1, o);
 			fail();
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		o = new OrderImpl(ep.getEquity("TSLA").get(), 0.2);
 		market.sellAsset(acc1, hacc1, o);

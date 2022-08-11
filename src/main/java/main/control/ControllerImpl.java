@@ -38,7 +38,7 @@ public class ControllerImpl implements Controller {
         profile = new ProfileEconomyImpl();
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
-        InvestmentAccount invAcc = f.createForFree();
+        InvestmentAccount invAcc = f.createForFree("Etoro");
         HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock());
         Market m = new MarketImpl();
         EquityPool ep = new EquityPoolStock();

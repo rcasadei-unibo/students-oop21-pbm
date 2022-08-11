@@ -10,40 +10,40 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public InvestmentAccount createForFree() {
-		return createGeneratedAccount("", fee -> 0.0, s -> "", (state, amount) -> amount > 0);
+	public InvestmentAccount createForFree(final String id) {
+		return createGeneratedAccount(id, "", fee -> 0.0, s -> "", (state, amount) -> amount > 0);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public InvestmentAccount createWithOperationFees(final Function<Double, Double> fees) {
-		return createGeneratedAccount("", fees, s -> "", (state, amount) -> fees.apply(amount) <= amount);
+	public InvestmentAccount createWithOperationFees(final Function<Double, Double> fees, final String id) {
+		return createGeneratedAccount(id, "", fees, s -> "", (state, amount) -> fees.apply(amount) <= amount);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public InvestmentAccount createWithOperationLimitForFree(final int limit) {
-		return createGeneratedAccount(0, fee -> 0.0, s -> s + 1, (state, amount) -> state < limit);
+	public InvestmentAccount createWithOperationLimitForFree(final int limit, final String id) {
+		return createGeneratedAccount(id, 0, fee -> 0.0, s -> s + 1, (state, amount) -> state < limit);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public InvestmentAccount createWithAmountLimitForFree(final double amountLimitPerOperation) {
-		return createGeneratedAccount("", fee -> 0.0, s -> "", (state, amount) -> amount < amountLimitPerOperation);
+	public InvestmentAccount createWithAmountLimitForFree(final double amountLimitPerOperation, final String id) {
+		return createGeneratedAccount(id, "", fee -> 0.0, s -> "", (state, amount) -> amount < amountLimitPerOperation);
 	}
 
-	private <E> InvestmentAccount createGeneratedAccount(final E initialState,
+	private <E> InvestmentAccount createGeneratedAccount(final String id, final E initialState,
 			final Function<Double, Double> operationFee, final Function<E, E> stateChanger,
 			final BiPredicate<E, Double> predicate) {
 		return new InvestmentAccount() {
 
-			private Account account = new SimpleAccount(0);
+			private Account account = new SimpleAccount(0, id);
 			private double investedBalance;
 			private E state = initialState;
 
@@ -127,6 +127,11 @@ public class InvestmentAccountTypeFactoryImpl implements InvestmentAccountTypeFa
 				decreaseInvestedMoney(amounts);
 				deposit(amounts);
 			}
+
+            @Override
+            public String getID() {
+                return this.account.getID();
+            }
 
 		};
 	}

@@ -18,7 +18,7 @@ public interface InvestmentAccountTypeFactory {
 	 * 
 	 * @return InvestmentAccount instance
 	 */
-	InvestmentAccount createForFree();
+	InvestmentAccount createForFree(String id);
 	
 	/**
 	 * Each operation has a cost. You pass the parameter as a lambda function
@@ -32,7 +32,7 @@ public interface InvestmentAccountTypeFactory {
 	 * 
 	 * @return InvestmentAccount instance
 	 */
-	InvestmentAccount createWithOperationFees(Function<Double, Double> fees);
+	InvestmentAccount createWithOperationFees(Function<Double, Double> fees, String id);
 	
 	/**
 	 * Each buy or sells should not exceed a certain amount.
@@ -41,7 +41,7 @@ public interface InvestmentAccountTypeFactory {
 	 * 
 	 * @return InvestmentAccount instance
 	 */
-	InvestmentAccount createWithOperationLimitForFree(int limit);
+	InvestmentAccount createWithOperationLimitForFree(int limit, String id);
 	
 	/**
 	 * Each buy or sells should not exceed a certain amount.
@@ -50,7 +50,7 @@ public interface InvestmentAccountTypeFactory {
 	 * 
 	 * @return InvestmentAccount instance
 	 */
-	InvestmentAccount createWithAmountLimitForFree(double amount);
+	InvestmentAccount createWithAmountLimitForFree(double amount, String id);
 	
 	
 

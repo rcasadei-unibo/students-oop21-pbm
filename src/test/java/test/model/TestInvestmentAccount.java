@@ -14,16 +14,16 @@ import main.model.account.NotEnoughFundsException;
 public class TestInvestmentAccount {
 
 	private final InvestmentAccountTypeFactory accFactory = new InvestmentAccountTypeFactoryImpl();
-	private final InvestmentAccount acc1 = accFactory.createForFree();
+	private final InvestmentAccount acc1 = accFactory.createForFree("Etoro");
 	private static double feeRate = 0.05;
-	private InvestmentAccount acc2 = accFactory.createWithOperationFees(f -> f * feeRate);
+	private InvestmentAccount acc2 = accFactory.createWithOperationFees(f -> f * feeRate, "Binance");
 
 	@Test
 	public void testAccountType() {
 	    //so basically investmentAccount is a subtype of Account
 	    //but if i use Account, i will lose the ability of using 
 	    //methods from sub interfaces. Interesting but not useful.
-	    final Account acc = accFactory.createForFree();
+	    final Account acc = accFactory.createForFree("free account");
 	}
 	
 	

@@ -30,5 +30,11 @@ public interface Account {
 	 * @return The current balance
 	 */
 	double getBalance();
+	
+	/**
+	 * get the user id.
+	 * @return the user id
+	 */
+	String getID();
 
 }

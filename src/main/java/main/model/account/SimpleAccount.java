@@ -2,10 +2,11 @@ package main.model.account;
 
 public final class SimpleAccount extends BaseAccount {
 	
-	
-	public SimpleAccount(final double amount) {
+	private final String id;
+	public SimpleAccount(final double amount, final String id) {
 		super();
 		this.deposit(amount);
+		this.id = id;
 	}
 
 
@@ -18,6 +19,12 @@ public final class SimpleAccount extends BaseAccount {
 	boolean checkDepositValidity(final double amount) {
 		return true;
 	}
+
+
+    @Override
+    public String getID() {
+        return this.id;
+    }
 	
 
 }
