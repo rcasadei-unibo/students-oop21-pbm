@@ -76,6 +76,8 @@ public class ControllerImpl implements Controller {
          HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
          invAcc2.deposit(1000000);
          market.buyAsset(invAcc2, hAcc2, o);
+         o = new OrderImpl(ep.getEquity("AAL").get(), 17);
+         market.buyAsset(invAcc2, hAcc2, o);
          profile.addHoldingAccount(hAcc2);
          profile.addInvestmentAccount(invAcc2);
          

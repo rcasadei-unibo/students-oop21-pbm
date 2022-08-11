@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
-import org.checkerframework.common.subtyping.qual.Bottom;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.control.Controller;
+import main.util.AutoCompleteTextField;
 import main.view.BaseScene;
 
 public class InvestmentScene extends BaseScene {
@@ -45,6 +44,7 @@ public class InvestmentScene extends BaseScene {
     private final ObservableList<String> accountBox;
     private final Pane menuBar;
     private final Scene scene;
+    private final AutoCompleteTextField symbolName;
 
     public InvestmentScene(final Scene mainScene, final Stage primaryStage, final Pane menuBar,
             final double screenWidth, final double screenHeight, final Controller controller) {
@@ -58,14 +58,15 @@ public class InvestmentScene extends BaseScene {
         scene = getGadgets().createScene(root);
         this.menuBar = menuBar;
         this.accountBox = FXCollections.observableArrayList();
+        symbolName = new AutoCompleteTextField();
         createMenu();
     }
 
     // interface and functionalities
+    @SuppressWarnings("unchecked")
     private void createMenu() {
         final Pane bottomBar = getGadgets().createHorizontalPanel();
         final Button buy = getGadgets().createButton(BUY), sell = getGadgets().createButton(SELL);
-        final TextField symbolName = new TextField();
         final TextField numberShare = new TextField("1.0");
 
         symbolName.setPromptText("symbol name");
@@ -82,7 +83,7 @@ public class InvestmentScene extends BaseScene {
                 }
             }
         });
-        
+
         symbolName.setTextFormatter(new TextFormatter<>((change) -> {
             change.setText(change.getText().toUpperCase());
             return change;
@@ -109,18 +110,22 @@ public class InvestmentScene extends BaseScene {
     @SuppressWarnings("unchecked")
     private void createContentDisplay() {
         final Iterator<List<?>> iter = updateables.iterator();
+        final List<String> symbols = (List<String>) iter.next();
 
         // maybe createScheda should have been built differently, but since it's for
         // GUI, not computational model,
         // I think a bit redundancy can't be avoided without losing flexibility;
         final Node n = getGadgets().createBlockScheda(getGadgets().createText(STOCKTITLE, TITLEFONTSIZE),
                 getGadgets().transformStringIntoText(desc, HEADERFONTSIZE),
-                getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
+                getGadgets().transformStringIntoText(symbols, TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE));
         accountBox.clear();
         accountBox.addAll((Collection<? extends String>) iter.next());
+        symbolName.getEntries().clear();
+        symbolName.getEntries().addAll(symbols);
+        
 
         root.setCenter(n);
     }
