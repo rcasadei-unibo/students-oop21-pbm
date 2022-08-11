@@ -13,7 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
-import main.view.Investment.InvestmentScene;
+import main.view.investment.InvestmentScene;
 import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
@@ -46,7 +46,7 @@ public class JavaFxView extends Application implements View {
         primaryStage.show();
 
         investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
-                Screen.getPrimary().getBounds().getHeight());
+                Screen.getPrimary().getBounds().getHeight(), controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {

@@ -26,8 +26,10 @@ import main.view.View;
 
 public class ControllerImpl implements Controller {
 
-    private final ProfileEconomy profile;
+    private ProfileEconomy profile;
     private final List<View> views;
+    private final Market market;
+    private final EquityPool ep;
 
     public ControllerImpl(final String[] args, final View... views) {
         super();
@@ -36,25 +38,26 @@ public class ControllerImpl implements Controller {
         // based on the configuration, reads from various platform, be it locally, from
         // a database or create a new one.
         profile = new ProfileEconomyImpl();
+        market = new MarketImpl();
+        ep = new EquityPoolStock();
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree("Etoro");
         HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock());
-        Market m = new MarketImpl();
-        EquityPool ep = new EquityPoolStock();
         invAcc.deposit(10000);
         Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
-        m.buyAsset(invAcc, hAcc, o);
+        market.buyAsset(invAcc, hAcc, o);
         o = new OrderImpl(ep.getEquity("AAPL").get(), 0.3);
-        m.buyAsset(invAcc, hAcc, o);
+        market.buyAsset(invAcc, hAcc, o);
         o = new OrderImpl(ep.getEquity("GME").get(), 3.0);
-        m.buyAsset(invAcc, hAcc, o);
+        market.buyAsset(invAcc, hAcc, o);
         o = new OrderImpl(ep.getEquity("JNJ").get(), 5.0);
-        m.buyAsset(invAcc, hAcc, o);
+        market.buyAsset(invAcc, hAcc, o);
         o = new OrderImpl(ep.getEquity("ETH-USD").get(), 1.0);
-        m.buyAsset(invAcc, hAcc, o);
+        market.buyAsset(invAcc, hAcc, o);
         profile.addHoldingAccount(hAcc);
         profile.addInvestmentAccount(invAcc);
+        System.out.println(invAcc.getID());
 
         this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
@@ -66,14 +69,18 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void buyStocks(final String symbol, final double shares, final String accountID) {
-        // TODO Auto-generated method stub
-
+        market.buyAsset(getInvAccountById(accountID), null, new OrderImpl(ep.getEquity(symbol).get(), shares));
+        updateMarketInfo();
     }
 
     @Override
     public void sellStocks(final String symbol, final double shares, final String accountID) {
-        // TODO Auto-generated method stub
+        market.sellAsset(getInvAccountById(accountID), null, new OrderImpl(ep.getEquity(symbol).get(), shares));
+        updateMarketInfo();
+    }
 
+    private InvestmentAccount getInvAccountById(final String accountID) {
+        return profile.getInvestmentAccounts().stream().filter(x -> x.getID().equals(accountID)).findFirst().get();
     }
 
     @Override
@@ -91,6 +98,7 @@ public class ControllerImpl implements Controller {
                 queue.add(prices);
                 queue.add(shares);
                 queue.add(ivo.getAllHoldingInValue(prices, shares));
+                queue.add(ivo.getAllInvAccountIDs());
                 return queue;
             }
         };
@@ -104,7 +112,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void showProfile() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

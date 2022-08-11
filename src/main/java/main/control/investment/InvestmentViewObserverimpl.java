@@ -65,4 +65,9 @@ public final class InvestmentViewObserverimpl implements InvestmentViewObserver 
         return map.entrySet().stream().map(x -> x.getValue()).collect(Collectors.toUnmodifiableList());
     }
 
+    @Override
+    public List<String> getAllInvAccountIDs() {
+        return profile.getInvestmentAccounts().stream().map(x -> x.getID()).collect(Collectors.toUnmodifiableList());
+    }
+
 }

@@ -1,9 +1,12 @@
-package main.view.Investment;
+package main.view.investment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
+
+import org.checkerframework.common.subtyping.qual.Bottom;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.control.Controller;
 import main.view.BaseScene;
 
 public class InvestmentScene extends BaseScene {
@@ -36,13 +40,14 @@ public class InvestmentScene extends BaseScene {
     private final List<String> desc;
 
     private final BorderPane root;
-    private Queue<List<?>> marketHoldings;
+    private Queue<List<?>> updateables;
+    private ObservableList<String> accountBox;
     private final Pane menuBar;
     private final Scene scene;
 
     public InvestmentScene(final Scene mainScene, final Stage primaryStage, final Pane menuBar,
-            final double screenWidth, final double screenHeight) {
-        super(mainScene, primaryStage, screenWidth, screenHeight);
+            final double screenWidth, final double screenHeight, final Controller controller) {
+        super(mainScene, primaryStage, screenWidth, screenHeight, controller);
         desc = new ArrayList<>();
         desc.add(SYMBOL);
         desc.add(PRICE);
@@ -51,6 +56,7 @@ public class InvestmentScene extends BaseScene {
         root = new BorderPane();
         scene = getGadgets().createScene(root);
         this.menuBar = menuBar;
+        this.accountBox = FXCollections.observableArrayList();
         createMenu();
     }
 
@@ -75,25 +81,25 @@ public class InvestmentScene extends BaseScene {
                 }
             }
         });
-
-        final ObservableList<String> options = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
-        final ComboBox<String> accountComboBox = new ComboBox(options);
+        
+        final ComboBox<String> accountComboBox = new ComboBox<>(accountBox);
         buy.setOnAction(e -> {
-            
+            getController().buyStocks(null, 0.0, null);
         });
 
         sell.setOnAction(e -> {
-
+            System.out.println(accountComboBox.getValue());
         });
 
         bottomBar.getChildren().addAll(accountComboBox, symbolName, numberShare, buy, sell);
-        root.setBottom(bottomBar);
+        
         root.setTop(this.menuBar);
+        root.setBottom(bottomBar);
     }
 
     // content display that are updateble
     private void createContentDisplay() {
-        final Iterator<List<?>> iter = marketHoldings.iterator();
+        final Iterator<List<?>> iter = updateables.iterator();
 
         // maybe createScheda should have been built differently, but since it's for
         // GUI, not computational model,
@@ -105,24 +111,26 @@ public class InvestmentScene extends BaseScene {
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE));
-
+        accountBox.clear();
+        accountBox.addAll((Collection<? extends String>) iter.next());
+        
         root.setCenter(n);
     }
 
-    public void setMarketHoldings(final Queue<List<?>> marketHoldings) {
-        this.marketHoldings = marketHoldings;
+    public void setMarketHoldings(final Queue<List<?>> updates) {
+        this.updateables = updates;
     }
 
     @Override
     public Scene getScene() {
         createContentDisplay();
-        System.out.println("hii");
         return scene;
     }
 
     @Override
-    public void updateEverythingNeeded(final Queue<List<?>> marketHoldings) {
-        setMarketHoldings(marketHoldings);
+    public void updateEverythingNeeded(final Queue<List<?>> updates) {
+        setMarketHoldings(updates);
+        createMenu();
     }
 
 }
