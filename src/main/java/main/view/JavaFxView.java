@@ -13,16 +13,16 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
-import main.view.Investment.InvestmentScene;
+import main.view.investment.InvestmentScene;
 import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 
     private GUIFactory guiFactory;
     private BorderPane root;
-    private static Stage stage;
-    private static Controller controller;
-    private static CustomScene investScene;
+    private static volatile Stage stage;
+    private static volatile Controller controller;
+    private static volatile CustomScene investScene;
     private Pane menuBar;
 
     public JavaFxView() {
@@ -46,7 +46,7 @@ public class JavaFxView extends Application implements View {
         primaryStage.show();
 
         investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
-                Screen.getPrimary().getBounds().getHeight());
+                Screen.getPrimary().getBounds().getHeight(), controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
@@ -77,8 +77,9 @@ public class JavaFxView extends Application implements View {
     }
 
     private void getInvestmentPage() {
-        controller.updateMarketInfo();
-
+        new Thread(() -> {
+            controller.updateMarketInfo();
+          }).start();
     }
 
     private void getProfilePage(final BorderPane root) {
@@ -116,5 +117,12 @@ public class JavaFxView extends Application implements View {
         } catch (IllegalArgumentException e) {
         }
     }
+
+    @Override
+    public void showMoneyNotEnoughMessage() {
+        guiFactory.createInformationBox("Your money wan't enough! :(").showAndWait();
+    }
+    
+    
 
 }

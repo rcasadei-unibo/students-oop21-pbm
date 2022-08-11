@@ -4,23 +4,32 @@ import java.util.List;
 
 /**
  * This interface models every interaction from GUI of investmentPage to Logic.
- * All the Lists returned here should be unmodifiable, because it's likely that 
- * theses methods will be executed on different threads, in order to make it simple
- * it does not handle mutual exclusion of data.
+ * All the Lists returned here should be unmodifiable, because it's likely that
+ * theses methods will be executed on different threads, in order to make it
+ * simple it does not handle mutual exclusion of data.
  *
  */
 public interface InvestmentViewObserver {
 
     /**
      * Get all symbols in all holding Accounts.
+     * 
      * @return list of String of symbols.
      */
     List<String> getAllHoldingSymbols();
 
     /**
-     * get all prices of corresponding to each symbol all holding Accounts.
-     * This method needs to access third party's API, so it takes time to process,
-     * You may need to wait for several seconds to ultimately get the results.
+     * get all investmentAccountIDs.
+     * 
+     * @return a list of String
+     */
+    List<String> getAllInvAccountIDs();
+
+    /**
+     * get all prices of corresponding to each symbol all holding Accounts. This
+     * method needs to access third party's API, so it takes time to process, You
+     * may need to wait for several seconds to ultimately get the results.
+     * 
      * @param symbols the ordered symbols
      * @return list of double of prices
      */
@@ -28,6 +37,7 @@ public interface InvestmentViewObserver {
 
     /**
      * get all value corresponding to each symbol of all holding Accounts.
+     * 
      * @param prices ordered prices.
      * @param shares ordered shares.
      * @return list of all value.
@@ -36,6 +46,7 @@ public interface InvestmentViewObserver {
 
     /**
      * get all holding share numbers of all holding accounts.
+     * 
      * @param symbols the ordered symbol
      * @return a list of shares in double
      */
