@@ -1,19 +1,22 @@
 package main.view.Investment;
 
-import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.control.Controller;
-import main.util.DeliverablePackage;
 import main.view.BaseScene;
 
 public class InvestmentScene extends BaseScene {
@@ -37,8 +40,8 @@ public class InvestmentScene extends BaseScene {
     private final Pane menuBar;
     private final Scene scene;
 
-    public InvestmentScene(final Scene mainScene, final Stage primaryStage,
-            final Pane menuBar, final double screenWidth, final double screenHeight) {
+    public InvestmentScene(final Scene mainScene, final Stage primaryStage, final Pane menuBar,
+            final double screenWidth, final double screenHeight) {
         super(mainScene, primaryStage, screenWidth, screenHeight);
         desc = new ArrayList<>();
         desc.add(SYMBOL);
@@ -55,7 +58,35 @@ public class InvestmentScene extends BaseScene {
     private void createMenu() {
         final Pane bottomBar = getGadgets().createHorizontalPanel();
         final Button buy = getGadgets().createButton(BUY), sell = getGadgets().createButton(SELL);
-        bottomBar.getChildren().addAll(buy, sell);
+        final TextField symbolName = new TextField();
+        final TextField numberShare = new TextField("1.0");
+
+        symbolName.setPromptText("symbol name");
+        numberShare.setPromptText("share number");
+
+        // force the field to be numeric only
+        // some Regex expression.
+        numberShare.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+                    final String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    numberShare.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        final ObservableList<String> options = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
+        final ComboBox<String> accountComboBox = new ComboBox(options);
+        buy.setOnAction(e -> {
+            
+        });
+
+        sell.setOnAction(e -> {
+
+        });
+
+        bottomBar.getChildren().addAll(accountComboBox, symbolName, numberShare, buy, sell);
         root.setBottom(bottomBar);
         root.setTop(this.menuBar);
     }
@@ -91,7 +122,7 @@ public class InvestmentScene extends BaseScene {
 
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> marketHoldings) {
-       setMarketHoldings(marketHoldings);
+        setMarketHoldings(marketHoldings);
     }
 
 }
