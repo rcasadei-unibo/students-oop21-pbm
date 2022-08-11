@@ -19,7 +19,7 @@ import java.util.TreeSet;
 /**
  * This class is a TextField which implements an "autocomplete" functionality,
  * based on a supplied list of entries.
- * 
+ * https://gist.github.com/floralvikings/10290131
  * @author Caleb Brinkman
  */
 public class AutoCompleteTextField extends TextField {

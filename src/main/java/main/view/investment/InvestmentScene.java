@@ -123,7 +123,7 @@ public class InvestmentScene extends BaseScene {
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE));
         accountBox.clear();
-        accountBox.addAll((Collection<? extends String>) iter.next());        
+        accountBox.addAll((Collection<? extends String>) iter.next());
         accountComboBox.getSelectionModel().selectFirst();
         symbolName.getEntries().clear();
         symbolName.getEntries().addAll(symbols);

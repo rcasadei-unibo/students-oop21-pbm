@@ -20,9 +20,9 @@ public class JavaFxView extends Application implements View {
 
     private GUIFactory guiFactory;
     private BorderPane root;
-    private static Stage stage;
-    private static Controller controller;
-    private static CustomScene investScene;
+    private static volatile Stage stage;
+    private static volatile Controller controller;
+    private static volatile CustomScene investScene;
     private Pane menuBar;
 
     public JavaFxView() {
@@ -77,8 +77,9 @@ public class JavaFxView extends Application implements View {
     }
 
     private void getInvestmentPage() {
-        controller.updateMarketInfo();
-
+        new Thread(() -> {
+            controller.updateMarketInfo();
+          }).start();
     }
 
     private void getProfilePage(final BorderPane root) {
