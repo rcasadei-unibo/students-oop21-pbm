@@ -117,4 +117,11 @@ public class JavaFxView extends Application implements View {
         }
     }
 
+    @Override
+    public void showMoneyNotEnoughMessage() {
+        guiFactory.createInformationBox("Your money wan't enough! :(").showAndWait();
+    }
+    
+    
+
 }

@@ -41,7 +41,7 @@ public class InvestmentScene extends BaseScene {
 
     private final BorderPane root;
     private Queue<List<?>> updateables;
-    private ObservableList<String> accountBox;
+    private final ObservableList<String> accountBox;
     private final Pane menuBar;
     private final Scene scene;
 
@@ -76,35 +76,37 @@ public class InvestmentScene extends BaseScene {
             @Override
             public void changed(final ObservableValue<? extends String> observable, final String oldValue,
                     final String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    numberShare.setText(newValue.replaceAll("[^\\d]", ""));
+                if (!newValue.matches("\\d+*")) {
+                    numberShare.setText(newValue.replaceAll("[^\\d+]", ""));
                 }
             }
         });
-        
+
         final ComboBox<String> accountComboBox = new ComboBox<>(accountBox);
         buy.setOnAction(e -> {
-            getController().buyStocks(null, 0.0, null);
+            getController().buyStocks(symbolName.getText(), Double.parseDouble(numberShare.getText()),
+                    accountComboBox.getValue());
         });
 
         sell.setOnAction(e -> {
-            System.out.println(accountComboBox.getValue());
+            getController().sellStocks(symbolName.getText(), Double.parseDouble(numberShare.getText()),
+                    accountComboBox.getValue());
         });
 
         bottomBar.getChildren().addAll(accountComboBox, symbolName, numberShare, buy, sell);
-        
+
         root.setTop(this.menuBar);
         root.setBottom(bottomBar);
     }
 
     // content display that are updateble
+    @SuppressWarnings("unchecked")
     private void createContentDisplay() {
         final Iterator<List<?>> iter = updateables.iterator();
 
         // maybe createScheda should have been built differently, but since it's for
         // GUI, not computational model,
         // I think a bit redundancy can't be avoided without losing flexibility;
-        @SuppressWarnings("unchecked")
         final Node n = getGadgets().createBlockScheda(getGadgets().createText(STOCKTITLE, TITLEFONTSIZE),
                 getGadgets().transformStringIntoText(desc, HEADERFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),
@@ -113,7 +115,7 @@ public class InvestmentScene extends BaseScene {
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE));
         accountBox.clear();
         accountBox.addAll((Collection<? extends String>) iter.next());
-        
+
         root.setCenter(n);
     }
 

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
@@ -30,6 +32,8 @@ public class ControllerImpl implements Controller {
     private final List<View> views;
     private final Market market;
     private final EquityPool ep;
+    private final InvestmentViewObserver ivo;
+    private static final int refleshRate = 5000;
 
     public ControllerImpl(final String[] args, final View... views) {
         super();
@@ -40,10 +44,19 @@ public class ControllerImpl implements Controller {
         profile = new ProfileEconomyImpl();
         market = new MarketImpl();
         ep = new EquityPoolStock();
+        ivo = new InvestmentViewObserverimpl(profile);
+
+//        update something every s seconds  
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                updateMarketInfo();
+//            }
+//        }, 0, refleshRate);
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree("Etoro");
-        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock());
+        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock(), "Etoro");
         invAcc.deposit(10000);
         Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
         market.buyAsset(invAcc, hAcc, o);
@@ -69,13 +82,23 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void buyStocks(final String symbol, final double shares, final String accountID) {
-        market.buyAsset(getInvAccountById(accountID), null, new OrderImpl(ep.getEquity(symbol).get(), shares));
+        try {
+            market.buyAsset(getInvAccountById(accountID), getHolAccountById(accountID),
+                    new OrderImpl(ep.getEquity(symbol).get(), shares));
+        } catch (final IllegalArgumentException e) {
+            views.forEach(x -> x.showMoneyNotEnoughMessage());
+        }
         updateMarketInfo();
     }
 
     @Override
     public void sellStocks(final String symbol, final double shares, final String accountID) {
-        market.sellAsset(getInvAccountById(accountID), null, new OrderImpl(ep.getEquity(symbol).get(), shares));
+        try {
+            market.sellAsset(getInvAccountById(accountID), getHolAccountById(accountID),
+                    new OrderImpl(ep.getEquity(symbol).get(), shares));
+        } catch (final IllegalArgumentException e) {
+            views.forEach(x -> x.showMoneyNotEnoughMessage());
+        }
         updateMarketInfo();
     }
 
@@ -83,9 +106,12 @@ public class ControllerImpl implements Controller {
         return profile.getInvestmentAccounts().stream().filter(x -> x.getID().equals(accountID)).findFirst().get();
     }
 
+    private HoldingAccount getHolAccountById(final String accountID) {
+        return profile.getHoldingAccounts().stream().filter(x -> x.getID().equals(accountID)).findFirst().get();
+    }
+
     @Override
     public void updateMarketInfo() {
-        final InvestmentViewObserver ivo = new InvestmentViewObserverimpl(profile);
 
         Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override

@@ -9,15 +9,17 @@ public class HoldingAccountImpl implements HoldingAccount {
 	
 	private final Map<String, Double> holdings;
 	private final EquityPool equityPool;
+	private final String id;
 
-	public HoldingAccountImpl(final Map<String, Double> holdings, final EquityPool ep) {
+	public HoldingAccountImpl(final Map<String, Double> holdings, final EquityPool ep, final String id) {
 		super();
 		this.holdings = holdings;
 		equityPool = ep;
+		this.id = id;
 	}
 
-	public HoldingAccountImpl(final EquityPool ep) {
-		this(new HashMap<>(), ep);
+	public HoldingAccountImpl(final EquityPool ep, final String id) {
+		this(new HashMap<>(), ep, id);
 	}
 	
 	/**
@@ -84,5 +86,10 @@ public class HoldingAccountImpl implements HoldingAccount {
 		return holdings.containsKey(symbol) ? holdings.get(symbol).doubleValue()
 				: 0.0 ;
 	}
+
+    @Override
+    public String getID() {
+        return this.id;
+    }
 
 }

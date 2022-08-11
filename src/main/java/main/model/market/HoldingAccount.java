@@ -47,4 +47,10 @@ public interface HoldingAccount {
 	 * @return shares in double
 	 */
 	double howManyShares(String symbol);
+
+	/**
+	 * get id of the account.
+	 * @return id
+	 */
+    String getID();
 }

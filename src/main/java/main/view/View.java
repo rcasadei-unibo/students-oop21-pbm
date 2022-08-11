@@ -19,4 +19,6 @@ public interface View {
     void setObserver(Controller observer);
 
     void show(String[] args);
+    
+    void showMoneyNotEnoughMessage();
 }

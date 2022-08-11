@@ -30,7 +30,7 @@ public class TestMarket {
 	private final InvestmentAccountTypeFactory accFactory = new InvestmentAccountTypeFactoryImpl();
 	private final InvestmentAccount acc1 = accFactory.createForFree("Revolut");
 	private final EquityPool ep = new EquityPoolStock();
-	private final HoldingAccount hacc1 = new HoldingAccountImpl(ep);
+	private final HoldingAccount hacc1 = new HoldingAccountImpl(ep, "Revolut");
 	private final Market market = new MarketImpl();
 
 	@Test
