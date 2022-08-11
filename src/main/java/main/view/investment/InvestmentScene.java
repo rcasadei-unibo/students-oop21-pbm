@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -76,11 +77,16 @@ public class InvestmentScene extends BaseScene {
             @Override
             public void changed(final ObservableValue<? extends String> observable, final String oldValue,
                     final String newValue) {
-                if (!newValue.matches("\\d+*")) {
+                if (!newValue.matches("\\d+")) {
                     numberShare.setText(newValue.replaceAll("[^\\d+]", ""));
                 }
             }
         });
+        
+        symbolName.setTextFormatter(new TextFormatter<>((change) -> {
+            change.setText(change.getText().toUpperCase());
+            return change;
+        }));
 
         final ComboBox<String> accountComboBox = new ComboBox<>(accountBox);
         buy.setOnAction(e -> {

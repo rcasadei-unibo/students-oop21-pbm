@@ -13,6 +13,7 @@ import main.control.investment.InvestmentViewObserverimpl;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
+import main.model.account.NotEnoughFundsException;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
 import main.model.market.EquityPoolStock;
@@ -70,8 +71,14 @@ public class ControllerImpl implements Controller {
         market.buyAsset(invAcc, hAcc, o);
         profile.addHoldingAccount(hAcc);
         profile.addInvestmentAccount(invAcc);
-        System.out.println(invAcc.getID());
-
+        InvestmentAccount invAcc2 = f.createWithOperationFees(x -> x * 0.01, "Binance");
+          o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
+         HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
+         invAcc2.deposit(1000000);
+         market.buyAsset(invAcc2, hAcc2, o);
+         profile.addHoldingAccount(hAcc2);
+         profile.addInvestmentAccount(invAcc2);
+         
         this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
@@ -85,10 +92,10 @@ public class ControllerImpl implements Controller {
         try {
             market.buyAsset(getInvAccountById(accountID), getHolAccountById(accountID),
                     new OrderImpl(ep.getEquity(symbol).get(), shares));
-        } catch (final IllegalArgumentException e) {
+            updateMarketInfo();
+        } catch (final NotEnoughFundsException e) {
             views.forEach(x -> x.showMoneyNotEnoughMessage());
         }
-        updateMarketInfo();
     }
 
     @Override
@@ -96,10 +103,11 @@ public class ControllerImpl implements Controller {
         try {
             market.sellAsset(getInvAccountById(accountID), getHolAccountById(accountID),
                     new OrderImpl(ep.getEquity(symbol).get(), shares));
+            updateMarketInfo();
         } catch (final IllegalArgumentException e) {
             views.forEach(x -> x.showMoneyNotEnoughMessage());
         }
-        updateMarketInfo();
+
     }
 
     private InvestmentAccount getInvAccountById(final String accountID) {
