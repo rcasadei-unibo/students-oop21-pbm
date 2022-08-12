@@ -27,7 +27,7 @@ public final class InvestmentViewObserverimpl implements InvestmentViewObserver 
 
     @Override
     public List<String> getAllHoldingSymbols() {
-        return profile.getHoldingAccounts().stream().map(x -> x.getHoldingSymbols()).flatMap(Collection::stream)
+        return profile.getHoldingAccounts().stream().map(x -> x.getHoldingSymbols()).flatMap(Collection::stream).distinct()
                 .collect(Collectors.toUnmodifiableList());
     }
 
