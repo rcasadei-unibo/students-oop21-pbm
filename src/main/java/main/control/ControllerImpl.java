@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
@@ -14,6 +15,7 @@ import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
 import main.model.account.NotEnoughFundsException;
+import main.model.account.NotEnoughSharesException;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
 import main.model.market.EquityPoolStock;
@@ -72,15 +74,15 @@ public class ControllerImpl implements Controller {
         profile.addHoldingAccount(hAcc);
         profile.addInvestmentAccount(invAcc);
         InvestmentAccount invAcc2 = f.createWithOperationFees(x -> x * 0.01, "Binance");
-          o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
-         HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
-         invAcc2.deposit(1000000);
-         market.buyAsset(invAcc2, hAcc2, o);
-         o = new OrderImpl(ep.getEquity("AAL").get(), 17);
-         market.buyAsset(invAcc2, hAcc2, o);
-         profile.addHoldingAccount(hAcc2);
-         profile.addInvestmentAccount(invAcc2);
-         
+        o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
+        HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
+        invAcc2.deposit(1000000);
+        market.buyAsset(invAcc2, hAcc2, o);
+        o = new OrderImpl(ep.getEquity("AAL").get(), 17);
+        market.buyAsset(invAcc2, hAcc2, o);
+        profile.addHoldingAccount(hAcc2);
+        profile.addInvestmentAccount(invAcc2);
+
         this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
@@ -98,17 +100,32 @@ public class ControllerImpl implements Controller {
         } catch (final NotEnoughFundsException e) {
             views.forEach(x -> x.showMoneyNotEnoughMessage());
         }
+
     }
 
     @Override
     public void sellStocks(final String symbol, final double shares, final String accountID) {
-        try {
-            market.sellAsset(getInvAccountById(accountID), getHolAccountById(accountID),
-                    new OrderImpl(ep.getEquity(symbol).get(), shares));
-            updateMarketInfo();
-        } catch (final IllegalArgumentException e) {
-            views.forEach(x -> x.showMoneyNotEnoughMessage());
-        }
+
+        final Task<Object> task = new Task<>() {
+
+            @Override
+            protected Object call() throws Exception {
+                try {
+                    market.sellAsset(getInvAccountById(accountID), getHolAccountById(accountID),
+                            new OrderImpl(ep.getEquity(symbol).get(), shares));
+                    updateMarketInfo();
+                } catch (final NotEnoughSharesException e) {
+                    // not enough share
+                    views.forEach(x -> x.showSharesNotEnoughMessage());
+                } catch (final IllegalStateException e) {
+                    // no symbol specified
+                    views.forEach(x -> x.showNoSymbolSpecified());
+                }
+                return null;
+            }
+
+        };
+        new Thread(task).start();
 
     }
 
@@ -123,7 +140,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void updateMarketInfo() {
 
-        Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
+        final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override
             public Queue<List<?>> call() {
                 final Queue<List<?>> queue = new LinkedList<>();

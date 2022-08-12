@@ -21,4 +21,8 @@ public interface View {
     void show(String[] args);
     
     void showMoneyNotEnoughMessage();
+    
+    void showSharesNotEnoughMessage();
+    
+    void showNoSymbolSpecified();
 }

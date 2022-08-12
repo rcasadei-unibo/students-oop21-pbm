@@ -18,7 +18,7 @@ import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 
-    private GUIFactory guiFactory;
+    private static volatile GUIFactory guiFactory;
     private BorderPane root;
     private static volatile Stage stage;
     private static volatile Controller controller;
@@ -120,7 +120,17 @@ public class JavaFxView extends Application implements View {
 
     @Override
     public void showMoneyNotEnoughMessage() {
-        guiFactory.createInformationBox("Your money wan't enough! :(").showAndWait();
+       Platform.runLater(() ->  guiFactory.createInformationBox("Your money wan't enough! :(").showAndWait());
+    }
+
+    @Override
+    public void showSharesNotEnoughMessage() {
+        Platform.runLater(() ->  guiFactory.createInformationBox("Your shares wan't enough! :(").showAndWait());
+    }
+
+    @Override
+    public void showNoSymbolSpecified() {
+        Platform.runLater(() ->  guiFactory.createInformationBox("No symbol specified! :(").showAndWait());
     }
     
     

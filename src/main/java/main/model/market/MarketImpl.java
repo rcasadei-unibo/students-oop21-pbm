@@ -1,6 +1,7 @@
 package main.model.market;
 
 import main.model.account.InvestmentAccount;
+import main.model.account.NotEnoughSharesException;
 
 public class MarketImpl implements Market {
 
@@ -27,6 +28,8 @@ public class MarketImpl implements Market {
 		if (holdAcc.hasEnoughShares(order)) {
 			holdAcc.updateHoldingsForSelling(order);
 			invAcc.cashout(getAssetsNetWorth(order));
+		}else {
+		    throw new NotEnoughSharesException();
 		}
 		
 	}
