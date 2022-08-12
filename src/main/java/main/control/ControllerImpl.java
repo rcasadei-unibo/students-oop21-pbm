@@ -4,12 +4,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.google.common.base.Optional;
 
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
@@ -39,9 +38,19 @@ public class ControllerImpl implements Controller {
     private final EquityPool ep;
     private final InvestmentViewObserver ivo;
     private static final int refleshRate = 5000;
+    private static final int NUMTHREADS = 10;
+    // when we access database to retain some symbols that may takes a lot of times,
+    // If an user keeps spamming for the same task, by keeping create new threads,
+    // may
+    // cause thread throttling, so with an excecutor, only N threads initialized
+    // will be used
+    private final ExecutorService executor;
 
     public ControllerImpl(final String[] args, final View... views) {
         super();
+
+        executor = Executors.newFixedThreadPool(NUMTHREADS);
+
         // profile should be read from somewhere...If nobody does this work, i will do
         // it later: such as reading from the configuration file
         // based on the configuration, reads from various platform, be it locally, from
@@ -51,7 +60,9 @@ public class ControllerImpl implements Controller {
         ep = new EquityPoolStock();
         ivo = new InvestmentViewObserverimpl(profile);
 
-//        update something every s seconds  
+//        update something every s seconds, to use this, i need to create 
+//      an enum class to switch interface states.. along with message boxes,
+//          let's see if i have enough time to do it..
 //        new Timer().schedule(new TimerTask() {
 //            @Override
 //            public void run() {
@@ -116,8 +127,8 @@ public class ControllerImpl implements Controller {
             }
 
         };
-        new Thread(task).start();
-
+        // new Thread(task).start();
+        executor.execute(task);
     }
 
     @Override
@@ -142,8 +153,8 @@ public class ControllerImpl implements Controller {
             }
 
         };
-        new Thread(task).start();
-
+        // new Thread(task).start();
+        executor.execute(task);
     }
 
     private InvestmentAccount getInvAccountById(final String accountID) {
