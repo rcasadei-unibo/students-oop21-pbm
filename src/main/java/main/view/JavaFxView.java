@@ -79,11 +79,12 @@ public class JavaFxView extends Application implements View {
     private void getInvestmentPage() {
         new Thread(() -> {
             controller.updateMarketInfo();
-          }).start();
+        }).start();
     }
 
     private void getProfilePage(final BorderPane root) {
-        this.controller.showProfile();;
+        this.controller.showProfile();
+        ;
     }
 
     private void getBankAccountPage() {
@@ -101,7 +102,7 @@ public class JavaFxView extends Application implements View {
     @Override
     public void setObserver(final Controller observer) {
         controller = observer;
-        
+
     }
 
     @Override
@@ -115,24 +116,14 @@ public class JavaFxView extends Application implements View {
         try {
             Platform.runLater(() -> stage.setScene(investScene.getScene()));
         } catch (IllegalArgumentException e) {
+            showMessage("something went wrong, cound't update the market info, please check out your internet.");
         }
     }
 
     @Override
-    public void showMoneyNotEnoughMessage() {
-       Platform.runLater(() ->  guiFactory.createInformationBox("Your money wan't enough! :(").showAndWait());
-    }
+    public void showMessage(final String message) {
+        Platform.runLater(() -> guiFactory.createInformationBox(message).showAndWait());
 
-    @Override
-    public void showSharesNotEnoughMessage() {
-        Platform.runLater(() ->  guiFactory.createInformationBox("Your shares wan't enough! :(").showAndWait());
     }
-
-    @Override
-    public void showNoSymbolSpecified() {
-        Platform.runLater(() ->  guiFactory.createInformationBox("No symbol specified! :(").showAndWait());
-    }
-    
-    
 
 }

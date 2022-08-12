@@ -7,6 +7,8 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.common.base.Optional;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
@@ -93,13 +95,28 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void buyStocks(final String symbol, final double shares, final String accountID) {
-        try {
-            market.buyAsset(getInvAccountById(accountID), getHolAccountById(accountID),
-                    new OrderImpl(ep.getEquity(symbol).get(), shares));
-            updateMarketInfo();
-        } catch (final NotEnoughFundsException e) {
-            views.forEach(x -> x.showMoneyNotEnoughMessage());
-        }
+
+        final Task<Object> task = new Task<>() {
+            @Override
+            protected Object call() throws Exception {
+                final Optional<Equity> stock = ep.getEquity(symbol);
+                if (stock.isPresent()) {
+                    try {
+                        market.buyAsset(getInvAccountById(accountID), getHolAccountById(accountID),
+                                new OrderImpl(stock.get(), shares));
+                        updateMarketInfo();
+                    } catch (final NotEnoughFundsException e) {
+                        views.forEach(x -> x.showMessage("Your money wan't enough! :("));
+                    }
+                } else {
+                    views.forEach(x -> x.showMessage("This symbol doesn't exist! :("));
+                }
+
+                return null;
+            }
+
+        };
+        new Thread(task).start();
 
     }
 
@@ -116,10 +133,10 @@ public class ControllerImpl implements Controller {
                     updateMarketInfo();
                 } catch (final NotEnoughSharesException e) {
                     // not enough share
-                    views.forEach(x -> x.showSharesNotEnoughMessage());
+                    views.forEach(x -> x.showMessage("Your shares wan't enough! :("));
                 } catch (final IllegalStateException e) {
                     // no symbol specified
-                    views.forEach(x -> x.showNoSymbolSpecified());
+                    views.forEach(x -> x.showMessage("No symbol specified! :("));
                 }
                 return null;
             }

@@ -20,9 +20,6 @@ public interface View {
 
     void show(String[] args);
     
-    void showMoneyNotEnoughMessage();
-    
-    void showSharesNotEnoughMessage();
-    
-    void showNoSymbolSpecified();
+    void showMessage(String message);
+
 }
