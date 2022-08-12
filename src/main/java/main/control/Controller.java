@@ -16,6 +16,8 @@ public interface Controller {
 	void sellStocks(String symbol, double shares, String id);
 	
 	void updateMarketInfo();
+	
+	void terminateApp();
 
 	// Ale's part
 

@@ -34,7 +34,7 @@ public class JavaFxView extends Application implements View {
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
-        this.guiFactory = b.build();
+        guiFactory = b.build();
 
         menuBar = createMenuBar();
 
@@ -44,6 +44,10 @@ public class JavaFxView extends Application implements View {
         primaryStage.setScene(getLoginScene(primaryStage, mainScene));
         primaryStage.centerOnScreen();
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Stage is closing");
+        });
 
         investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight(), controller);

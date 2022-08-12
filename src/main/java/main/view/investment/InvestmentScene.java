@@ -75,13 +75,13 @@ public class InvestmentScene extends BaseScene {
         numberShare.setPromptText("share number");
 
         // force the field to be numeric only
-        // some Regex expression.
+        // some Regex expression. This solution was found on stack overflow.
         numberShare.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(final ObservableValue<? extends String> observable, final String oldValue,
                     final String newValue) {
-                if (!newValue.matches("\\d+")) {
-                    numberShare.setText(newValue.replaceAll("[^\\d+]", ""));
+                if (!newValue.matches("(-?\\d+\\.?\\d*)")) {
+                    numberShare.setText(newValue.replaceAll("[^\\d*]", ""));
                 }
             }
         });

@@ -187,13 +187,20 @@ public class ControllerImpl implements Controller {
         task.setOnSucceeded(e -> {
             views.forEach(v -> v.marketUpdates(task.getValue()));
         });
-        new Thread(task).start();
+        // new Thread(task).start();
+        executor.execute(task);
     }
 
     @Override
     public void showProfile() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void terminateApp() {
+        executor.shutdown();
+        //save files.. to be implemented.
     }
 
 }

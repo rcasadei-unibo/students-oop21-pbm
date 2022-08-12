@@ -68,10 +68,6 @@ public class HoldingAccountImpl implements HoldingAccount {
 
         holdings.computeIfPresent(key, (k, val) -> val - shares);
 
-        if (holdings.containsKey(key)) {
-            throw new NotEnoughSharesException();
-        }
-
     }
 
     /**
@@ -79,11 +75,10 @@ public class HoldingAccountImpl implements HoldingAccount {
      */
     @Override
     public boolean hasEnoughShares(final Order order) {
-        if (holdings.containsKey(order.getEquity().getSymbol())
-                && holdings.get(order.getEquity().getSymbol()) >= order.getShares()) {
-            return true;
+        if (!holdings.containsKey(order.getEquity().getSymbol())) {
+            throw new NotEnoughSharesException();
         }
-        throw new NotEnoughSharesException();
+        return holdings.get(order.getEquity().getSymbol()) >= order.getShares();
     }
 
     /**
