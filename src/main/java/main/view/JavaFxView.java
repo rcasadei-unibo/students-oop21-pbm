@@ -14,6 +14,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
 import main.view.Investment.InvestmentScene;
+import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 
@@ -35,8 +36,6 @@ public class JavaFxView extends Application implements View {
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
 
-        menuBar = createMenuBar();
-
         final Scene mainScene = getMainScene();
         stage = primaryStage;
         primaryStage.setTitle("Bugmate - personal use");
@@ -48,12 +47,6 @@ public class JavaFxView extends Application implements View {
                 Screen.getPrimary().getBounds().getHeight());
     }
 
-    private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
-        final LoginScene loginscene = new LoginScene(primaryStage, mainScene);
-
-        return loginscene.getScene();
-    }
-
     private Pane createMenuBar() {
         final Pane menuBar = guiFactory.createHorizontalPanel();
         final Button investment = guiFactory.createButton("Investmenti"), profilo = guiFactory.createButton("Profilo"),
@@ -61,7 +54,7 @@ public class JavaFxView extends Application implements View {
                 savings = guiFactory.createButton("Salvadanai");
 
         investment.setOnAction(e -> getInvestmentPage());
-        profilo.setOnAction(e -> getProfilePage(root));
+        profilo.setOnAction(e -> getProfilePage());
         bankAccount.setOnAction(e -> getBankAccountPage());
         expenses.setOnAction(e -> getExpenditurePage());
         savings.setOnAction(e -> getSavingPage());
@@ -69,10 +62,14 @@ public class JavaFxView extends Application implements View {
         return menuBar;
     }
 
+    private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
+        final LoginScene loginscene = new LoginScene(primaryStage, mainScene, controller);
+
+        return loginscene.getScene();
+    }
+
     private Scene getMainScene() {
-        root = new BorderPane();
-        root.setTop(menuBar);
-        return guiFactory.createScene(root);
+        return new MainScene(controller).getScene();
     }
 
     private void getInvestmentPage() {
@@ -80,8 +77,8 @@ public class JavaFxView extends Application implements View {
 
     }
 
-    private void getProfilePage(final BorderPane root) {
-        this.controller.showProfile();;
+    private void getProfilePage() {
+        controller.showProfile(this.root);
     }
 
     private void getBankAccountPage() {
@@ -99,7 +96,6 @@ public class JavaFxView extends Application implements View {
     @Override
     public void setObserver(final Controller observer) {
         controller = observer;
-        
     }
 
     @Override

@@ -1,4 +1,4 @@
-package main.view;
+package main.view.profile;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,20 +9,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import main.control.Controller;
+import main.view.GUIFactory;
+import main.view.GUIFactoryImpl;
+import main.view.GUIFactoryImpl.Builder;
 
-public class LoginScene{
+public class LoginScene {
 
     private static final int W_RATIO = 5;
     private static final int H_RATIO = 3;
 
     private final BorderPane root;
     private GUIFactory guiFactory;
+    private final Controller controller;
 
-    public LoginScene(final Stage primaryStage, final Scene mainScene) {
+    public LoginScene(final Stage primaryStage, final Scene mainScene, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
 
+        this.controller = controller;
         this.root = new BorderPane();
 
         final Pane textFieldLayout = this.guiFactory.createVerticalPanel();
@@ -40,7 +46,7 @@ public class LoginScene{
 
         final Button register = this.guiFactory.createButton("Registrati");
         register.setOnAction(e -> {
-            primaryStage.setScene(new RegistrationView(primaryStage, mainScene).getScene());
+            primaryStage.setScene(new RegistrationView(primaryStage, mainScene, this.controller).getScene());
             primaryStage.centerOnScreen();
         });
 

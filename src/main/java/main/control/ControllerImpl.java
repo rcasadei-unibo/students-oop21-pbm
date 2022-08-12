@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Queue;
 
 import javafx.concurrent.Task;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
 import main.model.account.InvestmentAccount;
@@ -20,13 +22,18 @@ import main.model.market.Market;
 import main.model.market.MarketImpl;
 import main.model.market.Order;
 import main.model.market.OrderImpl;
+import main.model.profile.ProfileCredentials;
 import main.model.profile.ProfileEconomy;
 import main.model.profile.ProfileEconomyImpl;
+import main.model.profile.SimplePassword;
 import main.view.View;
+import main.view.profile.LoginScene;
+import main.view.profile.ProfilePage;
 
 public class ControllerImpl implements Controller {
 
-    private final ProfileEconomy profile;
+    private ProfileEconomy profile;
+    private ProfileCredentials profileCred; //these two cannot be final if we want to change profile
     private final List<View> views;
 
     public ControllerImpl(final String[] args, final View... views) {
@@ -36,6 +43,7 @@ public class ControllerImpl implements Controller {
         // based on the configuration, reads from various platform, be it locally, from
         // a database or create a new one.
         profile = new ProfileEconomyImpl();
+        this.profileCred = new ProfileCredentials("M", "s", "f", "g@g.g.it", new SimplePassword("g"));
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree();
@@ -78,7 +86,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void updateMarketInfo() {
-        final InvestmentViewObserver ivo = new InvestmentViewObserverimpl(profile);
+        final InvestmentViewObserver ivo = new InvestmentViewObserverimpl(this.profile);
 
         Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override
@@ -102,9 +110,36 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void showProfile() {
+    public void showProfile(final BorderPane root) {
+        final ProfilePage profile = new ProfilePage(root, this);
+    }
+
+    @Override
+    public void registerProfile(final String name, final String surname, final String fc, final String eMail, final String password) {
+        this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
+        this.profile = new ProfileEconomyImpl();
+    }
+
+    @Override
+    public void accessProfile(final String eMail, final String password) {
+        // this is just a version to let the application run
+        //this method needs to retrieve the user profile from json database
+
+    }
+
+    @Override
+    public void showLoginScene() {
         // TODO Auto-generated method stub
-        
+    }
+
+    @Override
+    public void changePassword() {
+        // just a test
+    }
+
+    @Override
+    public ProfileCredentials getUsrInfo() {
+        return this.profileCred;
     }
 
 }

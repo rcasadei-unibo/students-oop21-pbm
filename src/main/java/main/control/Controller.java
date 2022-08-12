@@ -1,5 +1,9 @@
 package main.control;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import main.model.profile.ProfileCredentials;
+
 /**
  * This interface does all chores to interact with user.
  * Such as operation IO, calling model for calculations and etc.
@@ -19,5 +23,15 @@ public interface Controller {
 
 	// Ale's part
 
-	void showProfile();
+	void showProfile(BorderPane root);
+
+    void registerProfile(String name, String surname, String fc, String eMail, String password);
+
+    void accessProfile(String eMail, String password);
+
+    void showLoginScene();
+
+    void changePassword();
+
+    ProfileCredentials getUsrInfo();
 }
