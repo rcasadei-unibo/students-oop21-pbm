@@ -2,14 +2,15 @@ package main.view.profile;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
+import main.control.Controller;
 
 public class RegistrationView {
 
@@ -18,39 +19,51 @@ public class RegistrationView {
 
     private final BorderPane root;
     private GUIFactory guiFactory;
+    private final Controller controller;
 
-    public RegistrationView(final Stage primaryStage, final Scene mainScene) {
+    public RegistrationView(final Stage primaryStage, final Scene mainScene, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
 
+        this.controller = controller;
         this.root = new BorderPane();
         final Pane textFieldLayout = this.guiFactory.createVerticalPanel();
 
         final TextField name = new TextField();
         name.setPromptText("nome");
-        final TextField surName = new TextField();
-        surName.setPromptText("cognome");
+        final TextField surname = new TextField();
+        surname.setPromptText("cognome");
         final TextField fc = new TextField();
         fc.setPromptText("codice fiscale");
         final TextField eMail = new TextField();
         eMail.setPromptText("e-Mail");
-        final TextField password = new TextField();
+        final TextField password = new PasswordField();
         password.setPromptText("password");
-        final TextField confPass = new TextField();
+        final TextField confPass = new PasswordField();
         confPass.setPromptText("conferma password");
 
         final Pane buttonLayout = this.guiFactory.createHorizontalPanel();
         final Button register = this.guiFactory.createButton("Registrati");
         register.setOnAction(e -> {
-            primaryStage.setScene(mainScene);
-            primaryStage.centerOnScreen();
+            if (checkInputs(eMail.getText(), password.getText(), confPass.getText())) {
+                controller.registerProfile(name.getText(), surname.getText(), fc.getText(), eMail.getText(), password.getText());
+                primaryStage.setScene(mainScene);
+                primaryStage.centerOnScreen();
+            } else {
+                guiFactory.createInformationBox("Email non valida o Password incorretta").showAndWait();
+                e.consume();
+            }
         });
 
         buttonLayout.getChildren().addAll(register);
-        textFieldLayout.getChildren().addAll(name, surName, fc, eMail, password, confPass);
+        textFieldLayout.getChildren().addAll(name, surname, fc, eMail, password, confPass);
         this.root.setBottom(buttonLayout);
         this.root.setCenter(textFieldLayout);
+    }
+
+    private boolean checkInputs(final String eMail, final String password, final String confPass) {
+        return eMail.contains("@") && password.equals(confPass);
     }
 
     public Scene getScene() {

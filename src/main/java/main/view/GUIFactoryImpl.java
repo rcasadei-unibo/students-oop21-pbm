@@ -65,6 +65,20 @@ public final class GUIFactoryImpl implements GUIFactory {
         return vbox;
     }
 
+    public <X, Y> Pane createVerticalList(final String title, final int titleFontSize, final List<Pair<X, Y>> list, final int listFontSize) {
+        final Pane layout = createVerticalPanel();
+        final Text h1 = createText(title, titleFontSize);
+        layout.getChildren().add(h1);
+        list.forEach(pair -> {
+            final Text x = createText(pair.getX(), listFontSize);
+            final Text y = createText(pair.getY(), listFontSize);
+            final String union = x.toString() + " " + y.toString();
+            final Text xy = createText(union, listFontSize);
+            layout.getChildren().add(xy);
+        });
+        return layout;
+    }
+
     @Override
     public Alert createInformationBox(final String message) {
         final Alert a = new Alert(AlertType.INFORMATION);
