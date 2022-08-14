@@ -27,7 +27,7 @@ public class ProfilePage {
 
         final Pane rightLayout = this.guiFactory.createVerticalPanel();
         final Button changePassword = this.guiFactory.createButton("Cambia Password");
-        changePassword.setOnAction(e -> this.controller.changePassword());
+        changePassword.setOnAction(e -> this.controller.showPasswordChangeView());
         final Button logOut = this.guiFactory.createButton("Disconnettiti");
         logOut.setOnAction(e -> this.controller.showLoginScene());
 

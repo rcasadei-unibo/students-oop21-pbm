@@ -7,7 +7,16 @@ import java.util.Queue;
 
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
 import main.model.account.InvestmentAccount;
@@ -22,12 +31,19 @@ import main.model.market.Market;
 import main.model.market.MarketImpl;
 import main.model.market.Order;
 import main.model.market.OrderImpl;
+import main.model.profile.PasswordChangeByEmail;
+import main.model.profile.PasswordChangeByFC;
+import main.model.profile.PasswordChangeByOldPassword;
+import main.model.profile.PasswordChanger;
 import main.model.profile.ProfileCredentials;
 import main.model.profile.ProfileEconomy;
 import main.model.profile.ProfileEconomyImpl;
 import main.model.profile.SimplePassword;
+import main.view.GUIFactory;
+import main.view.GUIFactoryImpl;
 import main.view.View;
 import main.view.profile.LoginScene;
+import main.view.profile.PasswordChangeView;
 import main.view.profile.ProfilePage;
 
 public class ControllerImpl implements Controller {
@@ -43,7 +59,7 @@ public class ControllerImpl implements Controller {
         // based on the configuration, reads from various platform, be it locally, from
         // a database or create a new one.
         profile = new ProfileEconomyImpl();
-        this.profileCred = new ProfileCredentials("M", "s", "f", "g@g.g.it", new SimplePassword("g"));
+        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mariorossi@studio.unibo.it", new SimplePassword("SuperMario"));
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree();
@@ -133,13 +149,28 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void changePassword() {
-        // just a test
+    public void showPasswordChangeView() {
+        new PasswordChangeView(this);
     }
 
     @Override
     public ProfileCredentials getUsrInfo() {
         return this.profileCred;
+    }
+
+    @Override
+    public void changePword(final String strategy, final String newPword, final String confPword, final String id) {
+        final PasswordChanger changer;
+        if ("Email".equals(strategy)) {
+            changer = new PasswordChanger(new PasswordChangeByEmail(this.profileCred));
+            changer.changePassword(newPword, confPword, id);
+        } else if ("Password Attuale".equals(strategy)) {
+            changer = new PasswordChanger(new PasswordChangeByOldPassword(this.profileCred));
+            changer.changePassword(newPword, confPword, id);
+        } else {
+            changer = new PasswordChanger(new PasswordChangeByFC(this.profileCred));
+            changer.changePassword(newPword, confPword, id);
+        }
     }
 
 }

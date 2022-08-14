@@ -31,7 +31,9 @@ public interface Controller {
 
     void showLoginScene();
 
-    void changePassword();
+    void showPasswordChangeView();
 
     ProfileCredentials getUsrInfo();
+
+    void changePword(String strategy, String newPword, String confPword, String id);
 }

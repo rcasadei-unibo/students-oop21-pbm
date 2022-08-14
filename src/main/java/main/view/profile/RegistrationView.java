@@ -2,6 +2,7 @@ package main.view.profile;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -39,9 +40,9 @@ public class RegistrationView {
         fc.setPromptText("codice fiscale");
         final TextField eMail = new TextField();
         eMail.setPromptText("e-Mail");
-        final TextField password = new TextField();
+        final TextField password = new PasswordField();
         password.setPromptText("password");
-        final TextField confPass = new TextField();
+        final TextField confPass = new PasswordField();
         confPass.setPromptText("conferma password");
 
         final Pane buttonLayout = this.guiFactory.createHorizontalPanel();
