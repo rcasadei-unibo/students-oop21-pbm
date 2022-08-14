@@ -19,14 +19,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
-<<<<<<< HEAD
 import main.model.account.NotEnoughFundsException;
 import main.model.market.Equity;
 import main.model.market.OrderImpl;
 import main.view.investment.InvestmentScene;
-=======
-import main.view.Investment.InvestmentScene;
->>>>>>> lavoroAle
 import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
