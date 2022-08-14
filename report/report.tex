@@ -53,7 +53,7 @@ Such as using deep learning to analyze future accounts' conditions based on the 
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
-	\item There should be a login and registration screen upon software's activation, ax`uthentication of profile via database or google / Facebook authenticator.
+	\item There should be a login and registration screen upon software's activation, authentication of profile via database or google / Facebook authenticator.
     \item A profile page contains everything about the user, including total value, number of accounts, activities, subscription plan, whether the client needs to pay fees or not, and even accessing friends' pages.
     \item Investment page: an overview of all assets owned on various platforms, a chart showing the trend of the total value of the investments. The ability to purchase and sell assets, such as BITCOIN, and APPLE. In the future, there will also be NFT markets, government bonds, real estate, and maybe even gaming assets(metaverse).
     \item Accounts page: Bank accounts, investment accounts, Budmate accounts, with various information containing IBAN, and swift code. 
@@ -68,53 +68,31 @@ Such as using deep learning to analyze future accounts' conditions based on the 
 \end{itemize}
 
 \section{Analisi e modello del dominio}
-
+We use design pattern MVC(view, control, model) for our whole structure, we use JavaFX for our view and other views for logging.  
+A controller that gets notified by JavaFX event, access model for computation then updates the view.  
 
 
 \subsection*{Elementi positivi}
 \begin{itemize}
-	\item Viene descritto accuratamente il modello del dominio.
-	\item Alcuni problemi, se non risolubili in assoluto o nel monte ore, vengono dichiarati come problemi che non saranno risolti o sarano risolti in futuro.
-	\item Si modella il dominio in forma di UML, descrivendolo appropriatamente.
+	\item By using MVC and Interface, we can switch between JavaFX and other graphic libraries without changing other parts. 
+    \item We use other threads to compute tasks that uses a lot of time.
 \end{itemize}
 
 \subsection*{Elementi negativi}
 \begin{itemize}
-	\item Manca una descrizione a parole del modello del dominio.
-	\item Manca una descrizione UML delle entità del dominio e delle relazioni che intercorrono fra loro.
-	\item Vengono elencate soluzioni ai problemi, invece della descrizione degli stessi.
-	\item Vengono presentati elementi di design, o peggio aspetti implementativi.
-	\item Viene mostrato uno schema UML che include elementi implementativi o non utili alla descrizione del dominio, ma volti alla soluzione (non devono vedersi, ad esempio, campi o metodi privati, o cose che non siano equivalenti ad interfacce).
+    \item We asked many people and in the forum, but it seems we couldn't create a reference of the controller without being static.
 \end{itemize}
 
 \subsection*{Esempio}
-GLaDOS dovrà essere in grado di accedere ad un'insieme di camere di test.
-%
-Tale insieme di camere prende il nome di percorso.
-%
-Ciascuna camera è composta di challenge successivi.
-%
-GLaDOS è responsabile di associare a ciascun challenge un insieme di consigli (suggestions) destinati all'utente (subject), dipendenti da possibili eventi.
-%
-GLaDOS dovrà poter comunicare coi locali cucina per approntare le torte.
-%
-Le torte potranno essere dolci, oppure semplici promesse di dolci che verranno disattese.
-
-Gli elementi costitutivi il problema sono sintetizzati in 
-
-La difficoltà primaria sarà quella di riuscire a correlare lo stato corrente dell'utente e gli eventi in modo tale da generare i corretti suggerimenti.
-%
-Questo richiederà di mettere in campo appropriate strategie di intelligenza artificiale.
-
-Data la complessità di elaborare consigli via AI senza intervento umano, la prima versione del software fornita prevederà una serie di consigli forniti dall'utente.
-
-Il requisito non funzionale riguardante il consumo energetico richiederà studi specifici sulle performance di GLaDOS che non potranno essere effettuati all'interno del monte ore previsto: tale feature sarà oggetto di futuri lavori.
+Even though using the private static volatile controller is a bad solution, it works correctly with synchronization between the thread from the controller and the components on the JavaFX thread. 
+I have been working on that for more than 15 hours, but still couldn't find a solution. In this case, we have multiple views, each of them is attached to the one controller, it wasn't something that we didn't intend to do.
+Instead on the he part of controller, all views are accessible from a thread pool created by Executor services. 
 
 \begin{figure}[H]
 \centering{}
-%\includegraphics{img/analysis.pdf}
-\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-\label{img:analysis}
+\makebox[\textwidth][c]{\includegraphics[width=0.6\textwidth]{img/MVC.png}}%
+\caption{Our structure of MVC implementation}
+\label{img:MVC}
 \end{figure}
 
 \chapter{Design}
