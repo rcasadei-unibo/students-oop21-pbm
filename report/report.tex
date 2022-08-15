@@ -68,10 +68,37 @@ Such as using deep learning to analyze future accounts' conditions based on the 
 \end{itemize}
 
 \section{Analisi e modello del dominio}
+Our app starts from the profile class, in the profile, there can be many types of accounts: 
+such as expenses, bank accounts, investment accounts, holding accounts, and even Budmate accounts. Those accounts have similar functionalities, in below, you can find specific implementations.
+
+\subsection*{Elementi positivi}
+\begin{itemize}
+	\item easy structure, simple responsibility.
+	\item independent implementation without depending on the other's realization, the use of interface.
+\end{itemize}
+
+\subsection*{Elementi negativi}
+\begin{itemize}
+	\item Its functionality is dependent on access to the internet, If a user is offline, it's hard to do any trading operation.
+\end{itemize}
+
+\subsection*{Esempio}
+You can see the architecture below.
+
+\begin{figure}[H]
+\centering{}
+\makebox[\textwidth][c]{\includegraphics[width=0.75\textwidth]{img/mvcCommunication.png}}%
+\caption{Our structure of MVC implementation}
+\label{img:mvcCommunication}
+\end{figure}
+
+\chapter{Design}
+
 We use design pattern MVC(view, control, model) for our whole structure, we use JavaFX for our view and other views for logging.  
 A controller that gets notified by JavaFX event, access model for computation then updates the view.  
 
-
+\section{Architettura}
+....
 \subsection*{Elementi positivi}
 \begin{itemize}
 	\item By using MVC and Interface, we can switch between JavaFX and other graphic libraries without changing other parts. 
@@ -80,104 +107,21 @@ A controller that gets notified by JavaFX event, access model for computation th
 
 \subsection*{Elementi negativi}
 \begin{itemize}
-    \item We asked many people and in the forum, but it seems we couldn't create a reference of the controller without being static.
+	\item We asked many people and in the forum, but it seems we couldn't create a reference of the controller without being static.
 \end{itemize}
 
 \subsection*{Esempio}
+
 Even though using the private static volatile controller is a bad solution, it works correctly with synchronization between the thread from the controller and the components on the JavaFX thread. 
 I have been working on that for more than 15 hours, but still couldn't find a solution. In this case, we have multiple views, each of them is attached to the one controller, it wasn't something that we didn't intend to do.
 Instead on the he part of controller, all views are accessible from a thread pool created by Executor services. 
 
 \begin{figure}[H]
-\centering{}
-\makebox[\textwidth][c]{\includegraphics[width=0.75\textwidth]{img/MVC.png}}%
-\caption{Our structure of MVC implementation}
-\label{img:MVC}
-\end{figure}
-
-\chapter{Design}
-
-In questo capitolo si spiegano le strategie messe in campo per soddisfare i requisiti identificati nell'analisi.
-
-Si parte da una visione architetturale, il cui scopo è informare il lettore di quale sia il funzionamento dell'applicativo realizzato ad alto livello.
-%
-In particolare, è necessario descrivere accuratamente in che modo i componenti principali del sistema si coordinano fra loro.
-%
-A seguire, si dettagliano alcune parti del design, quelle maggiormente rilevanti al fine di chiarificare la logica con cui sono stati affrontati i principali aspetti dell'applicazione.
-
-\section{Architettura}
-
-Questa sezione spiega come le componenti principali del software interagiscono fra loro.
-%
-In particolare, qui va spiegato \textbf{se} e \textbf{come} è stato utilizzato il pattern
-architetturale model-view-controller (e/o alcune sue declinazioni specifiche, come entity-control-boundary).
-
-Se non è stato utilizzato MVC, va spiegata in maniera molto accurata l'architettura scelta, giustificandola in modo appropriato.
-
-Se è stato scelto MVC, vanno identificate con precisione le interfacce e classi che rappresentano i punti d'ingresso per modello, view, e controller.
-Raccomandiamo di sfruttare la definizione del dominio fatta in fase di analisi per capire quale sia l'entry point del model, e di non realizzare un'unica macro-interfaccia che, spesso, finisce con l'essere il prodromo ad una ``God class''.
-%
-Consigliamo anche di separare bene controller e model, facendo attenzione a non includere nel secondo strategie d'uso che appartengono al primo.
-
-In questa sezione vanno descritte, per ciascun componente architetturale che ruoli ricopre (due o tre ruoli al massimo), ed in che modo interagisce (ossia, scambia informazioni) con gli altri componenti dell'architettura.
-%
-Raccomandiamo di porre particolare attenzione al design dell'interazione fra view e controller: se ben progettato, sostituire in blocco la view non dovrebbe causare alcuna modifica nel controller (tantomeno nel model).
-
-\subsection*{Elementi positivi}
-\begin{itemize}
- \item Si mostrano pochi, mirati schemi UML dai quali si deduce con chiarezza quali sono le parti principali del software e come interagiscono fra loro.
- \item Si mette in evidenza se e come il pattern architetturale model-view-controller è stato applicato, anche con l'uso di un UML che mostri le interfacce principali ed i rapporti fra loro.
- \item Si discute se sia semplice o meno, con l'architettura scelta, sostituire in blocco la view: in un MVC ben fatto, controller e modello non dovrebbero in alcun modo cambiare se si transitasse da una libreria grafica ad un'altra (ad esempio, da Swing a JavaFX, o viceversa).
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item L'architettura è fatta in modo che sia impossibile riusare il modello per un software diverso che affronta lo stesso problema.
- \item L'architettura è tale che l'aggiunta di una funzionalità sul controller impatta pesantemente su view e/o modello.
- \item L'architettura è tale che la sostituzione in blocco della view impatta sul controller o, peggio ancora, sul modello.
- \item Si presentano UML caotici, difficili da leggere.
- \item Si presentano UML in cui sono mostrati elementi di dettaglio non appartenenti all'architettura, ad esempio includenti campi o con metodi che non interessano la parte di interazione fra le componenti principali del software.
- \item Si presentano schemi UML con classi (nel senso UML del termine) che ``galleggiano'' nello schema, non connesse, ossia senza relazioni con il resto degli elementi inseriti.
- \item Si presentano elementi di design di dettaglio, ad esempio tutte le classi e interfacce del modello o della view.
- \item Si discutono aspetti implementativi, ad esempio eventuali librerie usate oppure dettagli di codice.
-\end{itemize}
-
-\subsection*{Esempio}
-
-L'architettura di GLaDOS segue il pattern architetturale MVC.
-%
-Più nello specifico, a livello architetturale, si è scelto di utilizzare MVC in forma ``ECB'', ossia ``entity-control-boundary''\footnote{
-Si fa presente che il pattern ECB effettivamente esiste in letteratura come ``istanza'' di MVC, e chi volesse può utilizzarlo come reificazione di MVC.
-}.
-%
-GLaDOS implementa l'interfaccia AI, ed è il controller del sistema.
-Essendo una intelligenza artificiale, è una classe attiva.
-%
-GLaDOS accetta la registrazione di Input ed Output, che fanno parte della ``view'' di MVC, e sono il ``boundary'' di ECB.
-Gli Input rappresentano delle nuove informazioni che vengono fornite all'IA, ad esempio delle modifiche nel valore di un sensore, oppure un comando da parte dell'operatore.
-Questi input infatti forniscono eventi.
-Ottenere un evento è un'operazione bloccante: chi la esegue resta in attesa di un effettivo evento.
-Di fatto, quindi, GLaDOS si configura come entità \textit{reattiva}.
-Ogni volta che c'è un cambio alla situazione del soggetto, GLaDOS notifica i suoi Output,
-informandoli su quale sia la situazione corrente.
-%
-Conseguentemente, GLaDOS è un ``observable'' per Output.
-
-\begin{figure}[h]
-\centering{}
-%\includegraphics[width=\textwidth]{img/arch}
-\caption{Schema UML architetturale di GLaDOS. L'interfaccia \texttt{GLaDOS} è il controller del sistema, mentre \texttt{Input} ed \texttt{Output} sono le interfacce che mappano la view (o, più correttamente in questo specifico esempio, il boundary). Un'eventuale interfaccia grafica interattiva dovrà implementarle entrambe.}
-\label{img:goodarch}
-\end{figure}
-
-Con questa architettura, possono essere aggiunti un numero arbitrario di input ed output
-all'intelligenza artificiale.
-%
-Ovviamente, mentre l'aggiunta di output è semplice e non richiede alcuna modifica all'IA, la
-presenza di nuovi tipi di evento richiede invece in potenza aggiunte o rifiniture a GLaDOS.
-%
-Questo è dovuto al fatto che nuovi Input rappresentano di fatto nuovi elementi della business
-logic, la cui alterazione od espansione inevitabilmente impatta il controller del progetto.
+	\centering{}
+	\makebox[\textwidth][c]{\includegraphics[width=0.75\textwidth]{img/MVC.png}}%
+	\caption{Our structure of MVC implementation}
+	\label{img:MVC}
+	\end{figure}
 
 %In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
