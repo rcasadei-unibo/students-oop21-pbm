@@ -137,6 +137,7 @@ Instead on the he part of controller, all views are accessible from a thread poo
 \section{Design dettagliato}
 
 \subsection*{Zhaohui Song}
+
 Since I started the project earlier than the others, I feel that I don't want the others to rewrite the same piece of code multiple times, so every design should at least satisfy DRY OCP, either for the Model or the GUI.
 %
 \\\\Some patterns are perfectly fit for my solution including the \textit{Factory method, Builder, Template method, Iterator, Strategy, Observer, and Decorato}r, I avoided \textit{singleton} as much as possible.
@@ -150,7 +151,7 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
 \subsubsection*{Generalise Account as much as possible and create my part InvestmentAccount}
 \begin{figure}[H]
 	\centering{}
-	\makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{img/invAccount.png}}%
+	\makebox[\textwidth][c]{\includegraphics[width=1.7\textwidth]{img/invAccount.png}}%
 	\caption{generalised Account}
 	\label{img:invAccount}
 	\end{figure}
@@ -161,8 +162,34 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
 
 	\paragraph*{Problem:} When this app is ready, I need to think about how to make a profit, depends on the current user's description plan, we may charge a fee to his trading operation, add a limit to the number of times, and add the limit amount for withdrawal, etc. 
 
-	\paragraph*{Solution:} As I will have multiple genres of investment Accounts, I create a factory that builds different investment accounts for me. Here I used \textbf{strategy} via lambda expression for how to charge a fee form client;
-	An initial state with a generic type to define based on what factor a limit can be added. The pattern used here consists of the \textbf{Factory method, template method, and strategy}. 
+	\paragraph*{Solution:} As I will have multiple genres of investment Accounts, I create a factory that builds different investment accounts for me. Here I used \textbf{strategy}(function and bipredicate) via lambda expression for how to charge a fee form client;
+	An initial state with a generic type to define based on what factor a limit can be added. The pattern used here consists of the \textbf{Factory method, template method}. 
+
+
+\subsubsection*{Need a place to trade stocks with the real-time price change}
+	\begin{figure}[H]
+	\centering{}
+	\makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{img/market.png}}%
+	\caption{market}
+	\label{img:market}
+	\end{figure}
+
+	\paragraph{Problem:} How to trade generalised assets with real-time prices
+
+	\paragraph*{Solution:} Here I generalize every kind of asset into class Equity, which can be either stock, cryptos, NFTs, commodities, ETFs, etc. All we need is a symbol and its price. As you see in the figure above, when a user trade with a symbol, assets will be added to the holding account, and money will be decreased in the corresponding investment account.
+
+\subsubsection*{A group of database to retrieve real world information}
+\begin{figure}[H]
+	\centering{}
+	\makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{img/EquityPool.png}}%
+	\caption{EquityPool}
+	\label{img:EquityPool}
+	\end{figure}
+
+	\paragraph{Problem:} How to query prices from more platforms
+
+	\paragraph*{Solution:}Using the design pattern \textbf{decorator} perfectly resolved this problem, firstly we search the price on our default platform Yahoo Finance. In the case we know that an asset may not be found there, we can add more layers for searching from other platforms. It's like a cache hit(how the CPU uses cache to find data in the memory). If the price can be found in the cache of level 1, then that's it, otherwise, it will searches from the cache level 2...n till the central memory. 
+	As an example, if a user were searching for a 10-year government bond, it's likely that it won't appear in the market. Then we can do Equity eq = new EquityPoolApiBond(new YahooFinancePool());  So we cover the searching as much as possible.
 
 
 \chapter{Sviluppo}
