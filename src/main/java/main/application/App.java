@@ -2,6 +2,7 @@ package main.application;
 
 import org.apache.log4j.BasicConfigurator;
 
+import main.charts.TestJson;
 import main.control.ControllerImpl;
 import main.view.JavaFxView;
 
@@ -15,6 +16,7 @@ public final class App {
 
     public static void main(final String[] args) {
         BasicConfigurator.configure();
+        //TestJson.proviamo();
         new ControllerImpl(args, new JavaFxView());
 
     }
