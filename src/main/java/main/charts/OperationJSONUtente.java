@@ -394,13 +394,13 @@ public class OperationJSONUtente {
                 
                 if (userName.equals(username)) {
                     
-                    JSONArray investimentAccounts = (JSONArray) person.get("investimentAccounts");
+                    JSONArray investimentAccounts = (JSONArray) person.get("InvestimentAccounts");
                     
                     for(Object a : investimentAccounts) {
                         
                         JSONObject investimentAccount = (JSONObject) a;
                         
-                        String nameInvAcc = investimentAccount.get("nameInvestimentAccount");
+                        String nameInvAcc = (String) investimentAccount.get("nameInvestimentAccount");
                         
                         if (nameInvAcc.equals(nameInvestimentAccount)) {
                             
@@ -539,12 +539,12 @@ public class OperationJSONUtente {
                     for (Object c: moneyBoxes) {
                         
                         JSONObject moneyBox = (JSONObject) c;
-                        String nameMoneyBox = (String) banckAccount.get("nameMoneyBox");
+                        String nameMBox = (String) moneyBox.get("nameMoneyBox");
                         //System.out.println(nameAccount);
                         
-                        if (nameMoneyBox.equals(nameMoneyBox)) {
+                        if (nameMBox.equals(nameMoneyBox)) {
                             
-                            JSONArray transactions = (JSONArray) banckAccount.get("transactions");
+                            JSONArray transactions = (JSONArray) moneyBox.get("transactions");
                             
                             JSONObject transaction = new JSONObject();
                             
