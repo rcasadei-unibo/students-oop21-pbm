@@ -44,14 +44,14 @@ public class TestJson {
         } else {
             System.out.println("controllo fallito");
         }
-        System.out.println("nuovo conto");
+        /*System.out.println("nuovo conto");
         prova.newBanckAccount("jedy","STAR BANK");
         System.out.println("altro nuovo conto");
         prova.newBanckAccount("jedy","banca dei ribelli");
         System.out.println("nuova operazione");
         prova.newBanckTransaction("jedy","STAR BANK", "acquisto millennium falco", -10000.56, "16/08/2022", "04:22");
         System.out.println("altra nuova operazione");
-        prova.newBanckTransaction("jedy","STAR BANK", "blaster", -100, "17/08/2022", "00:22");
+        prova.newBanckTransaction("jedy","STAR BANK", "blaster", -100, "17/08/2022", "00:22");*/
     }
 
     
