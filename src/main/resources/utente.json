@@ -57,7 +57,7 @@
 			"nameMoneyBox" : "Emmergenze",
 			"transactions" : [
 				{
-				"contractor" : "IntesaSanpaolo",
+				"nameTransaction" : "IntesaSanpaolo",
 				"amount" : 200,
 				"currency" : "euro",
 				"date" : "03/01/2022",
@@ -69,7 +69,7 @@
 			"nameMoneyBox" : "Vacanze",
 			"transactions" : [
 				{
-				"contractor" : "ethereum",
+				"nameTransaction" : "ethereum",
 				"amount" : 2,
 				"currency" : "eth",
 				"date" : "03/01/2022",
