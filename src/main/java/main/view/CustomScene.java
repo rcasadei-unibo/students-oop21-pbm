@@ -10,9 +10,20 @@ import javafx.scene.Scene;
  *
  */
 public interface CustomScene {
+    /**
+     * get Scene.
+     * @return Scene
+     */
     Scene getScene();
 
+    /**
+     * update every components on the GUI.
+     */
     void updateScene();
 
+    /**
+     * update everything that need results from model.
+     * @param things everything you can pass from controller.
+     */
     void updateEverythingNeeded(Queue<List<?>> things);
 }

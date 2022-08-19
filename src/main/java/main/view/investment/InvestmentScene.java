@@ -64,8 +64,52 @@ public class InvestmentScene extends BaseScene {
         updateScene();
     }
 
-    // interface and functionalities
-    private void createMenu() {
+    /**
+     * {@inheritDoc}
+     */
+    public void setMarketHoldings(final Queue<List<?>> updates) {
+        this.updateables = updates;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Scene getScene() {
+        return scene;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateEverythingNeeded(final Queue<List<?>> updates) {
+        setMarketHoldings(updates);
+        updateScene();
+        this.getPrimaryStage().setScene(scene);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateLeft() {
+        root.setLeft(super.getGadgets().createVerticalPanel());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateRight() {
+        root.setRight(super.getGadgets().createVerticalPanel());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateBottom() {
         final Pane bottomBar = getGadgets().createHorizontalPanel();
         final Button buy = getGadgets().createButton(BUY), sell = getGadgets().createButton(SELL);
         final TextField numberShare = new TextField("1.0");
@@ -101,20 +145,22 @@ public class InvestmentScene extends BaseScene {
         });
 
         bottomBar.getChildren().addAll(accountComboBox, symbolName, numberShare, buy, sell);
-        root.setTop(this.menuBar);
         root.setBottom(bottomBar);
-        System.out.println("\n\n\n");
     }
 
-    // content display that are updateble
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
-    private void createContentDisplay() {
+    @Override
+    public void updateCenter() {
         final Iterator<List<?>> iter = updateables.iterator();
         final List<String> symbols = (List<String>) iter.next();
 
         // maybe createScheda should have been built differently, but since it's for
         // GUI, not computational model,
         // I think a bit redundancy can't be avoided without losing flexibility;
+        @SuppressWarnings("unchecked")
         final Node n = getGadgets().createBlockScheda(getGadgets().createText(STOCKTITLE, TITLEFONTSIZE),
                 getGadgets().transformStringIntoText(desc, HEADERFONTSIZE),
                 getGadgets().transformStringIntoText(symbols, TEXTFONTSIZE),
@@ -130,43 +176,12 @@ public class InvestmentScene extends BaseScene {
         root.setCenter(n);
     }
 
-    public void setMarketHoldings(final Queue<List<?>> updates) {
-        this.updateables = updates;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Scene getScene() {
-        createContentDisplay();
-        return scene;
-    }
-
-    @Override
-    public void updateEverythingNeeded(final Queue<List<?>> updates) {
-        setMarketHoldings(updates);
-        createContentDisplay();
-        updateScene();
-        this.getPrimaryStage().setScene(scene);
-    }
-
-    @Override
-    public void updateLeft() {
-
-        root.setLeft(super.getGadgets().createVerticalPanel());
-    }
-
-    @Override
-    public void updateRight() {
-        root.setRight(super.getGadgets().createVerticalPanel());
-    }
-
-    @Override
-    public void updateBottom() {
-
-    }
-
-    @Override
-    public void updateCenter() {
-        createMenu();
+    protected void updateTop() {
+        root.setTop(menuBar);
     }
 
 }

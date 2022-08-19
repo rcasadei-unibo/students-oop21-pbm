@@ -38,33 +38,73 @@ public abstract class BaseScene implements CustomScene {
     @Override
     public abstract Scene getScene();
 
+    /**
+     * get main scene.
+     * 
+     * @return scene
+     */
     protected Scene getMainScene() {
         return mainScene;
     }
 
+    /**
+     * get main stage.
+     * 
+     * @return stage.
+     */
     protected Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * get gui factory. that creates JavaFX components.
+     * 
+     * @return GUIFactory
+     */
     protected GUIFactory getGadgets() {
         return gadgets;
     }
 
+    /**
+     * return the current main controller of the application.
+     * 
+     * @return controller
+     */
     protected Controller getController() {
         return this.controller;
     }
 
+    /**
+     * update the top part of the border pane.
+     */
+    protected abstract void updateTop();
+
+    /**
+     * update the bottom part of the border pane.
+     */
     protected abstract void updateBottom();
 
+    /**
+     * update the center part of the border pane.
+     */
     protected abstract void updateCenter();
 
+    /**
+     * update the left part of the border pane.
+     */
     protected abstract void updateLeft();
 
+    /**
+     * update the right part of the border pane.
+     */
     protected abstract void updateRight();
 
+    /**
+     * update every component of the scene.
+     */
     @Override
     public void updateScene() {
-        // this.updateTop();
+        this.updateTop();
         this.updateBottom();
         this.updateCenter();
         this.updateLeft();
