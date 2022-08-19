@@ -37,11 +37,9 @@ public class JavaFxView extends Application implements View {
     private static volatile Controller controller;
     private static volatile CustomScene investScene;
     private Pane menuBar;
-    private PageState pageState;
 
     public JavaFxView() {
         super();
-        pageState = PageState.PROFILE;
     }
 
     @Override
@@ -62,8 +60,8 @@ public class JavaFxView extends Application implements View {
             controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(root, mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
-                Screen.getPrimary().getBounds().getHeight(), controller);
+        investScene = new InvestmentScene(root, mainScene, stage, createMenuBar(),
+                Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight(), controller);
     }
 
     private Pane createMenuBar() {
@@ -72,7 +70,7 @@ public class JavaFxView extends Application implements View {
                 bankAccount = guiFactory.createButton("Conti Bancari"), expenses = guiFactory.createButton("Spese"),
                 savings = guiFactory.createButton("Salvadanai");
 
-        investment.setOnAction(e -> getInvestmentPage());
+        investment.setOnAction(e -> investmentPage());
         profilo.setOnAction(e -> getProfilePage());
         bankAccount.setOnAction(e -> getBankAccountPage());
         expenses.setOnAction(e -> getExpenditurePage());
@@ -90,13 +88,13 @@ public class JavaFxView extends Application implements View {
         return new MainScene(controller).getScene();
     }
 
-    private void getInvestmentPage() {
-        this.pageState = PageState.INVEST;
+    private void investmentPage() {
         controller.updateMarketInfo();
     }
 
     private void getProfilePage() {
         controller.showProfile(this.root);
+        System.out.println(root);
     }
 
     private void getBankAccountPage() {
@@ -121,14 +119,11 @@ public class JavaFxView extends Application implements View {
         launch(args);
     }
 
-    @Override
-    public void marketUpdates(final Queue<List<?>> queue) {
-
+    private void marketUpdates(final Queue<List<?>> queue) {
         Platform.runLater(() -> {
             try {
                 investScene.updateEverythingNeeded(queue);
-                //stage.setScene(investScene.getScene());
-                investScene.updateScene();
+                // stage.setScene(investScene.getScene());
             } catch (IllegalArgumentException e) {
                 showMessage("something went wrong, cound't update the market info, please check out your internet.");
             }
@@ -143,8 +138,8 @@ public class JavaFxView extends Application implements View {
     }
 
     @Override
-    public void updateView(final Optional<Queue<List<?>>> queue) {
-        switch (this.pageState) {
+    public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
+        switch (pageState) {
         case PROFILE:
             break;
         case BANKACCOUNT:

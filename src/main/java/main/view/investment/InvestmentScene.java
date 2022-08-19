@@ -61,11 +61,10 @@ public class InvestmentScene extends BaseScene {
         this.accountBox = FXCollections.observableArrayList();
         accountComboBox = new ComboBox<>(accountBox);
         symbolName = new AutoCompleteTextField();
-        createMenu();
+        updateScene();
     }
 
     // interface and functionalities
-    @SuppressWarnings("unchecked")
     private void createMenu() {
         final Pane bottomBar = getGadgets().createHorizontalPanel();
         final Button buy = getGadgets().createButton(BUY), sell = getGadgets().createButton(SELL);
@@ -102,9 +101,9 @@ public class InvestmentScene extends BaseScene {
         });
 
         bottomBar.getChildren().addAll(accountComboBox, symbolName, numberShare, buy, sell);
-
         root.setTop(this.menuBar);
         root.setBottom(bottomBar);
+        System.out.println("\n\n\n");
     }
 
     // content display that are updateble
@@ -144,30 +143,30 @@ public class InvestmentScene extends BaseScene {
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> updates) {
         setMarketHoldings(updates);
-        createMenu();
+        createContentDisplay();
+        updateScene();
+        this.getPrimaryStage().setScene(scene);
     }
 
     @Override
     public void updateLeft() {
-        createMenu();
+
+        root.setLeft(super.getGadgets().createVerticalPanel());
     }
 
     @Override
     public void updateRight() {
-        // TODO Auto-generated method stub
-
+        root.setRight(super.getGadgets().createVerticalPanel());
     }
 
     @Override
     public void updateBottom() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void updateCenter() {
-        // TODO Auto-generated method stub
-
+        createMenu();
     }
 
 }

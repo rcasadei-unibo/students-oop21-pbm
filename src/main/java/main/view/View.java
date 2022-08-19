@@ -13,8 +13,6 @@ import main.control.Controller;
  */
 public interface View {
 
-    void marketUpdates(Queue<List<?>> queue);
-
     /**
      * @param observer the controller to attach
      */
@@ -24,6 +22,6 @@ public interface View {
 
     void showMessage(String message);
 
-    void updateView(Optional<Queue<List<?>>> queue);
+    void updateView(Optional<Queue<List<?>>> queue, PageState pageState);
 
 }

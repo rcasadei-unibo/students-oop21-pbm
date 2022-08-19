@@ -47,6 +47,7 @@ import main.model.profile.ProfileEconomyImpl;
 import main.model.profile.SimplePassword;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
+import main.view.PageState;
 import main.view.View;
 import main.view.profile.LoginScene;
 import main.view.profile.PasswordChangeView;
@@ -56,7 +57,7 @@ public class ControllerImpl implements Controller {
 
     private ProfileEconomy profile;
 
-    private ProfileCredentials profileCred; //these two cannot be final if we want to change profile
+    private ProfileCredentials profileCred; // these two cannot be final if we want to change profile
 
     private final List<View> views;
     private final Market market;
@@ -64,6 +65,7 @@ public class ControllerImpl implements Controller {
     private final InvestmentViewObserver ivo;
     private static final int refleshRate = 5000;
     private static final int NUMTHREADS = 10;
+    private PageState pageState;
     // when we access database to retain some symbols that may takes a lot of times,
     // If an user keeps spamming for the same task, by keeping create new threads,
     // may
@@ -85,7 +87,7 @@ public class ControllerImpl implements Controller {
         market = new MarketImpl();
         ep = new EquityPoolStock();
         ivo = new InvestmentViewObserverimpl(profile);
-
+        pageState = PageState.PROFILE;
 //        update something every s seconds, to use this, i need to create 
 //      an enum class to switch interface states.. along with message boxes,
 //          let's see if i have enough time to do it..
@@ -96,8 +98,8 @@ public class ControllerImpl implements Controller {
 //            }
 //        }, 0, refleshRate);
 
-        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mariorossi@studio.unibo.it", new SimplePassword("SuperMario"));
-
+        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mariorossi@studio.unibo.it",
+                new SimplePassword("SuperMario"));
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree("Etoro");
@@ -196,8 +198,9 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void updateMarketInfo() {
-        final InvestmentViewObserver ivo = new InvestmentViewObserverimpl(this.profile);
-
+        // final InvestmentViewObserver ivo = new
+        // InvestmentViewObserverimpl(this.profile);
+        pageState = PageState.INVEST;
         final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override
             public Queue<List<?>> call() {
@@ -215,20 +218,20 @@ public class ControllerImpl implements Controller {
         };
 
         task.setOnSucceeded(e -> {
-            this.updateView(task);
+            updateView(task);
         });
         // new Thread(task).start();
         executor.execute(task);
     }
     
     private void updateView(final Task<Queue<List<?>>> task) {
-        views.forEach(v -> v.updateView(Optional.of(task.getValue())));
+        views.forEach(v -> v.updateView(Optional.of(task.getValue()), this.pageState));
     }
 
     @Override
     public void terminateApp() {
         executor.shutdown();
-        //save files.. to be implemented.
+        // save files.. to be implemented.
     }
 
     @Override
@@ -237,7 +240,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void registerProfile(final String name, final String surname, final String fc, final String eMail, final String password) {
+    public void registerProfile(final String name, final String surname, final String fc, final String eMail,
+            final String password) {
         this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
         this.profile = new ProfileEconomyImpl();
     }
@@ -245,7 +249,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void accessProfile(final String eMail, final String password) {
         // this is just a version to let the application run
-        //this method needs to retrieve the user profile from json database
+        // this method needs to retrieve the user profile from json database
 
     }
 

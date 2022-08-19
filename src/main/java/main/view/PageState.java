@@ -19,9 +19,9 @@ public enum PageState {
      */
     BANKACCOUNT("BANKACCOUNT");
 
-    private final String state;
+    private String state;
 
-     PageState(final String state) {
+    PageState(final String state) {
         this.state = state;
     }
 
@@ -31,4 +31,9 @@ public enum PageState {
     public String getState() {
         return state;
     }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
 }

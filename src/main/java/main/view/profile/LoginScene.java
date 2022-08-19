@@ -10,6 +10,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
+import main.view.MainScene;
 import main.control.Controller;
 
 public class LoginScene {
@@ -56,5 +57,6 @@ public class LoginScene {
 
     public Scene getScene() {
         return new Scene(this.root, Screen.getPrimary().getBounds().getWidth() / W_RATIO, Screen.getPrimary().getBounds().getHeight() / H_RATIO);
+        
     }
 }
