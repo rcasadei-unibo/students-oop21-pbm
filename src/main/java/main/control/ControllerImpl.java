@@ -146,7 +146,7 @@ public class ControllerImpl implements Controller {
                                 new OrderImpl(stock.get(), shares));
                         updateMarketInfo();
                     } catch (final NotEnoughFundsException e) {
-                        views.forEach(x -> x.showMessage("Your money wan't enough! :("));
+                        views.forEach(x -> x.showMessage(e.toString()));
                     }
                 } else {
                     views.forEach(x -> x.showMessage("This symbol doesn't exist! :("));
@@ -173,7 +173,7 @@ public class ControllerImpl implements Controller {
                     updateMarketInfo();
                 } catch (final NotEnoughSharesException e) {
                     // not enough share
-                    views.forEach(x -> x.showMessage("Your shares wan't enough! :("));
+                    views.forEach(x -> x.showMessage(e.toString()));
                 } catch (final IllegalStateException e) {
                     // no symbol specified
                     views.forEach(x -> x.showMessage("No symbol specified! :("));

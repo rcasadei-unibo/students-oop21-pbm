@@ -38,7 +38,6 @@ public class JavaFxView extends Application implements View {
 
     public JavaFxView() {
         super();
-
     }
 
     @Override
@@ -55,7 +54,7 @@ public class JavaFxView extends Application implements View {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(event -> {
-            System.out.println("Stage is closing");
+            controller.terminateApp();
         });
 
         investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),

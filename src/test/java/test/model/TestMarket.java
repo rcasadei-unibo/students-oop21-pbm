@@ -12,6 +12,7 @@ import javafx.util.Pair;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
+import main.model.account.NotEnoughSharesException;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
 import main.model.market.EquityPoolStock;
@@ -57,7 +58,7 @@ public class TestMarket {
 		try {
 			market.sellAsset(acc1, hacc1, o);
 			fail();
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | NotEnoughSharesException e) {
 			//e.printStackTrace();
 		}
 		o = new OrderImpl(ep.getEquity("TSLA").get(), 0.2);
@@ -65,7 +66,12 @@ public class TestMarket {
 		assertEquals(0, hacc1.howManyShares("TSLA"));
 
 		o = new OrderImpl(ep.getEquity("GME").get(), 5.00001);
-		market.sellAsset(acc1, hacc1, o);
+		try {
+		    market.sellAsset(acc1, hacc1, o);
+		    fail();
+		}catch(final NotEnoughSharesException e) {
+		    
+		}
 		assertEquals(5, hacc1.howManyShares("GME"));
 		o = new OrderImpl(ep.getEquity("GME").get(), 4.9);
 		market.sellAsset(acc1, hacc1, o);
