@@ -135,6 +135,9 @@ public class ControllerImpl implements Controller {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void buyStocks(final String symbol, final double shares, final String accountID) {
 
@@ -162,6 +165,9 @@ public class ControllerImpl implements Controller {
         executor.execute(task);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sellStocks(final String symbol, final double shares, final String accountID) {
 
@@ -196,6 +202,9 @@ public class ControllerImpl implements Controller {
         return profile.getHoldingAccounts().stream().filter(x -> x.getID().equals(accountID)).findFirst().get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateMarketInfo() {
         // final InvestmentViewObserver ivo = new
@@ -223,11 +232,14 @@ public class ControllerImpl implements Controller {
         // new Thread(task).start();
         executor.execute(task);
     }
-    
+
     private void updateView(final Task<Queue<List<?>>> task) {
         views.forEach(v -> v.updateView(Optional.of(task.getValue()), this.pageState));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void terminateApp() {
         executor.shutdown();
