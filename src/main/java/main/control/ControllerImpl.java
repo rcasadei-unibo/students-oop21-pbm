@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -63,7 +65,7 @@ public class ControllerImpl implements Controller {
     private final Market market;
     private final EquityPool ep;
     private final InvestmentViewObserver ivo;
-    private static final int refleshRate = 5000;
+    private static final int refleshRate = 1000;
     private static final int NUMTHREADS = 10;
     private PageState pageState;
     // when we access database to retain some symbols that may takes a lot of times,
@@ -94,7 +96,8 @@ public class ControllerImpl implements Controller {
 //        new Timer().schedule(new TimerTask() {
 //            @Override
 //            public void run() {
-//                updateMarketInfo();
+//                if (pageState == PageState.INVEST)
+//                    updateMarketInfo();
 //            }
 //        }, 0, refleshRate);
 
