@@ -61,7 +61,6 @@ public class InvestmentScene extends BaseScene {
         this.accountBox = FXCollections.observableArrayList();
         accountComboBox = new ComboBox<>(accountBox);
         symbolName = new AutoCompleteTextField();
-        updateScene();
     }
 
     /**

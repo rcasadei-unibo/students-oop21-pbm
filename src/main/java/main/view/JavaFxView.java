@@ -41,10 +41,8 @@ public class JavaFxView extends Application implements View {
     public JavaFxView() {
         super();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+   
+   
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
