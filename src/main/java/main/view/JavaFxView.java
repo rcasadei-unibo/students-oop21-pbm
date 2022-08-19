@@ -27,17 +27,21 @@ import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 
-    //in order to avoid using static here, We need a way to call controller on the main application thread
-    //otherwise it will be null for those components who is calling this object from the Javafx thread.
+    // in order to avoid using static here, We need a way to call controller on the
+    // main application thread
+    // otherwise it will be null for those components who is calling this object
+    // from the Javafx thread.
     private static volatile GUIFactory guiFactory;
     private BorderPane root;
     private static volatile Stage stage;
     private static volatile Controller controller;
     private static volatile CustomScene investScene;
     private Pane menuBar;
+    private PageState pageState;
 
     public JavaFxView() {
         super();
+        pageState = PageState.PROFILE;
     }
 
     @Override
@@ -48,6 +52,7 @@ public class JavaFxView extends Application implements View {
 
         final Scene mainScene = getMainScene();
         stage = primaryStage;
+        this.root = new BorderPane();
         primaryStage.setTitle("Bugmate - personal use");
         primaryStage.setScene(getLoginScene(primaryStage, mainScene));
         primaryStage.centerOnScreen();
@@ -57,7 +62,7 @@ public class JavaFxView extends Application implements View {
             controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
+        investScene = new InvestmentScene(root, mainScene, stage, createMenuBar(), Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight(), controller);
     }
 
@@ -86,6 +91,7 @@ public class JavaFxView extends Application implements View {
     }
 
     private void getInvestmentPage() {
+        this.pageState = PageState.INVEST;
         controller.updateMarketInfo();
     }
 
@@ -121,7 +127,8 @@ public class JavaFxView extends Application implements View {
         Platform.runLater(() -> {
             try {
                 investScene.updateEverythingNeeded(queue);
-                stage.setScene(investScene.getScene());
+                //stage.setScene(investScene.getScene());
+                investScene.updateScene();
             } catch (IllegalArgumentException e) {
                 showMessage("something went wrong, cound't update the market info, please check out your internet.");
             }
@@ -133,6 +140,23 @@ public class JavaFxView extends Application implements View {
     public void showMessage(final String message) {
         Platform.runLater(() -> guiFactory.createInformationBox(message).showAndWait());
 
+    }
+
+    @Override
+    public void updateView(final Optional<Queue<List<?>>> queue) {
+        switch (this.pageState) {
+        case PROFILE:
+            break;
+        case BANKACCOUNT:
+            break;
+        case EXPENSE:
+            break;
+        case INVEST:
+            this.marketUpdates(queue.get());
+            break;
+        default:
+            break;
+        }
     }
 
 }

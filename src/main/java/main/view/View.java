@@ -3,6 +3,8 @@ package main.view;
 import java.util.List;
 import java.util.Queue;
 
+import com.google.common.base.Optional;
+
 import main.control.Controller;
 
 /**
@@ -19,7 +21,9 @@ public interface View {
     void setObserver(Controller observer);
 
     void show(String[] args);
-    
+
     void showMessage(String message);
+
+    void updateView(Optional<Queue<List<?>>> queue);
 
 }

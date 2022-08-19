@@ -215,10 +215,14 @@ public class ControllerImpl implements Controller {
         };
 
         task.setOnSucceeded(e -> {
-            views.forEach(v -> v.marketUpdates(task.getValue()));
+            this.updateView(task);
         });
         // new Thread(task).start();
         executor.execute(task);
+    }
+    
+    private void updateView(final Task<Queue<List<?>>> task) {
+        views.forEach(v -> v.updateView(Optional.of(task.getValue())));
     }
 
     @Override

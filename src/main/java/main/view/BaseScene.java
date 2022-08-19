@@ -54,4 +54,21 @@ public abstract class BaseScene implements CustomScene {
         return this.controller;
     }
 
+    protected abstract void updateBottom();
+
+    protected abstract void updateCenter();
+
+    protected abstract void updateLeft();
+
+    protected abstract void updateRight();
+
+    @Override
+    public void updateScene() {
+        // this.updateTop();
+        this.updateBottom();
+        this.updateCenter();
+        this.updateLeft();
+        this.updateRight();
+    }
+
 }
