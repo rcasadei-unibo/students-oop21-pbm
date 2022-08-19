@@ -10,6 +10,7 @@ public class TransactionJson {
         this.nameTransaction = nameTransaction;
         this.date = date;
         this.time = time;
+        this.currency = "euro";
     }
     
     TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
