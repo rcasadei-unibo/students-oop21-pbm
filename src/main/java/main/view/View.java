@@ -18,10 +18,25 @@ public interface View {
      */
     void setObserver(Controller observer);
 
+    /**
+     * start the views.
+     * @param args commands
+     */
     void show(String[] args);
 
+    /**
+     * Show the message box.
+     * 
+     * @param message the message to show.
+     */
     void showMessage(String message);
 
+    /**
+     * Update every components to sub customScenes.
+     * @param queue you check deliverable package, that get infinite element of arguments with arbitrary type.
+     * It's my best solution :)
+     * @param pageState The state to show which page should be updated.
+     */
     void updateView(Optional<Queue<List<?>>> queue, PageState pageState);
 
 }

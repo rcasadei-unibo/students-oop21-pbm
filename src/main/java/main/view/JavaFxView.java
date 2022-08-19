@@ -42,6 +42,9 @@ public class JavaFxView extends Application implements View {
         super();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
@@ -109,11 +112,17 @@ public class JavaFxView extends Application implements View {
         guiFactory.createInformationBox("da implementare giulio").showAndWait();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setObserver(final Controller observer) {
         controller = observer;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show(final String[] args) {
         launch(args);
@@ -131,12 +140,18 @@ public class JavaFxView extends Application implements View {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showMessage(final String message) {
         Platform.runLater(() -> guiFactory.createInformationBox(message).showAndWait());
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         switch (pageState) {
