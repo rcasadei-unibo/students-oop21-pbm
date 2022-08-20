@@ -3,6 +3,7 @@ package main.view;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
@@ -12,7 +13,7 @@ public abstract class BaseScene implements CustomScene {
     private final Stage primaryStage;
     private final GUIFactory gadgets;
     private final Controller controller;
-
+    private final Pane menuBar;
 
     public BaseScene(final Stage primaryStage, final Controller controller) {
         super();
@@ -23,6 +24,7 @@ public abstract class BaseScene implements CustomScene {
         this.controller = controller;
 
         // create some common UI for everybody :)
+        menuBar = new MainScene(primaryStage, controller).getMenuBar();
     }
 
     @Override
@@ -92,6 +94,15 @@ public abstract class BaseScene implements CustomScene {
             this.updateLeft();
             this.updateRight();
         });
+    }
+
+    /**
+     * get menu for everyone.
+     * 
+     * @return pane javafx
+     */
+    public Pane getMenuBar() {
+        return menuBar;
     }
 
 }

@@ -42,13 +42,11 @@ public class InvestmentScene extends BaseScene {
     private final BorderPane root;
     private Queue<List<?>> updateables;
     private final ObservableList<String> accountBox;
-    private final Pane menuBar;
     private final Scene scene;
     private final AutoCompleteTextField symbolName;
     private final ComboBox<String> accountComboBox;
 
-    public InvestmentScene(final BorderPane root, final Stage primaryStage, final Pane menuBar,
-            final Controller controller) {
+    public InvestmentScene(final BorderPane root, final Stage primaryStage, final Controller controller) {
         super(primaryStage, controller);
         desc = new ArrayList<>();
         desc.add(SYMBOL);
@@ -57,7 +55,6 @@ public class InvestmentScene extends BaseScene {
         desc.add(VALUE);
         this.root = root;
         scene = getGadgets().createScene(root);
-        this.menuBar = menuBar;
         this.accountBox = FXCollections.observableArrayList();
         accountComboBox = new ComboBox<>(accountBox);
         symbolName = new AutoCompleteTextField();
@@ -85,7 +82,7 @@ public class InvestmentScene extends BaseScene {
     public void updateEverythingNeeded(final Queue<List<?>> updates) {
         setMarketHoldings(updates);
         updateScene();
-        this.getPrimaryStage().setScene(scene);
+        super.getPrimaryStage().setScene(scene);
     }
 
     /**
@@ -180,7 +177,9 @@ public class InvestmentScene extends BaseScene {
      */
     @Override
     protected void updateTop() {
-        root.setTop(menuBar);
+       root.setTop(super.getMenuBar());
     }
+
+ 
 
 }

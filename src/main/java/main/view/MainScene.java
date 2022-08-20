@@ -67,4 +67,8 @@ public class MainScene {
     private void getSavingPage() {
         guiFactory.createInformationBox("da implementare giulio").showAndWait();
     }
+
+    public final Pane getMenuBar() {
+        return createMenuBar();
+    }
 }

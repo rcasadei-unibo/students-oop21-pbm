@@ -19,6 +19,7 @@ public class ProfilePage {
     private static final int TITLE_DIM = 15;
 
     private final Controller controller;
+    
 
     public ProfilePage(final Stage primaryStage, final BorderPane root, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),

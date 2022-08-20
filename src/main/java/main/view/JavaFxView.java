@@ -7,23 +7,21 @@ import com.google.common.base.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.control.Controller;
 import main.control.ControllerImpl;
 import main.view.investment.InvestmentScene;
 import main.view.profile.LoginScene;
+import main.view.profile.ProfileScene;
 
 public class JavaFxView extends Application implements View {
 
     private GUIFactory guiFactory;
-    private BorderPane root;
-    private Stage stage;
     private volatile Controller controller;
     private volatile CustomScene investScene;
+    private volatile CustomScene profileScene;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
@@ -31,10 +29,11 @@ public class JavaFxView extends Application implements View {
                 Screen.getPrimary().getBounds().getHeight());
         guiFactory = b.build();
 
+        final Stage stage = primaryStage;
         controller = new ControllerImpl(this);
-        final Scene mainScene = getMainScene();
-        stage = primaryStage;
-        this.root = new BorderPane();
+        final BorderPane root = new BorderPane();
+        final Scene mainScene = getMainScene(stage);
+
         primaryStage.setTitle("Bugmate - personal use");
         primaryStage.setScene(getLoginScene(primaryStage, mainScene));
         primaryStage.centerOnScreen();
@@ -44,22 +43,8 @@ public class JavaFxView extends Application implements View {
             controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(root, stage, createMenuBar(), controller);
-    }
-
-    private Pane createMenuBar() {
-        final Pane menuBar = guiFactory.createHorizontalPanel();
-        final Button investment = guiFactory.createButton("Investmenti"), profilo = guiFactory.createButton("Profilo"),
-                bankAccount = guiFactory.createButton("Conti Bancari"), expenses = guiFactory.createButton("Spese"),
-                savings = guiFactory.createButton("Salvadanai");
-
-        investment.setOnAction(e -> investmentPage());
-        profilo.setOnAction(e -> getProfilePage());
-        bankAccount.setOnAction(e -> getBankAccountPage());
-        expenses.setOnAction(e -> getExpenditurePage());
-        savings.setOnAction(e -> getSavingPage());
-        menuBar.getChildren().addAll(profilo, investment, expenses, bankAccount, savings);
-        return menuBar;
+        investScene = new InvestmentScene(new BorderPane(), stage, controller);
+        profileScene = new ProfileScene(new BorderPane(), stage, controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
@@ -67,29 +52,9 @@ public class JavaFxView extends Application implements View {
         return loginscene.getScene();
     }
 
-    private Scene getMainScene() {
+    private Scene getMainScene(final Stage stage) {
         return new MainScene(stage, controller).getScene();
-    }
 
-    private void investmentPage() {
-        controller.updateMarketInfo();
-    }
-
-    private void getProfilePage() {
-        controller.showProfile(stage, this.root);
-        System.out.println(root);
-    }
-
-    private void getBankAccountPage() {
-        guiFactory.createInformationBox("da implementare giulio").showAndWait();
-    }
-
-    private void getExpenditurePage() {
-        guiFactory.createInformationBox("da implementare paolo").showAndWait();
-    }
-
-    private void getSavingPage() {
-        guiFactory.createInformationBox("da implementare giulio").showAndWait();
     }
 
     /**
@@ -116,6 +81,7 @@ public class JavaFxView extends Application implements View {
     public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         switch (pageState) {
         case PROFILE:
+            profileScene.updateEverythingNeeded(null);
             break;
         case BANKACCOUNT:
             break;

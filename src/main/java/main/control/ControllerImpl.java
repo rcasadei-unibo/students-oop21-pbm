@@ -66,7 +66,6 @@ public class ControllerImpl implements Controller {
     private final InvestmentViewObserver ivo;
     private static final int refleshRate = 1000;
     private static final int NUMTHREADS = 10;
-    private PageState pageState;
     // when we access database to retain some symbols that may takes a lot of times,
     // If an user keeps spamming for the same task, by keeping create new threads,
     // may
@@ -88,7 +87,7 @@ public class ControllerImpl implements Controller {
         market = new MarketImpl();
         ep = new EquityPoolStock();
         ivo = new InvestmentViewObserverimpl(profile);
-        pageState = PageState.PROFILE;
+
 //        update something every s seconds, to use this, i need to create 
 //      an enum class to switch interface states.. along with message boxes,
 //          let's see if i have enough time to do it..
@@ -129,10 +128,10 @@ public class ControllerImpl implements Controller {
         profile.addHoldingAccount(hAcc2);
         profile.addInvestmentAccount(invAcc2);
 
-       this.views = List.of(Arrays.copyOf(views, views.length));
+        this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
-            //view.show(args);
+            // view.show(args);
         }
 
     }
@@ -209,9 +208,6 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void updateMarketInfo() {
-        // final InvestmentViewObserver ivo = new
-        // InvestmentViewObserverimpl(this.profile);
-        pageState = PageState.INVEST;
         final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override
             public Queue<List<?>> call() {
@@ -229,14 +225,14 @@ public class ControllerImpl implements Controller {
         };
 
         task.setOnSucceeded(e -> {
-            updateView(task);
+            updateView(task, PageState.INVEST);
         });
-        // new Thread(task).start();
+
         executor.execute(task);
     }
 
-    private void updateView(final Task<Queue<List<?>>> task) {
-        views.forEach(v -> v.updateView(Optional.of(task.getValue()), this.pageState));
+    private void updateView(final Task<Queue<List<?>>> task, final PageState pageState) {
+        views.forEach(v -> v.updateView(Optional.fromNullable(task.getValue()), pageState));
     }
 
     /**
@@ -250,7 +246,16 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void showProfile(final Stage stage, final BorderPane root) {
-        new ProfilePage(stage, root, this);
+
+        final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
+            @Override
+            public Queue<List<?>> call() {
+
+                return new LinkedList<>();
+            }
+        };
+        updateView(task, PageState.PROFILE);
+
     }
 
     @Override
