@@ -1,5 +1,6 @@
 package main.view;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
@@ -104,11 +105,13 @@ public abstract class BaseScene implements CustomScene {
      */
     @Override
     public void updateScene() {
-        this.updateTop();
-        this.updateBottom();
-        this.updateCenter();
-        this.updateLeft();
-        this.updateRight();
+        Platform.runLater(() -> {
+            this.updateTop();
+            this.updateBottom();
+            this.updateCenter();
+            this.updateLeft();
+            this.updateRight();
+        });
     }
 
 }

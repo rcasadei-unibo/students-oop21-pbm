@@ -74,7 +74,7 @@ public class ControllerImpl implements Controller {
     // will be used
     private final ExecutorService executor;
 
-    public ControllerImpl(final String[] args, final View... views) {
+    public ControllerImpl(final View... views) {
         super();
 
         executor = Executors.newFixedThreadPool(NUMTHREADS);
@@ -129,10 +129,10 @@ public class ControllerImpl implements Controller {
         profile.addHoldingAccount(hAcc2);
         profile.addInvestmentAccount(invAcc2);
 
-        this.views = List.of(Arrays.copyOf(views, views.length));
+       this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
-            view.show(args);
+            //view.show(args);
         }
 
     }
