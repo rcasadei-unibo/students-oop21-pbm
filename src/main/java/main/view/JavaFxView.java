@@ -30,7 +30,7 @@ public class JavaFxView extends Application implements View {
         guiFactory = b.build();
 
        
-        controller = new ControllerImpl(this);
+        controller = new ControllerImpl(this, new Logger());
       
 
         primaryStage.setTitle("Bugmate - personal use");
