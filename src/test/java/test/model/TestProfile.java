@@ -98,7 +98,7 @@ public class TestProfile {
         try {
             pc.changePassword(NEW_PWORD, NEW_PWORD, PWORD);
             //rimetto la pword originale
-            pc.changePassword(PWORD, PWORD, PWORD);
+            pc.changePassword(PWORD, PWORD, NEW_PWORD);
         } catch (IllegalArgumentException e) {
             fail("Qualcosa è andato storto in OldPassword");
         }
