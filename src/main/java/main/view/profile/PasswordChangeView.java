@@ -54,13 +54,14 @@ public class PasswordChangeView {
         top.getChildren().addAll(choiceBox, id, password, confirmPass);
 
         choiceBox.setOnAction(e -> {
-            if (choiceBox.getValue() == EMAIL) {
+            final String value = choiceBox.getValue();
+            if (EMAIL.equals(value)) {
                 id.setPromptText(EMAIL);
             }
-            if (choiceBox.getValue() == CURRENT_PASSWORD) {
+            if (CURRENT_PASSWORD.equals(value)) {
                 id.setPromptText(CURRENT_PASSWORD);
             }
-            if (choiceBox.getValue() == FISCAL_CODE) {
+            if (FISCAL_CODE.equals(value)) {
                 id.setPromptText(FISCAL_CODE);
             }
         });
@@ -87,21 +88,4 @@ public class PasswordChangeView {
         stage.centerOnScreen();
         stage.showAndWait();
     }
-
-
-//    private void changePassword(final ChoiceBox<String> choiceBox) {
-//        if (choiceBox.getValue() == EMAIL) {
-//            final PasswordChanger byEmail = new PasswordChanger(new PasswordChangeByEmail(this.profileCred));
-//            byEmail.changePassword(password.getText(), confirmPass.getText(), id.getText());
-//        } else if (choiceBox.getValue() == CURRENT_PASSWORD) {
-//            final PasswordChanger byPassword = new PasswordChanger(new PasswordChangeByOldPassword(this.profileCred));
-//            byPassword.changePassword(password.getText(), confirmPass.getText(), id.getText());
-//        } else if (choiceBox.getValue() == FISCAL_CODE) {
-//            final PasswordChanger byFC = new PasswordChanger(new PasswordChangeByFC(this.profileCred));
-//            byFC.changePassword(password.getText(), confirmPass.getText(), id.getText());
-//        } else {
-//            this.guiFactory.createInformationBox("Selezionare la metodologia di sostituzione della password").showAndWait();
-//        }
-//    }
-
 }

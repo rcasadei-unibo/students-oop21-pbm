@@ -51,7 +51,6 @@ import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
 import main.view.PageState;
 import main.view.View;
-import main.view.profile.LoginScene;
 import main.view.profile.PasswordChangeView;
 import main.view.profile.ProfilePage;
 
@@ -250,15 +249,15 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void showProfile(final BorderPane root) {
-        new ProfilePage(root, this);
+    public void showProfile(final Stage stage, final BorderPane root) {
+        new ProfilePage(stage, root, this);
     }
 
     @Override
     public void registerProfile(final String name, final String surname, final String fc, final String eMail,
             final String password) {
         this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
-        this.profile = new ProfileEconomyImpl();
+//        this.profile = new ProfileEconomyImpl(); 
     }
 
     @Override
@@ -296,5 +295,10 @@ public class ControllerImpl implements Controller {
             changer = new PasswordChanger(new PasswordChangeByFC(this.profileCred));
             changer.changePassword(newPword, confPword, id);
         }
+    }
+
+    @Override
+    public ProfileEconomy getUsrEconomy() {
+        return this.profile;
     }
 }

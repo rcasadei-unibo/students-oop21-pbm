@@ -55,8 +55,13 @@ public class RegistrationView {
                 e.consume();
             }
         });
+        final Button login = guiFactory.createButton("Accedi");
+        login.setOnAction(e -> {
+            primaryStage.setScene(new LoginScene(primaryStage, mainScene, controller).getScene());
+            primaryStage.centerOnScreen();
+        });
 
-        buttonLayout.getChildren().addAll(register);
+        buttonLayout.getChildren().addAll(register, login);
         textFieldLayout.getChildren().addAll(name, surname, fc, eMail, password, confPass);
         this.root.setBottom(buttonLayout);
         this.root.setCenter(textFieldLayout);
