@@ -245,7 +245,7 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void showProfile(final Stage stage, final BorderPane root) {
+    public void showProfile() {
 
         final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override

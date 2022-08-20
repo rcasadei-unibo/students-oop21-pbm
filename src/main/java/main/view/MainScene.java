@@ -53,7 +53,7 @@ public class MainScene {
     }
 
     private void getProfilePage() {
-        controller.showProfile(this.stage, this.root);
+        controller.showProfile();
     }
 
     private void getBankAccountPage() {

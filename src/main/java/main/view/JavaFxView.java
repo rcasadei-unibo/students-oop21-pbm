@@ -29,13 +29,12 @@ public class JavaFxView extends Application implements View {
                 Screen.getPrimary().getBounds().getHeight());
         guiFactory = b.build();
 
-        final Stage stage = primaryStage;
+       
         controller = new ControllerImpl(this);
-        final BorderPane root = new BorderPane();
-        final Scene mainScene = getMainScene(stage);
+      
 
         primaryStage.setTitle("Bugmate - personal use");
-        primaryStage.setScene(getLoginScene(primaryStage, mainScene));
+        primaryStage.setScene(getLoginScene(primaryStage, getMainScene(primaryStage)));
         primaryStage.centerOnScreen();
         primaryStage.show();
 
@@ -43,8 +42,8 @@ public class JavaFxView extends Application implements View {
             controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(new BorderPane(), stage, controller);
-        profileScene = new ProfileScene(new BorderPane(), stage, controller);
+        investScene = new InvestmentScene(new BorderPane(), primaryStage, controller);
+        profileScene = new ProfileScene(new BorderPane(), primaryStage, controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
@@ -52,8 +51,8 @@ public class JavaFxView extends Application implements View {
         return loginscene.getScene();
     }
 
-    private Scene getMainScene(final Stage stage) {
-        return new MainScene(stage, controller).getScene();
+    private Scene getMainScene(Stage stage) {
+        return new MainScene(stage,controller).getScene();
 
     }
 

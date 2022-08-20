@@ -48,7 +48,7 @@ public interface Controller {
 
     // Ale's part
 
-    void showProfile(Stage stage, BorderPane root);
+    void showProfile();
 
     void registerProfile(String name, String surname, String fc, String eMail, String password);
 
