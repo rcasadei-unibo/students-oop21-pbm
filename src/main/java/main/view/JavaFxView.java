@@ -19,18 +19,11 @@ import main.view.profile.LoginScene;
 
 public class JavaFxView extends Application implements View {
 
-    // in order to avoid using static here, We need a way to call controller on the
-    // main application thread
-    // otherwise it will be null for those components who is calling this object
-    // from the Javafx thread.
     private GUIFactory guiFactory;
     private BorderPane root;
     private Stage stage;
     private volatile Controller controller;
     private volatile CustomScene investScene;
-    
-    
-    
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
@@ -46,14 +39,12 @@ public class JavaFxView extends Application implements View {
         primaryStage.setScene(getLoginScene(primaryStage, mainScene));
         primaryStage.centerOnScreen();
         primaryStage.show();
-        
 
         primaryStage.setOnCloseRequest(event -> {
             controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(root, mainScene, stage, createMenuBar(),
-                Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight(), controller);
+        investScene = new InvestmentScene(root, stage, createMenuBar(), controller);
     }
 
     private Pane createMenuBar() {
@@ -107,14 +98,6 @@ public class JavaFxView extends Application implements View {
     @Override
     public void setObserver(final Controller observer) {
         controller = observer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void show(final String[] args) {
-        launch(args);
     }
 
     /**

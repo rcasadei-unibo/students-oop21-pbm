@@ -19,12 +19,6 @@ public interface View {
     void setObserver(Controller observer);
 
     /**
-     * start the views.
-     * @param args commands
-     */
-    void show(String[] args);
-
-    /**
      * Show the message box.
      * 
      * @param message the message to show.
