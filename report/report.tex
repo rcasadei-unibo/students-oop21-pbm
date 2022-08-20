@@ -118,12 +118,16 @@ Our design fulfills tremendously \textit{5 design principles}
 	\item We asked many people and in the forum, but it seems we couldn't create a reference of the controller without being static.
 \end{itemize}
 
+
 \subsection*{Esempio}
 
 Even though using the private static volatile controller is a bad solution, it works correctly with synchronization between the thread from the controller and the components on the JavaFX thread. 
 I have been working on that for more than 15 hours, but still couldn't find a solution. In this case, we have multiple \textit{view}s, each of them is attached to the one controller, it wasn't something that we didn't intend to do.
 Instead on the he part of controller, all \textit{view}s are accessible from a thread pool created by Executor services. 
 
+\subsection*{Note:}
+As far it's 20 August, I finally found the solution to substitute the static properties by using Application.launch(view.class, args). If I created the controller and then assign it to the views, it would be a null reference. If I create a view first, then create a controller on the JavaFX Thread. Then it wouldn't be the null reference. It's just that then I'll have to use JavaFX as the main library.
+I spent like more than 20 hours just to fix this error.... I hope that it's worthy. -Song
 \begin{figure}[H]
 	\centering{}
 	\makebox[\textwidth][c]{\includegraphics[width=0.75\textwidth]{img/MVC.png}}%
