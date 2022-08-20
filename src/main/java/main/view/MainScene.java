@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import main.control.Controller;
 
 public class MainScene {
@@ -12,13 +13,15 @@ public class MainScene {
     private final Controller controller;
     private GUIFactory guiFactory;
     private final BorderPane root;
+    private final Stage stage;
 
-    public MainScene(final Controller controller) {
+    public MainScene(final Stage stage, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
         this.guiFactory = b.build();
         this.controller = controller;
         this.root = new BorderPane();
+        this.stage = stage;
 
         this.root.setTop(createMenuBar());
     }
@@ -29,9 +32,11 @@ public class MainScene {
 
     private Pane createMenuBar() {
         final Pane menuBar = guiFactory.createHorizontalPanel();
-        final Button investment = guiFactory.createButton("Investmenti"), profilo = guiFactory.createButton("Profilo"),
-                bankAccount = guiFactory.createButton("Conti Bancari"), expenses = guiFactory.createButton("Spese"),
-                savings = guiFactory.createButton("Salvadanai");
+        final Button investment = guiFactory.createButton("Investmenti");
+        final Button profilo = guiFactory.createButton("Profilo");
+        final Button bankAccount = guiFactory.createButton("Conti Bancari");
+        final Button expenses = guiFactory.createButton("Spese");
+        final Button savings = guiFactory.createButton("Salvadanai");
 
         investment.setOnAction(e -> getInvestmentPage());
         profilo.setOnAction(e -> getProfilePage());
@@ -48,7 +53,7 @@ public class MainScene {
     }
 
     private void getProfilePage() {
-        controller.showProfile(this.root);
+        controller.showProfile(this.stage, this.root);
     }
 
     private void getBankAccountPage() {

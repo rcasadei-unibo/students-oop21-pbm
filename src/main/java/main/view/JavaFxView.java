@@ -36,13 +36,7 @@ public class JavaFxView extends Application implements View {
     private static volatile Stage stage;
     private static volatile Controller controller;
     private static volatile CustomScene investScene;
-    private Pane menuBar;
 
-    public JavaFxView() {
-        super();
-    }
-   
-   
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
@@ -86,7 +80,7 @@ public class JavaFxView extends Application implements View {
     }
 
     private Scene getMainScene() {
-        return new MainScene(controller).getScene();
+        return new MainScene(stage, controller).getScene();
     }
 
     private void investmentPage() {
@@ -94,7 +88,7 @@ public class JavaFxView extends Application implements View {
     }
 
     private void getProfilePage() {
-        controller.showProfile(this.root);
+        controller.showProfile(stage, this.root);
         System.out.println(root);
     }
 

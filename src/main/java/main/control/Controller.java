@@ -2,7 +2,9 @@ package main.control;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import main.model.profile.ProfileCredentials;
+import main.model.profile.ProfileEconomy;
 
 /**
  * This interface does all chores to interact with user. Such as operation IO,
@@ -46,7 +48,7 @@ public interface Controller {
 
     // Ale's part
 
-    void showProfile(BorderPane root);
+    void showProfile(Stage stage, BorderPane root);
 
     void registerProfile(String name, String surname, String fc, String eMail, String password);
 
@@ -59,4 +61,6 @@ public interface Controller {
     ProfileCredentials getUsrInfo();
 
     void changePword(String strategy, String newPword, String confPword, String id);
+
+    ProfileEconomy getUsrEconomy();
 }
