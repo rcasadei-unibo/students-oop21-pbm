@@ -31,7 +31,7 @@ public class ProfileScene extends BaseScene {
 
     @Override
     public void updateEverythingNeeded(Queue<List<?>> things) {
-        
+        super.updateScene();
         super.getPrimaryStage().setScene(scene);
     }
 
