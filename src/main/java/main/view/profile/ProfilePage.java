@@ -1,6 +1,5 @@
 package main.view.profile;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +18,6 @@ public class ProfilePage {
     private static final int TITLE_DIM = 15;
 
     private final Controller controller;
-    
 
     public ProfilePage(final Stage primaryStage, final BorderPane root, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),

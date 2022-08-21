@@ -10,7 +10,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
-import main.view.MainScene;
 import main.control.Controller;
 
 public class LoginScene {

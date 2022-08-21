@@ -19,18 +19,18 @@ public class ProfileScene extends BaseScene {
 
     private static final int TEXT_DIM = 10;
     private static final int TITLE_DIM = 15;
-    
+
     private final Scene scene;
     private final BorderPane root;
+
     public ProfileScene(final BorderPane root, final Stage primaryStage, final Controller controller) {
         super(primaryStage, controller);
         this.root = root;
-        scene = getGadgets().createScene(root);
-        
+        this.scene = getGadgets().createScene(root);
     }
 
     @Override
-    public void updateEverythingNeeded(Queue<List<?>> things) {
+    public void updateEverythingNeeded(final Queue<List<?>> things) {
         super.updateScene();
         super.getPrimaryStage().setScene(scene);
     }
@@ -44,8 +44,7 @@ public class ProfileScene extends BaseScene {
 
     @Override
     protected void updateTop() {
-        root.setTop(super.getMenuBar());
-
+        this.root.setTop(super.getMenuBar());
     }
 
     @Override
@@ -59,13 +58,19 @@ public class ProfileScene extends BaseScene {
         final Text titleInv = getGadgets().createText("Investment Accounts", TITLE_DIM);
         final ListView<Object> listInvAccs = new ListView<>();
         getController().getUsrEconomy().getInvestmentAccounts().forEach(acc -> {
-            listInvAccs.getItems().addAll("Name: " + acc.getID(), "Balance: " + acc.getBalance(),
-                    "Invested Balance: " + acc.getInvestedBalance(), "");
+            listInvAccs.getItems().addAll(
+                    "Name: " + acc.getID(),
+                    "Balance: " + acc.getBalance(),
+                    "Invested Balance: " + acc.getInvestedBalance(),
+                    "");
         });
         final Text titleHol = getGadgets().createText("Holding Accounts", TITLE_DIM);
         final ListView<Object> listHolAccs = new ListView<>();
         getController().getUsrEconomy().getHoldingAccounts().forEach(acc -> {
-            listHolAccs.getItems().addAll("Name: " + acc.getID(), "Value: " + acc.getTotalValue(), "");
+            listHolAccs.getItems().addAll(
+                    "Name: " + acc.getID(),
+                    "Value: " + acc.getTotalValue(),
+                    "");
         });
 
         final Pane rightLayout = getGadgets().createVerticalPanel();
@@ -81,20 +86,15 @@ public class ProfileScene extends BaseScene {
             getPrimaryStage().centerOnScreen();
         });
 
-        
         final Pane centerLayout = getGadgets().createVerticalPanel();
-
         final Pane bottomLayout = getGadgets().createHorizontalPanel();
 
-        
         rightLayout.getChildren().addAll(changePassword, logOut);
         centerLayout.getChildren().addAll(titleInv, listInvAccs, titleHol, listHolAccs);
-        
-       
-        root.setRight(rightLayout);
-        root.setCenter(centerLayout);
-        root.setBottom(bottomLayout);
 
+        this.root.setRight(rightLayout);
+        this.root.setCenter(centerLayout);
+        this.root.setBottom(bottomLayout);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ProfileScene extends BaseScene {
         final Text fc = getGadgets().createText("\n" + getController().getUsrInfo().getFc() + "\n", TEXT_DIM);
         final Text email = getGadgets().createText("\n" + getController().getUsrInfo().getEMail() + "\n", TEXT_DIM);
         leftLayout.getChildren().addAll(name, surname, fc, email);
-        root.setLeft(leftLayout);
+        this.root.setLeft(leftLayout);
     }
 
     @Override
