@@ -31,80 +31,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class OperationJSONUtente {
-    private String username;
-    private String password;
-    double totalAmount;
-    /*
-    public OperationJSONUtente(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }*/
-    
-    //this method check if the username and password exist in the JSON file utente 
-    void printJson () {        
         
-        JSONParser parser = new JSONParser();
-
-        try {     
-            JSONArray users = (JSONArray) parser.parse(new FileReader(new File(getClass()
-                    .getClassLoader().getResource("utente.json").toURI())));
-
-            for (Object user : users)
-            {
-              JSONObject person = (JSONObject) user;
-
-              String nome = (String) person.get("name");
-              System.out.println(nome);
-
-              String cognome = (String) person.get("lastName");
-              System.out.println(cognome);
-
-              String email = (String) person.get("email");
-              System.out.println(email);
-
-              JSONArray conti = (JSONArray) person.get("banckAccounts");
-              System.out.println("conti bancari");
-              if (conti != null) {
-                  for (Object conto : conti)
-                  {
-                      JSONObject banca = (JSONObject) conto;
-    
-                      String nameBanckAccount = (String) banca.get("nameBanckAccount");
-                      System.out.println("  " + nameBanckAccount);
-                  }
-              }
-              
-              JSONArray moneyBoxes = (JSONArray) person.get("moneyBoxes");
-              System.out.println("moneyBoxes");
-              if (moneyBoxes != null) {
-                  for (Object box : moneyBoxes)
-                  {
-                      JSONObject moneyBox = (JSONObject) box;
-    
-                      String nomeBox = (String) moneyBox.get("nameMoneyBox");
-                      System.out.println("  " + nomeBox);
-                  }
-              }
-              
-              JSONArray invAccs = (JSONArray) person.get("InvestimentAccounts");
-              System.out.println("account di investimento");
-              for (Object invAcc : invAccs)
-              {
-                  JSONObject InvestimentAccount = (JSONObject) invAcc;
-
-                  String nameInv = (String) InvestimentAccount.get("nameInvestimentAccount");
-                  System.out.println("  " + nameInv);
-              }
-            }
-           
-        } catch (Exception ex) {
-            System.out.println("oh shit! ");
-            ex.printStackTrace();
-        }
-        
-    }
-    
-    
     //search user
     boolean userExist (String username) {
         
@@ -137,7 +64,7 @@ public class OperationJSONUtente {
         }
     }
     
-    
+    //this method check if the username and password are correct for a user in the JSON file utente 
     boolean userPasswordCheck (String username, String password) {
         
         JSONParser parser = new JSONParser();
@@ -202,17 +129,13 @@ public class OperationJSONUtente {
             
             users.add(utente);
             
-            try {
-                FileWriter file = new FileWriter(input);
-                
-                //System.out.println("scrivo su file");
-                System.out.println(users);
-                file.write(users.toJSONString());
-                file.flush();
-                file.close();
-            } catch (IOException e) { 
-                e.printStackTrace(); 
-            } 
+            FileWriter file = new FileWriter(input,false);
+
+            System.out.println("scrivo su file");
+            //System.out.println(users);
+            file.write(users.toJSONString());
+            file.flush();
+            file.close();
                 
             
             
@@ -257,26 +180,13 @@ public class OperationJSONUtente {
                     
                     //System.out.println("il nuovo file json");
                     //System.out.println(users);
-                    try (
-                            final OutputStream output =
-                            new FileOutputStream(input);
-                    ){
-                        
-                        OutputStreamWriter writeoutput = new OutputStreamWriter(output, "UTF-8");
-                        writeoutput.write(users.toString());
-                        writeoutput.flush();
-                        writeoutput.close();
-                        
-                    } catch (Exception ex) {
-                         System.out.println("somthing wrong");
-                    }
-                    //FileWriter file = new FileWriter(input,false);
-                    
-                    //System.out.println("scrivo su file");
+                    FileWriter file = new FileWriter(input,false);
+
+                    System.out.println("scrivo su file");
                     //System.out.println(users);
-                    //file.write(users.toJSONString());
-                    //file.flush();
-                    //file.close();
+                    file.write(users.toJSONString());
+                    file.flush();
+                    file.close();
                 }
               
             }
@@ -759,6 +669,75 @@ public class OperationJSONUtente {
         return Transaction;
     }
     
+    TransactionJson[][] ReadAssetsTransaction(String username, String nameInvestimentAccount) {
+        
+        TransactionJson[][] Transaction = null;
+        JSONParser parser = new JSONParser();
+        
+        try {
+            File input = new File(getClass().getClassLoader().getResource("utente.json").toURI());
+            
+            FileReader reader = new FileReader(input);
+            // create jsonArray from file
+            JSONArray users = (JSONArray) parser.parse(reader);
+            
+            // read user
+            for (Object user : users)
+            {
+                JSONObject person = (JSONObject) user;
+                
+                String userName = (String) person.get("username");
+                //System.out.println("input utente = " + username + ",  utente file json = " + userName);
+                
+                if (userName.equals(username)) {
+                    
+                    JSONArray investimentAccounts = (JSONArray) person.get("InvestimentAccounts");
+                    
+                    for(Object a : investimentAccounts) {
+                        
+                        JSONObject investimentAccount = (JSONObject) a;
+                        
+                        String nameInvAcc = (String) investimentAccount.get("nameInvestimentAccount");
+                        
+                        if (nameInvAcc.equals(nameInvestimentAccount)) {
+                            
+                            JSONArray assets = (JSONArray) investimentAccount.get("assets");
+                            
+                            for(int i=0; i<assets.size(); i++) {
+                                
+                                JSONObject asset = (JSONObject) assets.get(i);
+                                
+                                String assetSymbol = (String) asset.get("symbolAsset");
+                                
+                                    
+                                JSONArray transactions = (JSONArray) asset.get("transactions");
+                                
+                                for(int j=0; j<transactions.size(); j++) {
+                                    JSONObject transaction = (JSONObject) transactions.get(i);
+                                    
+                                    Transaction[i][j].amount = (double) transaction.get("amount");
+                                    Transaction[i][j].nameTransaction = (String) transaction.get("nameTransaction");
+                                    Transaction[i][j].date = (String) transaction.get("date");
+                                    Transaction[i][j].time = (String) transaction.get("time");
+                                    Transaction[i][j].currency = assetSymbol;
+                                }
+                                
+                            }
+                        }
+                    
+                    }
+                    
+                }
+              
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return Transaction;
+    }
+    
     TransactionJson[] ReadMoneyBoxTransaction(String username, String nameMoneyBox) {
         
         TransactionJson[] Transaction = null;
@@ -855,11 +834,17 @@ public class OperationJSONUtente {
                             for(int i=0; i<transactions.size(); i++) {
                                 JSONObject transaction = (JSONObject) transactions.get(i);
                                 
-                                Transaction[i].amount = (double) transaction.get("amount");
-                                Transaction[i].nameTransaction = (String) transaction.get("nameTransaction");
-                                Transaction[i].date = (String) transaction.get("date");
-                                Transaction[i].time = (String) transaction.get("time");
-                                Transaction[i].currency = "euro";
+                                double amount = (double) transaction.get("amount");
+                                String nameTransaction = (String) transaction.get("nameTransaction");
+                                String date = (String) transaction.get("date");
+                                String time = (String) transaction.get("time");
+                                String currency = "euro";
+                                
+                                TransactionJson temp = new TransactionJson(nameTransaction, 
+                                        date, time, amount, currency);
+                                
+                                Transaction[i] = temp;
+                                
                             }
                                                                
                         }
@@ -877,5 +862,45 @@ public class OperationJSONUtente {
         return Transaction;
     }
     
+    double getTotalAmountBank(String username, String nameBanckAccount) {
+       
+        double totalAmount=0;
+        
+        TransactionJson[] BanckTransaction = ReadBanckTransaction(username, nameBanckAccount);
+        
+        for(TransactionJson i : BanckTransaction) {
+            totalAmount += i.amount;
+        }
+        
+        return totalAmount;
+    }
+    
+    TransactionJson[] getTotalAssetsAccount(String username, String nameInvestimentAccount) {
+        
+        TransactionJson[] totalAssetsAccount = null;
+        
+        TransactionJson[][] AssetsTransaction = ReadAssetsTransaction(username, nameInvestimentAccount);
+        
+        for(int i=0; i < AssetsTransaction.length; i++) {
+            for(int j=0; j < AssetsTransaction[i].length; j++) {
+                totalAssetsAccount[i].amount += AssetsTransaction[i][j].amount;
+            }
+        }
+        
+        return totalAssetsAccount;
+    }
+    
+    double getTotalAsset(String username, String nameInvestimentAccount, String symbolAsset) {
+        
+        double totalAmount=0;
+        
+        TransactionJson[] BanckTransaction = ReadAssetTransaction(username, nameInvestimentAccount, symbolAsset);
+        
+        for(TransactionJson i : BanckTransaction) {
+            totalAmount += i.amount;
+        }
+        
+        return totalAmount;
+    }
 
 }
