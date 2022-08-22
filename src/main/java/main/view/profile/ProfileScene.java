@@ -1,6 +1,7 @@
 package main.view.profile;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
@@ -12,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.control.Controller;
+import main.model.account.InvestmentAccount;
+import main.model.market.HoldingAccount;
 import main.view.BaseScene;
 import main.view.MainScene;
 
@@ -22,6 +25,7 @@ public class ProfileScene extends BaseScene {
 
     private final Scene scene;
     private final BorderPane root;
+    private Queue<List<?>> updateables;
     private final DecimalFormat df = new DecimalFormat("###.##");
 
     public ProfileScene(final BorderPane root, final Stage primaryStage, final Controller controller) {
@@ -32,6 +36,7 @@ public class ProfileScene extends BaseScene {
 
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> things) {
+        this.updateables = things;
         super.updateScene();
         super.getPrimaryStage().setScene(this.scene);
     }
@@ -54,25 +59,32 @@ public class ProfileScene extends BaseScene {
         this.root.setBottom(bottomLayout);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void updateCenter() {
+        final Iterator<List<?>> iter = this.updateables.iterator();
+        final List<String> invAccIds = (List<String>) iter.next();
+        final Iterator<Double> invAccValues = (Iterator<Double>) iter.next().iterator();
+        final List<String> holAccIds = (List<String>) iter.next();
+        final Iterator<Double> holAccValues = (Iterator<Double>) iter.next().iterator();
+
         final Pane centerLayout = getGadgets().createVerticalPanel();
 
         final Text titleInv = getGadgets().createText("Investment Accounts", TITLE_DIM);
         final ListView<Object> listInvAccs = new ListView<>();
-        getController().getUsrEconomy().getInvestmentAccounts().forEach(acc -> {
+        invAccIds.forEach(id -> {
             listInvAccs.getItems().addAll(
-                    "Name: " + acc.getID(),
-                    "Balance: " + this.df.format(acc.getBalance()) + " $",
-                    "Invested Balance: " + this.df.format(acc.getInvestedBalance()) + " $",
+                    "Name: " + id,
+                    "Balance: " + this.df.format(invAccValues.next()) + " $",
+                    "Invested Balance: " + this.df.format(invAccValues.next()) + " $",
                     "");
         });
         final Text titleHol = getGadgets().createText("Holding Accounts", TITLE_DIM);
         final ListView<Object> listHolAccs = new ListView<>();
-        getController().getUsrEconomy().getHoldingAccounts().forEach(acc -> {
+        holAccIds.forEach(id -> {
             listHolAccs.getItems().addAll(
-                    "Name: " + acc.getID(),
-                    "Value: " + this.df.format(acc.getTotalValue()) + " $",
+                    "Name: " + id,
+                    "Value: " + this.df.format(holAccValues.next()) + " $",
                     "");
         });
 

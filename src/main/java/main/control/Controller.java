@@ -54,8 +54,6 @@ public interface Controller {
 
     void accessProfile(String eMail, String password);
 
-    void showLoginScene();
-
     void showPasswordChangeView();
 
     ProfileCredentials getUsrInfo();

@@ -78,7 +78,7 @@ public class JavaFxView extends Application implements View {
     public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         switch (pageState) {
         case PROFILE:
-            this.profileScene.updateEverythingNeeded(null);
+            this.profileScene.updateEverythingNeeded(queue.get());
             break;
         case BANKACCOUNT:
             break;

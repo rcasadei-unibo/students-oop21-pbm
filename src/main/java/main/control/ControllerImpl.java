@@ -4,25 +4,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.google.common.base.Optional;
 
 import javafx.concurrent.Task;
-import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
 import main.model.account.InvestmentAccount;
@@ -47,12 +34,9 @@ import main.model.profile.ProfileCredentials;
 import main.model.profile.ProfileEconomy;
 import main.model.profile.ProfileEconomyImpl;
 import main.model.profile.SimplePassword;
-import main.view.GUIFactory;
-import main.view.GUIFactoryImpl;
 import main.view.PageState;
 import main.view.View;
 import main.view.profile.PasswordChangeView;
-import main.view.profile.ProfilePage;
 
 public class ControllerImpl implements Controller {
 
@@ -250,11 +234,32 @@ public class ControllerImpl implements Controller {
         final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
             @Override
             public Queue<List<?>> call() {
+                final Queue<List<?>> q = new LinkedList<>();
+                final List<String> invAccId = new LinkedList<>();
+                final List<Double> invAccValues = new LinkedList<>();
+                profile.getInvestmentAccounts().forEach(acc -> {
+                    invAccId.add(acc.getID());
+                    invAccValues.add(acc.getBalance());
+                    invAccValues.add(acc.getInvestedBalance());
+                });
+                final List<String> holAccId = new LinkedList<>();
+                final List<Double> holAccValues = new LinkedList<>();
+                profile.getHoldingAccounts().forEach(acc -> {
+                    holAccId.add(acc.getID());
+                    holAccValues.add(acc.getTotalValue());
+                });
 
-                return new LinkedList<>();
+                q.add(invAccId);
+                q.add(invAccValues);
+                q.add(holAccId);
+                q.add(holAccValues);
+                return q;
             }
         };
-        updateView(task, PageState.PROFILE);
+        task.setOnSucceeded(e -> {
+            updateView(task, PageState.PROFILE);
+        });
+        executor.execute(task);
 
     }
 
@@ -270,11 +275,6 @@ public class ControllerImpl implements Controller {
         // this is just a version to let the application run
         // this method needs to retrieve the user profile from json database
 
-    }
-
-    @Override
-    public void showLoginScene() {
-        // TODO Auto-generated method stub
     }
 
     @Override
