@@ -1,4 +1,4 @@
-package main.charts;
+package main.json;
 
 public class TransactionJson {
     
