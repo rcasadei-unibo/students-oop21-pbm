@@ -1,5 +1,7 @@
 package main.view.profile;
 
+import java.text.DecimalFormat;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +20,7 @@ public class ProfilePage {
     private static final int TITLE_DIM = 15;
 
     private final Controller controller;
+    private final DecimalFormat df = new DecimalFormat("###.##");
 
     public ProfilePage(final Stage primaryStage, final BorderPane root, final Controller controller) {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
@@ -39,7 +42,7 @@ public class ProfilePage {
         controller.getUsrEconomy().getHoldingAccounts().forEach(acc -> {
             listHolAccs.getItems().addAll(
                     "Name: " + acc.getID(),
-                    "Value: " + acc.getTotalValue(),
+                    "Value: " + this.df.format(acc.getTotalValue()),
                     "");
         });
 

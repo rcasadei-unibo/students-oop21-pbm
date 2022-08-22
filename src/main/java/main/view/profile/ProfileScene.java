@@ -1,5 +1,6 @@
 package main.view.profile;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Queue;
 
@@ -22,6 +23,7 @@ public class ProfileScene extends BaseScene {
 
     private final Scene scene;
     private final BorderPane root;
+    private final DecimalFormat df = new DecimalFormat("###.##");
 
     public ProfileScene(final BorderPane root, final Stage primaryStage, final Controller controller) {
         super(primaryStage, controller);
@@ -60,8 +62,8 @@ public class ProfileScene extends BaseScene {
         getController().getUsrEconomy().getInvestmentAccounts().forEach(acc -> {
             listInvAccs.getItems().addAll(
                     "Name: " + acc.getID(),
-                    "Balance: " + acc.getBalance(),
-                    "Invested Balance: " + acc.getInvestedBalance(),
+                    "Balance: " + this.df.format(acc.getBalance()) + " $",
+                    "Invested Balance: " + this.df.format(acc.getInvestedBalance()) + " $",
                     "");
         });
         final Text titleHol = getGadgets().createText("Holding Accounts", TITLE_DIM);
@@ -69,7 +71,7 @@ public class ProfileScene extends BaseScene {
         getController().getUsrEconomy().getHoldingAccounts().forEach(acc -> {
             listHolAccs.getItems().addAll(
                     "Name: " + acc.getID(),
-                    "Value: " + acc.getTotalValue(),
+                    "Value: " + this.df.format(acc.getTotalValue()) + " $",
                     "");
         });
 

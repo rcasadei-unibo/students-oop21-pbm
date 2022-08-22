@@ -15,11 +15,17 @@ public class Logger implements View {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showMessage(final String message) {
         System.out.println("NOTHING TO SAY ABOUT..");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         System.out.println("Updating views.....");

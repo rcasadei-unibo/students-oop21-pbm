@@ -157,7 +157,8 @@ public class InvestmentScene extends BaseScene {
         // GUI, not computational model,
         // I think a bit redundancy can't be avoided without losing flexibility;
         @SuppressWarnings("unchecked")
-        final Node n = getGadgets().createBlockScheda(getGadgets().createText(STOCKTITLE, TITLEFONTSIZE),
+        final Node n = getGadgets().createBlockScheda(
+                getGadgets().createText(STOCKTITLE, TITLEFONTSIZE),
                 getGadgets().transformStringIntoText(desc, HEADERFONTSIZE),
                 getGadgets().transformStringIntoText(symbols, TEXTFONTSIZE),
                 getGadgets().transformStringIntoText(iter.next(), TEXTFONTSIZE),

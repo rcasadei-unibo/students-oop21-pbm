@@ -99,7 +99,7 @@ public class ControllerImpl implements Controller {
 //            }
 //        }, 0, refleshRate);
 
-        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mariorossi@studio.unibo.it",
+        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mario.rossi@studio.unibo.it",
                 new SimplePassword("SuperMario"));
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
