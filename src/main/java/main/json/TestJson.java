@@ -1,5 +1,4 @@
-package main.charts;
-import main.charts.OperationJSONUtente;
+package main.json;
 
 public class TestJson {
     
