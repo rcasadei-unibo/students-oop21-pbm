@@ -30,6 +30,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import main.model.profile.Password;
+import main.model.profile.ProfileCredentials;
+import main.model.profile.SimplePassword;
+
 public class OperationJSONUtente {
 
     // search user
@@ -102,7 +106,41 @@ public class OperationJSONUtente {
             return false;
         }
     }
+    
+    ProfileCredentials setProfileData(String username) {
+        ProfileCredentials profile = null;
+        
+        JSONParser parser = new JSONParser();
 
+        try {
+            // create jsonArray from file
+            JSONArray users = (JSONArray) parser
+                    .parse(new FileReader(new File(getClass().getClassLoader().getResource("utente.json").toURI())));
+
+            // read user
+            for (Object user : users) {
+                JSONObject person = (JSONObject) user;
+
+                String userName = (String) person.get("username");
+
+                if (userName.equals(username)) {
+                    String name = (String) person.get("name");
+                    String surname = (String) person.get("lastName");
+                    String email = (String) person.get("email");
+                    Password password = new SimplePassword((String) person.get("password"));
+                    
+                    profile = new ProfileCredentials(name, surname, userName, email, password);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return profile;
+    }
+
+    @SuppressWarnings("unchecked")
     void initializeUser(String name, String lastName, String username, String email, String password) {
 
         JSONParser parser = new JSONParser();
