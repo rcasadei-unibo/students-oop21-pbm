@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.control.Controller;
 import main.view.BaseScene;
-import main.view.CustomScene;
 import main.view.MainScene;
 
 public class ProfileScene extends BaseScene {
@@ -34,14 +33,13 @@ public class ProfileScene extends BaseScene {
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> things) {
         super.updateScene();
-        super.getPrimaryStage().setScene(scene);
+        super.getPrimaryStage().setScene(this.scene);
     }
 
 
     @Override
     public Scene getScene() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.scene;
     }
 
     @Override
@@ -51,12 +49,15 @@ public class ProfileScene extends BaseScene {
 
     @Override
     protected void updateBottom() {
-        // TODO Auto-generated method stub
-
+        // nothing to be done here
+        final Pane bottomLayout = getGadgets().createHorizontalPanel();
+        this.root.setBottom(bottomLayout);
     }
 
     @Override
     protected void updateCenter() {
+        final Pane centerLayout = getGadgets().createVerticalPanel();
+
         final Text titleInv = getGadgets().createText("Investment Accounts", TITLE_DIM);
         final ListView<Object> listInvAccs = new ListView<>();
         getController().getUsrEconomy().getInvestmentAccounts().forEach(acc -> {
@@ -75,28 +76,8 @@ public class ProfileScene extends BaseScene {
                     "");
         });
 
-        final Pane rightLayout = getGadgets().createVerticalPanel();
-        final Button changePassword = getGadgets().createButton("Cambia Password");
-        changePassword.setOnAction(e -> {
-            getController().showPasswordChangeView();
-        });
-        final Button logOut = getGadgets().createButton("Disconnettiti");
-        logOut.setOnAction(e -> {
-            getPrimaryStage().setScene(
-                    new LoginScene(getPrimaryStage(), new MainScene(getPrimaryStage(), getController()).getScene(), getController())
-                            .getScene());
-            getPrimaryStage().centerOnScreen();
-        });
-
-        final Pane centerLayout = getGadgets().createVerticalPanel();
-        final Pane bottomLayout = getGadgets().createHorizontalPanel();
-
-        rightLayout.getChildren().addAll(changePassword, logOut);
         centerLayout.getChildren().addAll(titleInv, listInvAccs, titleHol, listHolAccs);
-
-        this.root.setRight(rightLayout);
         this.root.setCenter(centerLayout);
-        this.root.setBottom(bottomLayout);
     }
 
     @Override
@@ -112,8 +93,21 @@ public class ProfileScene extends BaseScene {
 
     @Override
     protected void updateRight() {
-        // TODO Auto-generated method stub
+        final Pane rightLayout = getGadgets().createVerticalPanel();
 
+        final Button changePassword = getGadgets().createButton("Cambia Password");
+        changePassword.setOnAction(e -> {
+            getController().showPasswordChangeView();
+        });
+        final Button logOut = getGadgets().createButton("Disconnettiti");
+        logOut.setOnAction(e -> {
+            getPrimaryStage().setScene(
+                    new LoginScene(getPrimaryStage(), new MainScene(getPrimaryStage(), getController()).getScene(), getController())
+                            .getScene());
+            getPrimaryStage().centerOnScreen();
+        });
+
+        rightLayout.getChildren().addAll(changePassword, logOut);
+        this.root.setRight(rightLayout);
     }
-
 }
