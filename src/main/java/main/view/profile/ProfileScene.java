@@ -1,5 +1,7 @@
 package main.view.profile;
 
+import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
@@ -11,64 +13,100 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.control.Controller;
+import main.model.account.InvestmentAccount;
+import main.model.market.HoldingAccount;
 import main.view.BaseScene;
-import main.view.CustomScene;
 import main.view.MainScene;
 
 public class ProfileScene extends BaseScene {
 
     private static final int TEXT_DIM = 10;
     private static final int TITLE_DIM = 15;
-    
+
     private final Scene scene;
     private final BorderPane root;
+    private Queue<List<?>> updateables;
+    private final DecimalFormat df = new DecimalFormat("###.##");
+
     public ProfileScene(final BorderPane root, final Stage primaryStage, final Controller controller) {
         super(primaryStage, controller);
         this.root = root;
-        scene = getGadgets().createScene(root);
-        
+        this.scene = getGadgets().createScene(root);
     }
 
     @Override
-    public void updateEverythingNeeded(Queue<List<?>> things) {
+    public void updateEverythingNeeded(final Queue<List<?>> things) {
+        this.updateables = things;
         super.updateScene();
-        super.getPrimaryStage().setScene(scene);
+        super.getPrimaryStage().setScene(this.scene);
     }
 
 
     @Override
     public Scene getScene() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.scene;
     }
 
     @Override
     protected void updateTop() {
-        root.setTop(super.getMenuBar());
-
+        this.root.setTop(super.getMenuBar());
     }
 
     @Override
     protected void updateBottom() {
-        // TODO Auto-generated method stub
-
+        // nothing to be done here
+        final Pane bottomLayout = getGadgets().createHorizontalPanel();
+        this.root.setBottom(bottomLayout);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void updateCenter() {
+        final Iterator<List<?>> iter = this.updateables.iterator();
+        final List<String> invAccIds = (List<String>) iter.next();
+        final Iterator<Double> invAccValues = (Iterator<Double>) iter.next().iterator();
+        final List<String> holAccIds = (List<String>) iter.next();
+        final Iterator<Double> holAccValues = (Iterator<Double>) iter.next().iterator();
+
+        final Pane centerLayout = getGadgets().createVerticalPanel();
+
         final Text titleInv = getGadgets().createText("Investment Accounts", TITLE_DIM);
         final ListView<Object> listInvAccs = new ListView<>();
-        getController().getUsrEconomy().getInvestmentAccounts().forEach(acc -> {
-            listInvAccs.getItems().addAll("Name: " + acc.getID(), "Balance: " + acc.getBalance(),
-                    "Invested Balance: " + acc.getInvestedBalance(), "");
+        invAccIds.forEach(id -> {
+            listInvAccs.getItems().addAll(
+                    "Name: " + id,
+                    "Balance: " + this.df.format(invAccValues.next()) + " $",
+                    "Invested Balance: " + this.df.format(invAccValues.next()) + " $",
+                    "");
         });
         final Text titleHol = getGadgets().createText("Holding Accounts", TITLE_DIM);
         final ListView<Object> listHolAccs = new ListView<>();
-        getController().getUsrEconomy().getHoldingAccounts().forEach(acc -> {
-            listHolAccs.getItems().addAll("Name: " + acc.getID(), "Value: " + acc.getTotalValue(), "");
+        holAccIds.forEach(id -> {
+            listHolAccs.getItems().addAll(
+                    "Name: " + id,
+                    "Value: " + this.df.format(holAccValues.next()) + " $",
+                    "");
         });
 
+        centerLayout.getChildren().addAll(titleInv, listInvAccs, titleHol, listHolAccs);
+        this.root.setCenter(centerLayout);
+    }
+
+    @Override
+    protected void updateLeft() {
+        final Pane leftLayout = getGadgets().createVerticalPanel();
+        final Text name = getGadgets().createText("\n" + getController().getUsrInfo().getName() + "\n", TEXT_DIM);
+        final Text surname = getGadgets().createText("\n" + getController().getUsrInfo().getSurname() + "\n", TEXT_DIM);
+        final Text fc = getGadgets().createText("\n" + getController().getUsrInfo().getFc() + "\n", TEXT_DIM);
+        final Text email = getGadgets().createText("\n" + getController().getUsrInfo().getEMail() + "\n", TEXT_DIM);
+        leftLayout.getChildren().addAll(name, surname, fc, email);
+        this.root.setLeft(leftLayout);
+    }
+
+    @Override
+    protected void updateRight() {
         final Pane rightLayout = getGadgets().createVerticalPanel();
+
         final Button changePassword = getGadgets().createButton("Cambia Password");
         changePassword.setOnAction(e -> {
             getController().showPasswordChangeView();
@@ -81,37 +119,7 @@ public class ProfileScene extends BaseScene {
             getPrimaryStage().centerOnScreen();
         });
 
-        
-        final Pane centerLayout = getGadgets().createVerticalPanel();
-
-        final Pane bottomLayout = getGadgets().createHorizontalPanel();
-
-        
         rightLayout.getChildren().addAll(changePassword, logOut);
-        centerLayout.getChildren().addAll(titleInv, listInvAccs, titleHol, listHolAccs);
-        
-       
-        root.setRight(rightLayout);
-        root.setCenter(centerLayout);
-        root.setBottom(bottomLayout);
-
+        this.root.setRight(rightLayout);
     }
-
-    @Override
-    protected void updateLeft() {
-        final Pane leftLayout = getGadgets().createVerticalPanel();
-        final Text name = getGadgets().createText("\n" + getController().getUsrInfo().getName() + "\n", TEXT_DIM);
-        final Text surname = getGadgets().createText("\n" + getController().getUsrInfo().getSurname() + "\n", TEXT_DIM);
-        final Text fc = getGadgets().createText("\n" + getController().getUsrInfo().getFc() + "\n", TEXT_DIM);
-        final Text email = getGadgets().createText("\n" + getController().getUsrInfo().getEMail() + "\n", TEXT_DIM);
-        leftLayout.getChildren().addAll(name, surname, fc, email);
-        root.setLeft(leftLayout);
-    }
-
-    @Override
-    protected void updateRight() {
-        // TODO Auto-generated method stub
-
-    }
-
 }

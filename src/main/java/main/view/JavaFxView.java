@@ -27,11 +27,9 @@ public class JavaFxView extends Application implements View {
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
                 Screen.getPrimary().getBounds().getHeight());
-        guiFactory = b.build();
+        this.guiFactory = b.build();
 
-       
-        controller = new ControllerImpl(this, new Logger());
-      
+        this.controller = new ControllerImpl(this, new Logger());
 
         primaryStage.setTitle("Bugmate - personal use");
         primaryStage.setScene(getLoginScene(primaryStage, getMainScene(primaryStage)));
@@ -39,20 +37,20 @@ public class JavaFxView extends Application implements View {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(event -> {
-            controller.terminateApp();
+            this.controller.terminateApp();
         });
 
-        investScene = new InvestmentScene(new BorderPane(), primaryStage, controller);
-        profileScene = new ProfileScene(new BorderPane(), primaryStage, controller);
+        this.investScene = new InvestmentScene(new BorderPane(), primaryStage, this.controller);
+        this.profileScene = new ProfileScene(new BorderPane(), primaryStage, this.controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
-        final LoginScene loginscene = new LoginScene(primaryStage, mainScene, controller);
+        final LoginScene loginscene = new LoginScene(primaryStage, mainScene, this.controller);
         return loginscene.getScene();
     }
 
-    private Scene getMainScene(Stage stage) {
-        return new MainScene(stage,controller).getScene();
+    private Scene getMainScene(final Stage stage) {
+        return new MainScene(stage, this.controller).getScene();
 
     }
 
@@ -61,7 +59,7 @@ public class JavaFxView extends Application implements View {
      */
     @Override
     public void setObserver(final Controller observer) {
-        controller = observer;
+        this.controller = observer;
     }
 
     /**
@@ -69,7 +67,7 @@ public class JavaFxView extends Application implements View {
      */
     @Override
     public void showMessage(final String message) {
-        Platform.runLater(() -> guiFactory.createInformationBox(message).showAndWait());
+        Platform.runLater(() -> this.guiFactory.createInformationBox(message).showAndWait());
 
     }
 
@@ -80,14 +78,14 @@ public class JavaFxView extends Application implements View {
     public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         switch (pageState) {
         case PROFILE:
-            profileScene.updateEverythingNeeded(null);
+            this.profileScene.updateEverythingNeeded(queue.get());
             break;
         case BANKACCOUNT:
             break;
         case EXPENSE:
             break;
         case INVEST:
-            investScene.updateEverythingNeeded(queue.get());
+            this.investScene.updateEverythingNeeded(queue.get());
             break;
         default:
             break;

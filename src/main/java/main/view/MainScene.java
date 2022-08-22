@@ -48,24 +48,24 @@ public class MainScene {
     }
 
     private void getInvestmentPage() {
-        controller.updateMarketInfo();
+        this.controller.updateMarketInfo();
 
     }
 
     private void getProfilePage() {
-        controller.showProfile();
+        this.controller.showProfile();
     }
 
     private void getBankAccountPage() {
-        guiFactory.createInformationBox("da implementare giulio").showAndWait();
+        this.guiFactory.createInformationBox("da implementare giulio").showAndWait();
     }
 
     private void getExpenditurePage() {
-        guiFactory.createInformationBox("da implementare paolo").showAndWait();
+        this.guiFactory.createInformationBox("da implementare paolo").showAndWait();
     }
 
     private void getSavingPage() {
-        guiFactory.createInformationBox("da implementare giulio").showAndWait();
+        this.guiFactory.createInformationBox("da implementare giulio").showAndWait();
     }
 
     public final Pane getMenuBar() {

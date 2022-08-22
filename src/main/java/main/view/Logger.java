@@ -10,18 +10,24 @@ import main.control.Controller;
 public class Logger implements View {
 
     @Override
-    public void setObserver(Controller observer) {
+    public void setObserver(final Controller observer) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void showMessage(String message) {
+    public void showMessage(final String message) {
         System.out.println("NOTHING TO SAY ABOUT..");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateView(Optional<Queue<List<?>>> queue, PageState pageState) {
+    public void updateView(final Optional<Queue<List<?>>> queue, final PageState pageState) {
         System.out.println("Updating views.....");
         System.out.println("Here should save important changes to local or jason or whatever... please someone does it.");
     }
