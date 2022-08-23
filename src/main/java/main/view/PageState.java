@@ -32,7 +32,7 @@ public enum PageState {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(final String state) {
         this.state = state;
     }
 

@@ -5,6 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.model.profile.ProfileCredentials;
 import main.model.profile.ProfileEconomy;
+import main.view.SubscriptionPlans;
 
 /**
  * This interface does all chores to interact with user. Such as operation IO,
@@ -61,4 +62,8 @@ public interface Controller {
     void changePword(String strategy, String newPword, String confPword, String id);
 
     ProfileEconomy getUsrEconomy();
+
+    void showAddAccountView();
+
+    boolean createAcc(String name, double value, SubscriptionPlans subPlan);
 }

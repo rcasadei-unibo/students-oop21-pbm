@@ -16,6 +16,7 @@ public interface InvestmentAccountTypeFactory {
 	/**
 	 * A free account.
 	 * 
+	 * @param id
 	 * @return InvestmentAccount instance
 	 */
 	InvestmentAccount createForFree(String id);
@@ -29,7 +30,7 @@ public interface InvestmentAccountTypeFactory {
 	 * it will charge a fee of 5. the remaining should be 95 
 	 * 
 	 * @param fees the applied operation fees
-	 * 
+	 * @param id
 	 * @return InvestmentAccount instance
 	 */
 	InvestmentAccount createWithOperationFees(Function<Double, Double> fees, String id);
@@ -38,7 +39,7 @@ public interface InvestmentAccountTypeFactory {
 	 * Each buy or sells should not exceed a certain amount.
 	 * 
 	 * @param limit the operation times shouldn't be exceeded
-	 * 
+	 * @param id
 	 * @return InvestmentAccount instance
 	 */
 	InvestmentAccount createWithOperationLimitForFree(int limit, String id);
@@ -47,7 +48,7 @@ public interface InvestmentAccountTypeFactory {
 	 * Each buy or sells should not exceed a certain amount.
 	 * 
 	 * @param amount the amount per operation shouldn't be exceeded
-	 * 
+	 * @param id
 	 * @return InvestmentAccount instance
 	 */
 	InvestmentAccount createWithAmountLimitForFree(double amount, String id);
