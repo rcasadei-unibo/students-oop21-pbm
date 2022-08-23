@@ -80,6 +80,23 @@ public class MainScene {
     }
 
     private void getExpenditurePage() {
+        final Pane profilePage = new StackPane();
+        
+        LineChart linechart = null;
+        try {
+            linechart = LineChartBuilder.chartNumberCategory(OperationJSONUtente.ReadBanckTransaction("Gin", "BPER"), "00/01/2022 00:00", "00/02/2022 00:00");
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //Creating a stack pane to hold the chart
+        StackPane pane = new StackPane(linechart);
+        pane.setPadding(new Insets(15, 15, 15, 15));
+        pane.setStyle("-fx-background-color: BEIGE");
+        //Setting the Scene
+        final Pane topBar = guiFactory.createHorizontalPanel();
+        topBar.getChildren().addAll(pane);
+        root.setBottom(topBar);
         this.controller.showExpenditure();
         /*final Pane profilePage = new StackPane();
         
