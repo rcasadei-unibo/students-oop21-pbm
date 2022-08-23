@@ -12,6 +12,7 @@ import com.google.common.base.Optional;
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
+import main.json.OperationJSONUtente;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
@@ -224,6 +225,13 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void terminateApp() {
+        final OperationJSONUtente json = new OperationJSONUtente();
+        json.initializeUser(
+                this.profileCred.getName(),
+                this.profileCred.getSurname(),
+                this.profileCred.getFc(),
+                this.profileCred.getEMail(),
+                this.profileCred.getPassword());
         executor.shutdown();
         // save files.. to be implemented.
     }
