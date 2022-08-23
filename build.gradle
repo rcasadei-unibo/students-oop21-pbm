@@ -23,6 +23,7 @@ repositories {
 def javaFXModules = ['base', "controls", "fxml", "swing", "graphics"]
 def supportedPlatforms = ["linux", "mac", "win"] // All required for OOP
 def javaFxVersion = 17
+def mainClassName = 'main.application.App'
 
 dependencies {
     // Use JUnit Jupiter for testing.
@@ -43,6 +44,10 @@ dependencies {
     
     // https://mvnrepository.com/artifact/org.json/json
 	implementation group: 'org.json', name: 'json', version: '20220320'
+	
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api',  version: '2.14.1'
+  	runtimeOnly    group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
 	
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
@@ -78,7 +83,7 @@ javafx {
 
 application{
     // Define the main class for the application.
-    mainClass = 'main.application.App'
+    mainClass = mainClassName
 }
 
 tasks.named('test') {
@@ -97,5 +102,19 @@ java {
     languageVersion.set(JavaLanguageVersion.of(11))
   }
 }
+
+
+jar{
+	archiveName = 'Budmate.jar'
+  manifest { 
+    attributes "Main-Class": "$mainClassName"
+  }  
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+
+}
+
 
 

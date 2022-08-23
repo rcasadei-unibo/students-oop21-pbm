@@ -7,7 +7,7 @@ import com.google.common.base.Optional;
 
 import main.control.Controller;
 
-public class Logger implements View {
+public class WriteToFile implements View {
 
     @Override
     public void setObserver(final Controller observer) {
