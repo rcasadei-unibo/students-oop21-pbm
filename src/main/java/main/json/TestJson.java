@@ -1,5 +1,10 @@
 package main.json;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javafx.scene.chart.XYChart;
+
 public class TestJson {
     
     public static void proviamo() {
@@ -42,6 +47,10 @@ public class TestJson {
             System.out.println("controllo riuscito");
         } else {
             System.out.println("controllo fallito");
+        }
+        TransactionJson[] transaction = OperationJSONUtente.ReadBanckTransaction("Gin", "BPER");
+        for(int i=0; i<transaction.length; i++) {
+            System.out.println(transaction[i].getDate());
         }
         /*System.out.println("nuovo conto");
         prova.newBanckAccount("jedy","STAR BANK");
