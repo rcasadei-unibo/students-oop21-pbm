@@ -232,6 +232,7 @@ public class ControllerImpl implements Controller {
                 this.profileCred.getFc(),
                 this.profileCred.getEMail(),
                 this.profileCred.getPassword());
+        System.out.println("user credentials now saved");
         executor.shutdown();
         // save files.. to be implemented.
     }
