@@ -11,7 +11,10 @@ import javafx.stage.Stage;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
 import main.control.Controller;
-
+/**
+ * Creates a simple Scene to log in an user. 
+ *
+ */
 public class LoginScene {
 
     private static final int W_RATIO = 5;
@@ -53,6 +56,10 @@ public class LoginScene {
         this.root.setBottom(buttonLayout);
     }
 
+    /**
+     * 
+     * @return Scene of LoginScene
+     */
     public Scene getScene() {
         return new Scene(this.root, Screen.getPrimary().getBounds().getWidth() / W_RATIO, Screen.getPrimary().getBounds().getHeight() / H_RATIO);
     }
