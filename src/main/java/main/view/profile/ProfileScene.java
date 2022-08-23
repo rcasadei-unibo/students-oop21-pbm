@@ -7,14 +7,14 @@ import java.util.Queue;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.control.Controller;
-import main.model.account.InvestmentAccount;
-import main.model.market.HoldingAccount;
 import main.view.BaseScene;
 import main.view.MainScene;
 
@@ -105,8 +105,9 @@ public class ProfileScene extends BaseScene {
 
     @Override
     protected void updateRight() {
-        final Pane rightLayout = getGadgets().createVerticalPanel();
+        final BorderPane rightLayout = new BorderPane();
 
+        final Pane usrBtns = getGadgets().createVerticalPanel();
         final Button changePassword = getGadgets().createButton("Cambia Password");
         changePassword.setOnAction(e -> {
             getController().showPasswordChangeView();
@@ -118,8 +119,17 @@ public class ProfileScene extends BaseScene {
                             .getScene());
             getPrimaryStage().centerOnScreen();
         });
+        usrBtns.getChildren().addAll(changePassword, logOut);
 
-        rightLayout.getChildren().addAll(changePassword, logOut);
+        final Pane ecoBtns = getGadgets().createVerticalPanel();
+        final Button newAcc = getGadgets().createButton("Nuovo Account");
+        newAcc.setOnAction(e -> {
+            getController().showAddAccountView();
+        });
+        ecoBtns.getChildren().add(newAcc);
+
+        rightLayout.setTop(usrBtns);
+        rightLayout.setBottom(ecoBtns);
         this.root.setRight(rightLayout);
     }
 }

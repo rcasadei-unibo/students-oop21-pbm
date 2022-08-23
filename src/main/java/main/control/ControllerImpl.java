@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Optional;
 
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
+import main.json.OperationJSONUtente;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
@@ -35,7 +37,9 @@ import main.model.profile.ProfileEconomy;
 import main.model.profile.ProfileEconomyImpl;
 import main.model.profile.SimplePassword;
 import main.view.PageState;
+import main.view.SubscriptionPlans;
 import main.view.View;
+import main.view.profile.AddAccountView;
 import main.view.profile.PasswordChangeView;
 
 public class ControllerImpl implements Controller {
@@ -67,7 +71,6 @@ public class ControllerImpl implements Controller {
         // based on the configuration, reads from various platform, be it locally, from
         // a database or create a new one.
         profile = new ProfileEconomyImpl();
-
         market = new MarketImpl();
         ep = new EquityPoolStock();
         ivo = new InvestmentViewObserverimpl(profile);
@@ -225,7 +228,6 @@ public class ControllerImpl implements Controller {
     @Override
     public void terminateApp() {
         executor.shutdown();
-        // save files.. to be implemented.
     }
 
     @Override
@@ -305,5 +307,25 @@ public class ControllerImpl implements Controller {
     @Override
     public ProfileEconomy getUsrEconomy() {
         return this.profile;
+    }
+
+    @Override
+    public void showAddAccountView() {
+        new AddAccountView(this);
+    }
+
+    @Override
+    public boolean createAcc(final String name, final double value, final SubscriptionPlans subPlan) {
+        if (this.profile.getHoldingAccounts().stream().map(acc -> acc.getID()).collect(Collectors.toList()).contains(name)) {
+            return false;
+        } else {
+            final InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
+            final InvestmentAccount invAcc = f.createWithOperationFees(x -> x * subPlan.getFee(), name);
+            final HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock(), name);
+            invAcc.deposit(value);
+            this.profile.addHoldingAccount(hAcc);
+            this.profile.addInvestmentAccount(invAcc);
+            return true;
+        }
     }
 }

@@ -37,7 +37,7 @@ import main.model.profile.SimplePassword;
 public class OperationJSONUtente {
 
     // search user
-    boolean userExist(String username) {
+    public boolean userExist(String username) {
 
         JSONParser parser = new JSONParser();
 
@@ -70,7 +70,7 @@ public class OperationJSONUtente {
 
     // this method check if the username and password are correct for a user in the
     // JSON file utente
-    boolean userPasswordCheck(String username, String password) {
+    public boolean userPasswordCheck(String username, String password) {
 
         JSONParser parser = new JSONParser();
 
@@ -107,7 +107,7 @@ public class OperationJSONUtente {
         }
     }
     
-    ProfileCredentials setProfileData(String username) {
+    public ProfileCredentials setProfileData(String username) {
         ProfileCredentials profile = null;
         
         JSONParser parser = new JSONParser();
@@ -141,7 +141,7 @@ public class OperationJSONUtente {
     }
 
     @SuppressWarnings("unchecked")
-    void initializeUser(String name, String lastName, String username, String email, String password) {
+    public void initializeUser(String name, String lastName, String username, String email, String password) {
 
         JSONParser parser = new JSONParser();
 
@@ -182,7 +182,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newBanckAccount(String username, String nameBanckAccount) {
+    public void newBanckAccount(String username, String nameBanckAccount) {
 
         JSONParser parser = new JSONParser();
 
@@ -233,7 +233,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newMoneyBox(String username, String nameMoneyBox) {
+    public void newMoneyBox(String username, String nameMoneyBox) {
 
         JSONParser parser = new JSONParser();
 
@@ -285,7 +285,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newInvestimentAccount(String username, String nameInvestimentAccount) {
+    public void newInvestimentAccount(String username, String nameInvestimentAccount) {
 
         JSONParser parser = new JSONParser();
 
@@ -337,7 +337,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newAsset(String username, String nameInvestimentAccount, String symbolAsset, String nameAsset) {
+    public void newAsset(String username, String nameInvestimentAccount, String symbolAsset, String nameAsset) {
 
         JSONParser parser = new JSONParser();
 
@@ -405,7 +405,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newBanckTransaction(String username, String nameBanckAccount, String nameTransaction, double amount,
+    public void newBanckTransaction(String username, String nameBanckAccount, String nameTransaction, double amount,
             String date, String time) {
 
         JSONParser parser = new JSONParser();
@@ -471,7 +471,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newMoneyBoxTransaction(String username, String nameMoneyBox, String nameTransaction, String currency,
+    public void newMoneyBoxTransaction(String username, String nameMoneyBox, String nameTransaction, String currency,
             double amount, String date, String time) {
 
         JSONParser parser = new JSONParser();
@@ -538,7 +538,7 @@ public class OperationJSONUtente {
         }
     }
 
-    void newAssetTransaction(String username, String nameInvestimentAccount, String nameTransaction, String symbolAsset,
+    public void newAssetTransaction(String username, String nameInvestimentAccount, String nameTransaction, String symbolAsset,
             double amount, String date, String time) {
 
         JSONParser parser = new JSONParser();
@@ -619,7 +619,7 @@ public class OperationJSONUtente {
         }
     }
 
-    TransactionJson[] ReadAssetTransaction(String username, String nameInvestimentAccount, String symbolAsset) {
+    public TransactionJson[] ReadAssetTransaction(String username, String nameInvestimentAccount, String symbolAsset) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -691,7 +691,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    TransactionJson[][] ReadAssetsTransaction(String username, String nameInvestimentAccount) {
+    public TransactionJson[][] ReadAssetsTransaction(String username, String nameInvestimentAccount) {
 
         TransactionJson[][] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -759,7 +759,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    TransactionJson[] ReadMoneyBoxTransaction(String username, String nameMoneyBox) {
+    public TransactionJson[] ReadMoneyBoxTransaction(String username, String nameMoneyBox) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -818,7 +818,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
+    public TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -883,7 +883,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    double getTotalAmountBank(String username, String nameBanckAccount) {
+    public double getTotalAmountBank(String username, String nameBanckAccount) {
 
         double totalAmount = 0;
 
@@ -896,7 +896,7 @@ public class OperationJSONUtente {
         return totalAmount;
     }
 
-    TransactionJson[] getTotalAssetsAccount(String username, String nameInvestimentAccount) {
+    public TransactionJson[] getTotalAssetsAccount(String username, String nameInvestimentAccount) {
 
         TransactionJson[] totalAssetsAccount = null;
 
@@ -911,7 +911,7 @@ public class OperationJSONUtente {
         return totalAssetsAccount;
     }
 
-    double getTotalAsset(String username, String nameInvestimentAccount, String symbolAsset) {
+    public double getTotalAsset(String username, String nameInvestimentAccount, String symbolAsset) {
 
         double totalAmount = 0;
 
