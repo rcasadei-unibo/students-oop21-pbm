@@ -2,23 +2,23 @@ package main.json;
 
 public class TransactionJson {
     
-    String nameTransaction;
+    private String nameTransaction;
     private String date;
     private String time;
     private String currency;
     private double amount;
     
-    TransactionJson(String nameTransaction, String date, String time, double amount){
+    public TransactionJson(String nameTransaction, String date, String time, double amount){
         this.setAmount(amount);
-        this.nameTransaction = nameTransaction;
+        this.setNameTransaction(nameTransaction);
         this.setDate(date);
         this.setTime(time);
         this.setCurrency("euro");
     }
     
-    TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
+    public TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
         this.setAmount(amount);
-        this.nameTransaction = nameTransaction;
+        this.setNameTransaction(nameTransaction);
         this.setDate(date);
         this.setTime(time);
         this.setCurrency(currency);
@@ -54,6 +54,14 @@ public class TransactionJson {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getNameTransaction() {
+        return nameTransaction;
+    }
+
+    public void setNameTransaction(String nameTransaction) {
+        this.nameTransaction = nameTransaction;
     }
     
 
