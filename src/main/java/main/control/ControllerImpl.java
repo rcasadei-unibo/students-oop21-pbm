@@ -393,4 +393,38 @@ public class ControllerImpl implements Controller {
             return true;
         }
     }
+    @Override
+    public void showExpenditure() {
+
+        final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
+            @Override
+            public Queue<List<?>> call() {
+                final Queue<List<?>> q = new LinkedList<>();
+                final List<String> invAccId = new LinkedList<>();
+                final List<Double> invAccValues = new LinkedList<>();
+                profile.getInvestmentAccounts().forEach(acc -> {
+                    invAccId.add(acc.getID());
+                    invAccValues.add(acc.getBalance());
+                    invAccValues.add(acc.getInvestedBalance());
+                });
+                final List<String> holAccId = new LinkedList<>();
+                final List<Double> holAccValues = new LinkedList<>();
+                profile.getHoldingAccounts().forEach(acc -> {
+                    holAccId.add(acc.getID());
+                    holAccValues.add(acc.getTotalValue());
+                });
+
+                q.add(invAccId);
+                q.add(invAccValues);
+                q.add(holAccId);
+                q.add(holAccValues);
+                return q;
+            }
+        };
+        task.setOnSucceeded(e -> {
+            updateView(task, PageState.EXPENSE);
+        });
+        executor.execute(task);
+
+    }
 }
