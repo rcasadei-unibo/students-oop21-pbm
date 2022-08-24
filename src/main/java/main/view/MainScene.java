@@ -4,9 +4,11 @@ import java.text.ParseException;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.charts.LineChartBuilder;
+import main.charts.PieChartBuilder;
+import main.charts.TestChart;
 import main.control.Controller;
 import main.json.OperationJSONUtente;
 
@@ -71,24 +75,40 @@ public class MainScene {
     }
 
     private void getExpenditurePage() {
-        final Pane profilePage = new StackPane();
+        this.controller.showExpenditure();
+        /*final Pane profilePage = new StackPane();
         
         LineChart linechart = null;
         try {
-            linechart = LineChartBuilder.chartNumberCategory(OperationJSONUtente.ReadBanckTransaction("Gin", "BPER"), "00/01/2022 00:00", "00/02/2022 00:00");
+            linechart = LineChartBuilder.chartNumberCategory(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        PieChart pie = null;
+        try {
+            pie = PieChartBuilder.builderChart(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        AreaChart area = null;
+        try {
+            area = LineChartBuilder.areaChartBuilder(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         //Creating a stack pane to hold the chart
-        StackPane pane = new StackPane(linechart);
+        StackPane pane = new StackPane(area);
         pane.setPadding(new Insets(15, 15, 15, 15));
         pane.setStyle("-fx-background-color: BEIGE");
         //Setting the Scene
         final Pane topBar = guiFactory.createHorizontalPanel();
         topBar.getChildren().addAll(pane);
-        root.setBottom(topBar);
-        this.guiFactory.createInformationBox("da implementare paolo").showAndWait();
+        root.setCenter(topBar);*/
     }
 
     private void getSavingPage() {
