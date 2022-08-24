@@ -61,4 +61,9 @@ public interface Controller {
     void changePword(String strategy, String newPword, String confPword, String id);
 
     ProfileEconomy getUsrEconomy();
+    
+    
+    //Paolo's part
+
+    void showExpenditure();
 }
