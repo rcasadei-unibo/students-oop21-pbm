@@ -193,6 +193,9 @@ public final class GUIFactoryImpl implements GUIFactory {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScrollPane createBlockScheda(final Node title, final Collection<? extends Node> descriptions,
             final Collection<? extends Node>... fields) {

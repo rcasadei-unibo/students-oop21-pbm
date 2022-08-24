@@ -9,6 +9,9 @@ import main.control.Controller;
 
 public class WriteToFile implements View {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setObserver(final Controller observer) {
         // TODO Auto-generated method stub

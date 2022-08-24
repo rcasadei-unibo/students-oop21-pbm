@@ -2,7 +2,7 @@ package main.model.market;
 
 import com.google.common.base.Optional;
 
-public class EquityPoolAPITradingView extends EquityPoolDecorator{
+public class EquityPoolAPITradingView extends EquityPoolDecorator {
 
     private final EquityPool basePool;
 
@@ -10,7 +10,10 @@ public class EquityPoolAPITradingView extends EquityPoolDecorator{
         super();
         this.basePool = basePool;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Double> getEquityPrice(final String symbol) {
         final Optional<Double> price = this.basePool.getEquityPrice(symbol);
@@ -20,6 +23,9 @@ public class EquityPoolAPITradingView extends EquityPoolDecorator{
         return price;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Equity> getEquity(final String symbol) {
         final Optional<Equity> equity = this.basePool.getEquity(symbol);
@@ -29,11 +35,12 @@ public class EquityPoolAPITradingView extends EquityPoolDecorator{
         return equity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return this.basePool.toString() + " --> TradingView";
     }
 
-    
 }
-

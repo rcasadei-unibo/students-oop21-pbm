@@ -10,9 +10,15 @@ public abstract class EquityImpl implements Equity {
 		this.symbol = symbol;
 	}
 
+	/**
+     * {@inheritDoc}
+     */
 	@Override
 	public abstract double getPrice();
 
+	/**
+     * {@inheritDoc}
+     */
 	@Override
 	public final String getSymbol() {
 		return this.symbol;
