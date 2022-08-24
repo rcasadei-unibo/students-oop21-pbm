@@ -12,7 +12,7 @@ import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
 import main.control.Controller;
 /**
- * Creates simple registration scene
+ * Creates simple registration scene.
  *
  */
 public class RegistrationView {

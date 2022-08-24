@@ -24,6 +24,7 @@ public class MainScene {
         this.stage = stage;
 
         this.root.setTop(createMenuBar());
+        this.stage.centerOnScreen();
     }
 
     /**
