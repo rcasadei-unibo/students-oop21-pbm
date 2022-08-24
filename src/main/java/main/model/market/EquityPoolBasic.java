@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import com.google.common.base.Optional;
 
-public final class EquityPoolStock implements EquityPool {
+public final class EquityPoolBasic implements EquityPool {
 
 	
-	public EquityPoolStock() {
+	public EquityPoolBasic() {
 		super();
 	}
 
@@ -16,7 +16,7 @@ public final class EquityPoolStock implements EquityPool {
 			return Optional.fromNullable(new EquityStock(symbol));
 		} catch (IOException e) {
 			// Logger.log(e.print....);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return Optional.absent();
 	}
@@ -26,4 +26,11 @@ public final class EquityPoolStock implements EquityPool {
 		return eq.isPresent() ? Optional.fromNullable(eq.get().getPrice()) :
 			Optional.absent();
 	}
+
+    @Override
+    public String toString() {
+        return "YahooFinance: ";
+    }
+	
+	
 }

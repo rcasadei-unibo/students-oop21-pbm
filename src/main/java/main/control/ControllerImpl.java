@@ -21,7 +21,7 @@ import main.model.account.NotEnoughFundsException;
 import main.model.account.NotEnoughSharesException;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
-import main.model.market.EquityPoolStock;
+import main.model.market.EquityPoolBasic;
 import main.model.market.HoldingAccount;
 import main.model.market.HoldingAccountImpl;
 import main.model.market.Market;
@@ -280,7 +280,7 @@ public class ControllerImpl implements Controller {
         this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
         this.profile = new ProfileEconomyImpl(); 
         market = new MarketImpl();
-        ep = new EquityPoolStock();
+        ep = new EquityPoolBasic();
         ivo = new InvestmentViewObserverimpl(profile);
     }
 
@@ -300,7 +300,7 @@ public class ControllerImpl implements Controller {
 
         InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
         InvestmentAccount invAcc = f.createForFree("Etoro");
-        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock(), "Etoro");
+        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolBasic(), "Etoro");
         invAcc.deposit(10000);
         Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
         market.buyAsset(invAcc, hAcc, o);
@@ -316,7 +316,7 @@ public class ControllerImpl implements Controller {
         profile.addInvestmentAccount(invAcc);
         InvestmentAccount invAcc2 = f.createWithOperationFees(x -> x * 0.01, "Binance");
         o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
-        HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
+        HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolBasic(), "Binance");
         invAcc2.deposit(1000000);
         market.buyAsset(invAcc2, hAcc2, o);
         o = new OrderImpl(ep.getEquity("AAL").get(), 17);
@@ -386,7 +386,7 @@ public class ControllerImpl implements Controller {
         } else {
             final InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
             final InvestmentAccount invAcc = f.createWithOperationFees(x -> x * subPlan.getFee(), name);
-            final HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock(), name);
+            final HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolBasic(), name);
             invAcc.deposit(value);
             this.profile.addHoldingAccount(hAcc);
             this.profile.addInvestmentAccount(invAcc);

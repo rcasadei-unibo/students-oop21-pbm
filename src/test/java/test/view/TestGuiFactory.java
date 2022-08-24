@@ -11,7 +11,7 @@ import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
-import main.model.market.EquityPoolStock;
+import main.model.market.EquityPoolBasic;
 import main.model.market.HoldingAccount;
 import main.model.market.HoldingAccountImpl;
 import main.model.market.Market;

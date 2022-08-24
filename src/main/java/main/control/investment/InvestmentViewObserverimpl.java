@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import main.model.market.EquityPool;
-import main.model.market.EquityPoolStock;
+import main.model.market.EquityPoolAPICoinBase;
+import main.model.market.EquityPoolAPITradingView;
+import main.model.market.EquityPoolBasic;
 import main.model.profile.ProfileEconomy;
 
 public final class InvestmentViewObserverimpl implements InvestmentViewObserver {
@@ -22,7 +24,8 @@ public final class InvestmentViewObserverimpl implements InvestmentViewObserver 
     public InvestmentViewObserverimpl(final ProfileEconomy profile) {
         super();
         this.profile = profile;
-        ep = new EquityPoolStock();
+        //let's always try to use the maximum research level
+        ep = new EquityPoolAPITradingView(new EquityPoolAPICoinBase(new EquityPoolBasic()));
     }
 
     @Override
