@@ -2,23 +2,66 @@ package main.json;
 
 public class TransactionJson {
     
-    String nameTransaction, date, time, currency;
-    double amount;
+    private String nameTransaction;
+    private String date;
+    private String time;
+    private String currency;
+    private double amount;
     
-    TransactionJson(String nameTransaction, String date, String time, double amount){
-        this.amount = amount;
-        this.nameTransaction = nameTransaction;
-        this.date = date;
-        this.time = time;
-        this.currency = "euro";
+    public TransactionJson(String nameTransaction, String date, String time, double amount){
+        this.setAmount(amount);
+        this.setNameTransaction(nameTransaction);
+        this.setDate(date);
+        this.setTime(time);
+        this.setCurrency("euro");
     }
     
-    TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
+    public TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
+        this.setAmount(amount);
+        this.setNameTransaction(nameTransaction);
+        this.setDate(date);
+        this.setTime(time);
+        this.setCurrency(currency);
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
         this.amount = amount;
-        this.nameTransaction = nameTransaction;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
-        this.time = time;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getNameTransaction() {
+        return nameTransaction;
+    }
+
+    public void setNameTransaction(String nameTransaction) {
+        this.nameTransaction = nameTransaction;
     }
     
 

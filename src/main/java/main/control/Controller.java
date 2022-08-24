@@ -1,5 +1,8 @@
 package main.control;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import main.model.profile.ProfileCredentials;
 import main.model.profile.ProfileEconomy;
 import main.view.SubscriptionPlans;
@@ -112,4 +115,8 @@ public interface Controller {
      * @return true if the account is successfully created, false otherwise
      */
     boolean createAcc(String name, double value, SubscriptionPlans subPlan);
+    
+    //Paolo's part
+
+    void showExpenditure();
 }

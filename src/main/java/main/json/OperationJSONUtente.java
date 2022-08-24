@@ -37,15 +37,17 @@ import main.model.profile.SimplePassword;
 public class OperationJSONUtente {
 
     // search user
-    public boolean userExist(String username) {
+    static boolean userExist(String username) {
 
         JSONParser parser = new JSONParser();
 
         try {
             // create jsonArray from file
-            JSONArray users = (JSONArray) parser
-                    .parse(new FileReader(new File(getClass().getClassLoader().getResource("utente.json").toURI())));
-
+            File input = new File(OperationJSONUtente.class.getResource("utente.json").toURI());
+            FileReader reader = new FileReader(input);
+            JSONArray users = (JSONArray) parser.parse(reader);
+            
+            
             // read user
             for (Object user : users) {
                 JSONObject person = (JSONObject) user;
@@ -666,11 +668,11 @@ public class OperationJSONUtente {
                                     for (int i = 0; i < transactions.size(); i++) {
                                         JSONObject transaction = (JSONObject) transactions.get(i);
 
-                                        Transaction[i].amount = (double) transaction.get("amount");
-                                        Transaction[i].nameTransaction = (String) transaction.get("nameTransaction");
-                                        Transaction[i].date = (String) transaction.get("date");
-                                        Transaction[i].time = (String) transaction.get("time");
-                                        Transaction[i].currency = (String) asset.get("symbolAsset");
+                                        Transaction[i].setAmount((double) transaction.get("amount"));
+                                        Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
+                                        Transaction[i].setDate((String) transaction.get("date"));
+                                        Transaction[i].setTime((String) transaction.get("time"));
+                                        Transaction[i].setCurrency((String) asset.get("symbolAsset"));
                                     }
 
                                 }
@@ -736,11 +738,11 @@ public class OperationJSONUtente {
                                 for (int j = 0; j < transactions.size(); j++) {
                                     JSONObject transaction = (JSONObject) transactions.get(i);
 
-                                    Transaction[i][j].amount = (double) transaction.get("amount");
-                                    Transaction[i][j].nameTransaction = (String) transaction.get("nameTransaction");
-                                    Transaction[i][j].date = (String) transaction.get("date");
-                                    Transaction[i][j].time = (String) transaction.get("time");
-                                    Transaction[i][j].currency = assetSymbol;
+                                    Transaction[i][j].setAmount((double) transaction.get("amount"));
+                                    Transaction[i][j].setNameTransaction((String) transaction.get("nameTransaction"));
+                                    Transaction[i][j].setDate((String) transaction.get("date"));
+                                    Transaction[i][j].setTime((String) transaction.get("time"));
+                                    Transaction[i][j].setCurrency(assetSymbol);
                                 }
 
                             }
@@ -796,11 +798,11 @@ public class OperationJSONUtente {
                             for (int i = 0; i < transactions.size(); i++) {
                                 JSONObject transaction = (JSONObject) transactions.get(i);
 
-                                Transaction[i].amount = (double) transaction.get("amount");
-                                Transaction[i].nameTransaction = (String) transaction.get("nameTransaction");
-                                Transaction[i].date = (String) transaction.get("date");
-                                Transaction[i].time = (String) transaction.get("time");
-                                Transaction[i].currency = (String) transaction.get("currency");
+                                Transaction[i].setAmount((double) transaction.get("amount"));
+                                Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
+                                Transaction[i].setDate((String) transaction.get("date"));
+                                Transaction[i].setTime((String) transaction.get("time"));
+                                Transaction[i].setCurrency((String) transaction.get("currency"));
                             }
 
                         }
@@ -817,14 +819,14 @@ public class OperationJSONUtente {
 
         return Transaction;
     }
-
-    public TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
+    
+    public static TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
 
         try {
-            File input = new File(getClass().getClassLoader().getResource("utente.json").toURI());
+            File input = new File(OperationJSONUtente.class.getResource("utente.json").toURI());
 
             FileReader reader = new FileReader(input);
             // create jsonArray from file
@@ -890,7 +892,7 @@ public class OperationJSONUtente {
         TransactionJson[] BanckTransaction = ReadBanckTransaction(username, nameBanckAccount);
 
         for (TransactionJson i : BanckTransaction) {
-            totalAmount += i.amount;
+            totalAmount += i.getAmount();
         }
 
         return totalAmount;
@@ -904,7 +906,7 @@ public class OperationJSONUtente {
 
         for (int i = 0; i < AssetsTransaction.length; i++) {
             for (int j = 0; j < AssetsTransaction[i].length; j++) {
-                totalAssetsAccount[i].amount += AssetsTransaction[i][j].amount;
+                totalAssetsAccount[i].setAmount(totalAssetsAccount[i].getAmount() + AssetsTransaction[i][j].getAmount());
             }
         }
 
@@ -918,7 +920,7 @@ public class OperationJSONUtente {
         TransactionJson[] BanckTransaction = ReadAssetTransaction(username, nameInvestimentAccount, symbolAsset);
 
         for (TransactionJson i : BanckTransaction) {
-            totalAmount += i.amount;
+            totalAmount += i.getAmount();
         }
 
         return totalAmount;
