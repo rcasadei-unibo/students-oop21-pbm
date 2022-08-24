@@ -11,7 +11,10 @@ import javafx.stage.Stage;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
 import main.control.Controller;
-
+/**
+ * Creates simple registration scene
+ *
+ */
 public class RegistrationView {
 
     private static final int W_RATIO = 5;
@@ -71,6 +74,10 @@ public class RegistrationView {
         return eMail.contains("@") && password.equals(confPass);
     }
 
+    /**
+     * 
+     * @return Scene of RegistrationView
+     */
     public Scene getScene() {
         return new Scene(this.root, Screen.getPrimary().getBounds().getWidth() / W_RATIO, Screen.getPrimary().getBounds().getHeight() / H_RATIO);
     }

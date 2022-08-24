@@ -26,6 +26,10 @@ public class MainScene {
         this.root.setTop(createMenuBar());
     }
 
+    /**
+     * 
+     * @return Scene of MainScene
+     */
     public Scene getScene() {
         return this.guiFactory.createScene(this.root);
     }

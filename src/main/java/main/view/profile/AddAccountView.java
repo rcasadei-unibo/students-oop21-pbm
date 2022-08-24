@@ -2,9 +2,7 @@ package main.view.profile;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
@@ -17,6 +15,11 @@ import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
 import main.view.SubscriptionPlans;
 
+/**
+ * Creates a new stage with the functionalities necessary to add
+ * an InvestmentAccount and HoldingAcconut to ProfileEconomy.
+ *
+ */
 public class AddAccountView {
     private static final int W_RATIO = 5;
     private static final int H_RATIO = 3;

@@ -7,9 +7,7 @@ import java.util.Queue;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -18,6 +16,11 @@ import main.control.Controller;
 import main.view.BaseScene;
 import main.view.MainScene;
 
+/**
+ * Creates ProfileScene. Shows informations about the profile credentials
+ * and economy.
+ *
+ */
 public class ProfileScene extends BaseScene {
 
     private static final int TEXT_DIM = 10;
@@ -34,6 +37,9 @@ public class ProfileScene extends BaseScene {
         this.scene = getGadgets().createScene(root);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> things) {
         this.updateables = things;
@@ -41,17 +47,25 @@ public class ProfileScene extends BaseScene {
         super.getPrimaryStage().setScene(this.scene);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Scene getScene() {
         return this.scene;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateTop() {
         this.root.setTop(super.getMenuBar());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateBottom() {
         // nothing to be done here
@@ -59,6 +73,9 @@ public class ProfileScene extends BaseScene {
         this.root.setBottom(bottomLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     protected void updateCenter() {
@@ -92,6 +109,9 @@ public class ProfileScene extends BaseScene {
         this.root.setCenter(centerLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateLeft() {
         final Pane leftLayout = getGadgets().createVerticalPanel();
@@ -103,6 +123,9 @@ public class ProfileScene extends BaseScene {
         this.root.setLeft(leftLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateRight() {
         final BorderPane rightLayout = new BorderPane();
