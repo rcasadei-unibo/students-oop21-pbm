@@ -276,7 +276,42 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
                 \label{fig:my_label}
             \end{figure}
 
+\subsection{Paolo Pietrelli}
 
+	\subsubsection{JSON}
+		\paragraph{Problem:}Since I've start to think about this project,  about the profiles, the operations, I thought we need to save and manage data. 
+		\paragraph{Solution:}Toghether with the team we chose to use json, in a local file, for write and read users data. For this reason I spend most of my time more than 10 days writing a class for do that easily.
+		
+		I've chose to desingne the json structure in this way:
+		
+		User (name, lastName,  email, username, password, );
+		
+		The username it want to be the unique identifier of the user;
+		
+		Each user has also BankAccounts[], MoneyBox[], InvestmentAccount[];
+		
+		BankAccount is identified with a name and it has transactions[], transaction (nameTransaction, amount, date, time);
+		
+		Alike BankAccount also MoneyBox has a name to identify it and it's transactions, otherwise to bank account MoneyBox transactions has also a field currency because I want to give the possibility to the user to use money box even for the assets and make it currency freedom.
+		
+		Also InvestimentAccount has a name to identify it, than it  has Assets[];
+		
+		Asset(nameAsset, symbolAsset), symbolAsset is the identifier "ETH" "BTC" "AAPL",each Asset has also it's transaction alike the bankAccount transaction(nameTrnasaction, amount, date, time)
+		
+		I apologize, I've couldn't be able to designe a UML in time for the delivery
+
+	\subsubsection{ExpenditureScene}
+	Problem: how to show user he's transaction, and how much he spend?
+	
+	Solution: For solve this problem I chose to use a grafical rappresentation and focuse the view on Profit and costs;
+	
+	I've Project Three class TableBuilder, PieChartBuilder and LineChartBuilder, and I set their mothods for show only the transaction of the period in imput;
+	
+	the generality of this it been, chose for be helpfull for every member of the team, beacause the first parameter a object TransactionJson is the same for every kind of transaction in the file json.
+	
+	So these method are not only focused on the expenditure.
+	
+	 
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
@@ -296,6 +331,12 @@ I tested the correct initialization of a profile and the correct change of the p
 \begin{itemize}
     \item TestProfile.java
 \end{itemize}
+
+\subsection{Paolo Pietrelli}
+I lack of testing, at the beginning I build some test, in a the class TestJson and I call it in the class App.
+But unfortunatly in some recent commit two/three days ago something went wrong and I couldn't be able to read the file json anymore (until the commit `utente.json come back` it keep to read the file and do the operation).
+
+So I've chose to use my time not for a failure tetsing but for show how the data showld be appear 
 
 \section{Metodologia di lavoro}
 \subsection{Zhaohui Song}
@@ -331,6 +372,20 @@ We have decided together that we are going to use JavaFX, from that point I have
     \item main.control: \textit{Controller, ControllerImpl}
     \item main.view: \textit{javaFxView, GUIFactory and GUIFactoryImpl(5\%)}
     \item main.view.profile: \textit{ProfileScene (95\%)}
+\end{itemize}
+
+\subsection{Paolo Pietrelli}
+\paragraph*{Fully Independent work:}
+\begin{itemize}
+    \item main.charts
+    \item main.json
+    \item main.view.expenditure
+    \item main.resources: \textit{utente.json}
+\end{itemize}
+\paragraph*{Cooperated work:}
+\begin{itemize}
+    \item main.control: \textit{Controller, ControllerImpl}
+    \item main.view: \textit{javaFxView(2\%)}
 \end{itemize}
 
 \section{Note di sviluppo}
@@ -371,6 +426,16 @@ I unfortunately did nothing special this project:
     \item Use of third-party api: JavaFx,
 \end{itemize}
 
+\subsection{Paolo Pietrelli}
+I unfortunately needed too much time for interact with the json file, and I'm really sad my Team couldn't interact with this for the data.
+And unlickily I don't know what happen the program crash and couldn't find the file json anymore.
+
+for my code I used
+\begin{itemize}
+    \item third-party api: JavaFx,
+    \item third-party api: Json.simple (but I also tried other library);
+\end{itemize}
+
 
 \chapter{Commenti finali}
 
@@ -389,6 +454,10 @@ There are too many features that can be added, such as adding a comparator to th
 
 \subsection*{Alessandro Stefani}
 I think A really big problem in this project was the lack of planning. Although we met a couple of times to discuss the design, we only discussed it very generally, without creating any good diagram with interfaces. We also had bad communication between us and for example when me and Song confronted each other, we discovered that the idea of the architecture we had in mind differed a lot (we went for Song's idea, which was better).
+
+\subsection*{Paolo Pietrelli}
+In this project I spend many hour on research from Json to JavaFx, I think at least 40\% of my time it been spent in research, 20\% on design, 30\% on coding and only a 10\% on debugging.
+I have to say that I'm agree with Alessandro we spend less time on planning and discuss together the design 
 
 \section{Difficoltà incontrate e commenti per i docenti}
 \subsection*{Zhaohui Song}
