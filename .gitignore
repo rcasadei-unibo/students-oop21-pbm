@@ -1,6 +1,39 @@
 # Ignore Gradle project-specific cache directory
 .gradle
+*.classpath
+*.settings/*
 
 # Ignore Gradle build output directory
 build
 bin
+
+# Ignore latex projects.
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.synctex.gz
+
+*.fdb_latexmk
+*.xml
+*.fls
+*.bcf
+*.pyg

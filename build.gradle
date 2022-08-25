@@ -11,6 +11,8 @@ plugins {
     id 'application'
     id 'java'
     id 'eclipse'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    // id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 repositories {
@@ -18,9 +20,14 @@ repositories {
     mavenCentral()
 }
 
+def javaFXModules = ['base', "controls", "fxml", "swing", "graphics"]
+def supportedPlatforms = ["linux", "mac", "win"] // All required for OOP
+def javaFxVersion = 17
+def mainClassName = 'main.application.App'
+
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
@@ -35,15 +42,79 @@ dependencies {
 	//implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
     
+    // https://mvnrepository.com/artifact/org.json/json
+	implementation group: 'org.json', name: 'json', version: '20220320'
+	
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api',  version: '2.14.1'
+  	runtimeOnly    group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
+	
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	//other website https://search.maven.org/artifact/com.github.cliftonlabs/json-simple/4.0.0/jar
+	implementation 'com.github.cliftonlabs:json-simple:4.0.0'
+	
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+	
     
+     //https://mvnrepository.com/artifact/org.openjfx/javafx
+	//implementation group: 'org.openjfx', name: 'javafx', version: '17', ext: 'pom'
+	for ( platform in supportedPlatforms ) {
+ 		for ( module in javaFXModules ) {
+ 		  	if( platform == "mac" ){
+ 		  		// https://mvnrepository.com/artifact/org.openjfx/javafx
+				implementation group: 'org.openjfx', name: 'javafx', version: '17-ea+8', ext: 'pom'
+ 		  		
+ 		  	}else{
+ 				implementation "org.openjfx:javafx-$module:$javaFxVersion:$platform"
+ 		  	}
+		}
+	}
+	
+	testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
 }
 
-application {
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls' ]
+}
+
+application{
     // Define the main class for the application.
-    mainClass = 'MiniTradingApp.App'
+    mainClass = mainClassName
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}	
+
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(11))
+  }
+}
+
+
+jar{
+	archiveName = 'Budmate.jar'
+  manifest { 
+    attributes "Main-Class": "$mainClassName"
+  }  
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+
+}
+
+
+
