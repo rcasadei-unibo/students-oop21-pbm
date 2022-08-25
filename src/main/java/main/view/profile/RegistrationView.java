@@ -51,8 +51,7 @@ public class RegistrationView {
         register.setOnAction(e -> {
             if (checkInputs(eMail.getText(), password.getText(), confPass.getText())) {
                 controller.registerProfile(name.getText(), surname.getText(), fc.getText(), eMail.getText(), password.getText());
-                primaryStage.setScene(mainScene);
-                primaryStage.centerOnScreen();
+                controller.showProfile();
             } else {
                 guiFactory.createInformationBox("Email non valida o Password incorretta").showAndWait();
                 e.consume();

@@ -94,6 +94,7 @@ public abstract class BaseScene implements CustomScene {
             this.updateCenter();
             this.updateLeft();
             this.updateRight();
+            getPrimaryStage().centerOnScreen();
         });
     }
 

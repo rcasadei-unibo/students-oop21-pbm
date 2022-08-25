@@ -16,8 +16,8 @@ import main.view.GUIFactoryImpl;
 import main.view.SubscriptionPlans;
 
 /**
- * Creates a new stage with the functionalities necessary to add
- * an InvestmentAccount and HoldingAcconut to ProfileEconomy.
+ * Creates a new stage with the functionalities necessary to add an
+ * InvestmentAccount and HoldingAcconut to ProfileEconomy.
  *
  */
 public class AddAccountView {
@@ -34,17 +34,12 @@ public class AddAccountView {
         final Stage stage = new Stage();
         final BorderPane layout = new BorderPane();
 
-        //TOP
+        // TOP
         final Pane top = this.guiFactory.createHorizontalPanel();
         final Text fee = this.guiFactory.createText("    Fee: 0.05", 6);
         final ComboBox<SubscriptionPlans> subPlan = new ComboBox<>();
-        subPlan.getItems().addAll(
-                SubscriptionPlans.BRONZE,
-                SubscriptionPlans.SILVER,
-                SubscriptionPlans.GOLD,
-                SubscriptionPlans.PLATINUM,
-                SubscriptionPlans.DIAMOND,
-                SubscriptionPlans.CHALLENGER);
+        subPlan.getItems().addAll(SubscriptionPlans.BRONZE, SubscriptionPlans.SILVER, SubscriptionPlans.GOLD,
+                SubscriptionPlans.PLATINUM, SubscriptionPlans.DIAMOND, SubscriptionPlans.CHALLENGER);
         subPlan.setOnAction(e -> {
             fee.setText("    Fee: " + subPlan.getValue().getFee().toString());
         });
@@ -52,7 +47,7 @@ public class AddAccountView {
 
         top.getChildren().addAll(subPlan, fee);
 
-        //CENTER
+        // CENTER
         final Pane center = this.guiFactory.createVerticalPanel();
         final TextField accName = new TextField();
         accName.setPromptText("Nome account");
@@ -62,15 +57,16 @@ public class AddAccountView {
         }));
         final TextField accWorth = new TextField();
         accWorth.setPromptText("Quantitativo da depositare");
- 
+
         center.getChildren().addAll(accName, accWorth);
 
-        //BOTTOM
+        // BOTTOM
         final Pane bot = this.guiFactory.createHorizontalPanel();
         final Button addAcc = this.guiFactory.createButton("Crea");
         addAcc.setOnAction(e -> {
             if (inputsOk(accName.getText(), accWorth.getText())) {
-                if (controller.createAcc(accName.getText(), Double.parseDouble(accWorth.getText()), subPlan.getValue())) {
+                if (controller.createAcc(accName.getText(), Double.parseDouble(accWorth.getText()),
+                        subPlan.getValue())) {
                     controller.showProfile();
                     stage.close();
                 } else {
@@ -82,12 +78,13 @@ public class AddAccountView {
         });
         bot.getChildren().add(addAcc);
 
-        //SETUP
+        // SETUP
         layout.setTop(top);
         layout.setCenter(center);
         layout.setBottom(bot);
 
-        final Scene scene = new Scene(layout, Screen.getPrimary().getBounds().getWidth() / W_RATIO, Screen.getPrimary().getBounds().getHeight() / H_RATIO);
+        final Scene scene = new Scene(layout, Screen.getPrimary().getBounds().getWidth() / W_RATIO,
+                Screen.getPrimary().getBounds().getHeight() / H_RATIO);
 
         stage.setTitle("Aggiungi Account");
         stage.setScene(scene);
@@ -96,11 +93,13 @@ public class AddAccountView {
     }
 
     private boolean inputsOk(final String name, final String money) {
+        final double x;
         try {
-            Double.parseDouble(money);
+            x = Double.parseDouble(money);
         } catch (NumberFormatException e) {
             return false;
         }
-        return !name.isBlank();
+
+        return !name.isBlank() && x > 0.0;
     }
 }

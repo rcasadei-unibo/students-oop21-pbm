@@ -41,8 +41,7 @@ public class LoginScene {
         final Button access = guiFactory.createButton("Accedi");
         access.setOnAction(e -> {
             this.controller.accessProfile(eMail.getText(), password.getText());
-            primaryStage.setScene(mainScene);
-            primaryStage.centerOnScreen();
+            controller.showProfile();
         });
 
         final Button register = guiFactory.createButton("Registrati");
