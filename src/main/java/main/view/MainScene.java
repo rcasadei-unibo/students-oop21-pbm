@@ -81,39 +81,6 @@ public class MainScene {
 
     private void getExpenditurePage() {
         this.controller.showExpenditure();
-        /*final Pane profilePage = new StackPane();
-        
-        LineChart linechart = null;
-        try {
-            linechart = LineChartBuilder.chartNumberCategory(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        PieChart pie = null;
-        try {
-            pie = PieChartBuilder.builderChart(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        AreaChart area = null;
-        try {
-            area = LineChartBuilder.areaChartBuilder(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        //Creating a stack pane to hold the chart
-        StackPane pane = new StackPane(area);
-        pane.setPadding(new Insets(15, 15, 15, 15));
-        pane.setStyle("-fx-background-color: BEIGE");
-        //Setting the Scene
-        final Pane topBar = guiFactory.createHorizontalPanel();
-        topBar.getChildren().addAll(pane);
-        root.setCenter(topBar);*/
     }
 
     private void getSavingPage() {
