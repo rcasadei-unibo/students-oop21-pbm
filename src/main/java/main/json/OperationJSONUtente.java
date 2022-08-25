@@ -1,24 +1,13 @@
 package main.json;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
 /*
+ * I've try many kind of library for write and read file json 
+ * at the end I've chose to use json.simple
+ * 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.cliftonlabs.json_simple.JsonArray;
@@ -28,15 +17,21 @@ import com.github.cliftonlabs.json_simple.Jsoner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import main.model.profile.Password;
 import main.model.profile.ProfileCredentials;
 import main.model.profile.SimplePassword;
 
 public class OperationJSONUtente {
-
-    // search user
+    
+    
+    /**
+     * this method return a boolean true if the searched username exist in the json file false otherwise
+     * 
+     * @param username it correspond at the username of the user, we notice the mistake 
+     * the username instead fc (fiscal code) too late for change, but the meaning doesn't change, both 
+     * username and fc has the same meaning to identify a only user 
+     * 
+     * */
     static boolean userExist(String username) {
 
         JSONParser parser = new JSONParser();
@@ -53,8 +48,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
                     return true;
@@ -69,10 +62,13 @@ public class OperationJSONUtente {
             return false;
         }
     }
-
-    // this method check if the username and password are correct for a user in the
-    // JSON file utente
-    public boolean userPasswordCheck(String username, String password) {
+    
+    /**
+    * this method check if the email and password are correct for a user in the
+    * JSON file utente
+    * 
+    * */
+    public boolean userPasswordCheck(String email, String password) {
 
         JSONParser parser = new JSONParser();
 
@@ -83,19 +79,14 @@ public class OperationJSONUtente {
 
             // read user
             for (Object user : users) {
+                
                 JSONObject person = (JSONObject) user;
 
-                String userName = (String) person.get("username");
-
-                // System.out.println("input username = " + username + ", username json = " +
-                // userName);
+                String eMail = (String) person.get("email");
 
                 String psw = (String) person.get("password");
 
-                // System.out.println("input password = " + password + ", password json = " +
-                // psw);
-
-                if (userName.equals(username) && psw.equals(password)) {
+                if (eMail.equals(email) && psw.equals(password)) {
                     return true;
                 }
 
@@ -108,6 +99,16 @@ public class OperationJSONUtente {
             return false;
         }
     }
+    
+    
+    /**
+     * This method return a ProfileCredential object setting all field
+     * 
+     * this method would be useful after the checking email password
+     * 
+     * @param username the user unique identifier
+     * 
+     * */
     
     public ProfileCredentials setProfileData(String username) {
         ProfileCredentials profile = null;
@@ -141,6 +142,20 @@ public class OperationJSONUtente {
         }
         return profile;
     }
+    
+    
+    /**
+     * this method initialize a new user it take from input:
+     * 
+     * @param name the name of the new user 
+     * @param lastName last name of the new user
+     * @param username the unique identifier of the new user 
+     * @param email the eMail of the new user 
+     * @param password new user password 
+     * 
+     * this method doesn't has return because it just write the new user in the file 
+     * 
+     * */
 
     @SuppressWarnings("unchecked")
     public void initializeUser(String name, String lastName, String username, String email, String password) {
@@ -174,7 +189,7 @@ public class OperationJSONUtente {
             FileWriter file = new FileWriter(input, false);
 
             System.out.println("scrivo su file");
-            // System.out.println(users);
+            
             file.write(users.toJSONString());
             file.flush();
             file.close();
@@ -183,6 +198,15 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    
+    /**
+     * this method initialize a new banckAccount in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameBanckAccount the name of the new banck account for example "banco posta"
+     * 
+     * */
 
     public void newBanckAccount(String username, String nameBanckAccount) {
 
@@ -200,8 +224,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -217,12 +239,10 @@ public class OperationJSONUtente {
 
                     person.put("banckAccounts", banckAccounts);
 
-                    // System.out.println("il nuovo file json");
-                    // System.out.println(users);
                     FileWriter file = new FileWriter(input, false);
 
                     System.out.println("scrivo su file");
-                    // System.out.println(users);
+                    
                     file.write(users.toJSONString());
                     file.flush();
                     file.close();
@@ -234,6 +254,14 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * this method initialize a new money box in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameMoneyBox the name of the new money box for example "vacation"
+     * 
+     * */
 
     public void newMoneyBox(String username, String nameMoneyBox) {
 
@@ -248,11 +276,10 @@ public class OperationJSONUtente {
 
             // read user
             for (Object user : users) {
+                
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -267,14 +294,9 @@ public class OperationJSONUtente {
                     moneyBoxes.addAll(Arrays.asList(moneyBox));
 
                     person.put("moneyBoxes", moneyBoxes);
-
-                    // System.out.println("il nuovo file json");
-                    // System.out.println(users);
-
+                    
                     FileWriter file = new FileWriter(input, false);
 
-                    // System.out.println("scrivo su file");
-                    // System.out.println(users);
                     file.write(users.toJSONString());
                     file.flush();
                     file.close();
@@ -286,6 +308,14 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * this method initialize a new investment account in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameInvestimentAccount the name of the new investment account for example "Binance"
+     * 
+     * */
 
     public void newInvestimentAccount(String username, String nameInvestimentAccount) {
 
@@ -303,8 +333,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -320,13 +348,8 @@ public class OperationJSONUtente {
 
                     person.put("investimentAccounts", investimentAccounts);
 
-                    // System.out.println("il nuovo file json");
-                    // System.out.println(users);
-
                     FileWriter file = new FileWriter(input, false);
 
-                    // System.out.println("scrivo su file");
-                    // System.out.println(users);
                     file.write(users.toJSONString());
                     file.flush();
                     file.close();
@@ -338,6 +361,19 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * this method initialize a new asset account in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameInvestimentAccount the name of the investment account we want to add a asset
+     * @param symbolAsset the symbol of the new asset we want to add to our investment account 
+     * @param nameAsset the name of the new asset, technical this name could be even a "" void string,
+     *          this is just for the database, for all operation we use the symbol, I chose to add this field 
+     *          for make it more clearly and more complete. In the future we might like to see this field and 
+     *          use it for show some graphical.
+     * 
+     * */
 
     public void newAsset(String username, String nameInvestimentAccount, String symbolAsset, String nameAsset) {
 
@@ -355,8 +391,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -382,14 +416,9 @@ public class OperationJSONUtente {
                             assets.addAll(Arrays.asList(asset));
 
                             investimentAccount.put("assets", assets);
-
-                            // System.out.println("il nuovo file json");
-                            // System.out.println(users);
-
+                            
                             FileWriter file = new FileWriter(input, false);
 
-                            // System.out.println("scrivo su file");
-                            // System.out.println(users);
                             file.write(users.toJSONString());
                             file.flush();
                             file.close();
@@ -406,6 +435,19 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    
+    /**
+     * this method initialize a bank transaction in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameBanckAccount the name of the bank account we want to add a transaction
+     * @param nameTransaction the object of the transaction "supermarket"
+     * @param amount the amount of the transaction
+     * @param date the date of the transaction
+     * @param time the time of the transaction 
+     * 
+     * */
 
     public void newBanckTransaction(String username, String nameBanckAccount, String nameTransaction, double amount,
             String date, String time) {
@@ -433,7 +475,6 @@ public class OperationJSONUtente {
 
                         JSONObject banckAccount = (JSONObject) c;
                         String nameAccount = (String) banckAccount.get("nameBanckAccount");
-                        // System.out.println(nameAccount);
 
                         if (nameAccount.equals(nameBanckAccount)) {
 
@@ -455,8 +496,6 @@ public class OperationJSONUtente {
 
                             FileWriter file = new FileWriter(input, false);
 
-                            // System.out.println("scrivo su file");
-                            // System.out.println(users);
                             file.write(users.toJSONString());
                             file.flush();
                             file.close();
@@ -472,6 +511,22 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * this method initialize a new money box transaction in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameMoneyBox the name of the money box account we want to add a transaction
+     * @param nameTransaction the object of the transaction "Revolut Bank", 
+     *        this string could identify a real cost or the name of the bank sender/receiver
+     * @param currency this parameter identify the currency of the transaction, 
+     *        because we might choose to deposit not only the currency FIAT from our bank but also
+     *        a asset from the investment accounts
+     * @param amount the amount of the transaction
+     * @param date the date of the transaction
+     * @param time the time of the transaction 
+     * 
+     * */
 
     public void newMoneyBoxTransaction(String username, String nameMoneyBox, String nameTransaction, String currency,
             double amount, String date, String time) {
@@ -499,7 +554,6 @@ public class OperationJSONUtente {
 
                         JSONObject moneyBox = (JSONObject) c;
                         String nameMBox = (String) moneyBox.get("nameMoneyBox");
-                        // System.out.println(nameAccount);
 
                         if (nameMBox.equals(nameMoneyBox)) {
 
@@ -522,8 +576,6 @@ public class OperationJSONUtente {
 
                             FileWriter file = new FileWriter(input, false);
 
-                            // System.out.println("scrivo su file");
-                            // System.out.println(users);
                             file.write(users.toJSONString());
                             file.flush();
                             file.close();
@@ -539,6 +591,20 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    
+    /**
+     * this method initialize a new asset transaction in the file json
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameInvestimentAccount the name of the investment account we want to add a transaction
+     * @param nameTransaction the object of the transaction "supermarket"
+     * @param symbolAsset the symbol asset of the transaction we want to add for example "ETH" "BTC" "AAPL"
+     * @param amount the amount of the transaction
+     * @param date the date of the transaction
+     * @param time the time of the transaction 
+     * 
+     * */
 
     public void newAssetTransaction(String username, String nameInvestimentAccount, String nameTransaction, String symbolAsset,
             double amount, String date, String time) {
@@ -557,8 +623,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -595,13 +659,8 @@ public class OperationJSONUtente {
 
                                     asset.put("transactions", transactions);
 
-                                    // System.out.println("il nuovo file json");
-                                    // System.out.println(users);
-
                                     FileWriter file = new FileWriter(input, false);
 
-                                    // System.out.println("scrivo su file");
-                                    // System.out.println(users);
                                     file.write(users.toJSONString());
                                     file.flush();
                                     file.close();
@@ -620,6 +679,18 @@ public class OperationJSONUtente {
             ex.printStackTrace();
         }
     }
+    
+    
+    /**
+     * this method read all the transaction of a specific asset in a specific investment account 
+     * in the file json and put them in a array of TranssactionJson
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameInvestimentAccount the name of the investment account we want to read the transactions
+     * @param symbolAsset the symbol asset we want to read all the transactions for example "ETH" "BTC" "AAPL"
+     * 
+     * 
+     * */
 
     public TransactionJson[] readAssetTransaction(String username, String nameInvestimentAccount, String symbolAsset) {
 
@@ -692,6 +763,18 @@ public class OperationJSONUtente {
 
         return Transaction;
     }
+    
+    /**
+     * this method read all the transaction of every asset in a specific investment account 
+     * in the file json and put them in a matrix TranssactionJson where each line is a asset with it's symbol
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameInvestimentAccount the name of the investment account we want to read the transactions
+     * @param symbolAsset the symbol asset we want to read all the transactions for example "ETH" "BTC" "AAPL"
+     * 
+     * 
+     * */
+
 
     public TransactionJson[][] readAssetsTransaction(String username, String nameInvestimentAccount) {
 
@@ -710,9 +793,7 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
-
+                
                 if (userName.equals(username)) {
 
                     JSONArray investimentAccounts = (JSONArray) person.get("InvestimentAccounts");
@@ -760,6 +841,17 @@ public class OperationJSONUtente {
 
         return Transaction;
     }
+    
+    
+    /**
+     * this method read all the transaction of a specific moneyBox in the file json and put them in a 
+     * array of TranssactionJson
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameMoneyBox the name of the investment account we want to read the transactions
+     * 
+     * */
+
 
     public TransactionJson[] readMoneyBoxTransaction(String username, String nameMoneyBox) {
 
@@ -778,8 +870,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -820,6 +910,16 @@ public class OperationJSONUtente {
         return Transaction;
     }
     
+    /**
+     * this method read all the transaction of a specific asset in the file json and put them in a 
+     * array of TranssactionJson
+     * 
+     * @param username the unique identifier of the user 
+     * @param nameBanckAccount the name of the bank account we want to read the transactions
+     * 
+     * */
+
+    
     public static TransactionJson[] readBanckTransaction(String username, String nameBanckAccount) {
 
         TransactionJson[] Transaction = null;
@@ -837,8 +937,6 @@ public class OperationJSONUtente {
                 JSONObject person = (JSONObject) user;
 
                 String userName = (String) person.get("username");
-                // System.out.println("input utente = " + username + ", utente file json = " +
-                // userName);
 
                 if (userName.equals(username)) {
 
@@ -884,6 +982,14 @@ public class OperationJSONUtente {
 
         return Transaction;
     }
+    
+    /**
+     * this method return the total amount of a bank account 
+     * 
+     * @param username the unique identifier user
+     * @param nameBanckAccount the name of the bank we want to know the total amount
+     * 
+     * */
 
     public double getTotalAmountBank(String username, String nameBanckAccount) {
 
@@ -897,14 +1003,25 @@ public class OperationJSONUtente {
 
         return totalAmount;
     }
+    
+    /**
+     * this method return the array AssetsJson where each amount is the total amount of this asset in this investment account
+     * and the symbol is the currency 
+     * 
+     * @param username the unique identifier user
+     * @param nameinvestimentAccount the name of the investment account we want to know the total amount of the assets
+     * 
+     * */
 
-    public TransactionJson[] getTotalAssetsAccount(String username, String nameInvestimentAccount) {
-
-        TransactionJson[] totalAssetsAccount = null;
-
+    @SuppressWarnings("null")
+    public AssetJson[] getTotalAssetsAccount(String username, String nameInvestimentAccount) {
+        
         TransactionJson[][] AssetsTransaction = readAssetsTransaction(username, nameInvestimentAccount);
 
+        AssetJson[] totalAssetsAccount = new AssetJson[AssetsTransaction.length];
+        
         for (int i = 0; i < AssetsTransaction.length; i++) {
+            totalAssetsAccount[i].setAssetSymbol(AssetsTransaction[i][0].getCurrency());
             for (int j = 0; j < AssetsTransaction[i].length; j++) {
                 totalAssetsAccount[i].setAmount(totalAssetsAccount[i].getAmount() + AssetsTransaction[i][j].getAmount());
             }
@@ -912,6 +1029,15 @@ public class OperationJSONUtente {
 
         return totalAssetsAccount;
     }
+    
+    /**
+     * this method return the total amount of a specific asset in this investment account
+     * and the symbol is the currency 
+     * 
+     * @param username the unique identifier user
+     * @param nameinvestimentAccount the name of the investment account we want to know the total amount of the assets
+     * 
+     * */
 
     public double getTotalAsset(String username, String nameInvestimentAccount, String symbolAsset) {
 

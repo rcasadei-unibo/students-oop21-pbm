@@ -5,6 +5,14 @@ import java.util.Date;
 
 import javafx.scene.chart.XYChart;
 
+/**
+ * This is a tester class i used like a tester for show me if the behavior of the methods 
+ * of the class OperationJSONUtente was like I expected 
+ * 
+ * */
+
+
+
 public class TestJson {
     
     public static void proviamo() {
