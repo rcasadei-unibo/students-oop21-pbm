@@ -113,27 +113,9 @@ public class MainScene {
         //Setting the Scene
         final Pane topBar = guiFactory.createHorizontalPanel();
         topBar.getChildren().addAll(pane);
-<<<<<<< HEAD
         root.setBottom(topBar);
         this.controller.showExpenditure();
-        /*final Pane profilePage = new StackPane();
-        
-        LineChart linechart = null;
-        try {
-            linechart = LineChartBuilder.chartNumberCategory(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        PieChart pie = null;
-        try {
-            pie = PieChartBuilder.builderChart(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        AreaChart area = null;
+        /*
         try {
             area = LineChartBuilder.areaChartBuilder(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
         } catch (ParseException e) {
@@ -148,8 +130,6 @@ public class MainScene {
         //Setting the Scene
         final Pane topBar = guiFactory.createHorizontalPanel();
         topBar.getChildren().addAll(pane);
-=======
->>>>>>> bae2f22 (insert scene expenditure into mmain)
         root.setCenter(topBar);*/
     }
 
