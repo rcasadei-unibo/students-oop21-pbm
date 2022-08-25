@@ -119,5 +119,4 @@ public interface Controller {
     //Paolo's part
 
     void showExpenditure();
-    
 }

@@ -126,4 +126,8 @@ public class LineChartBuilder {
     }
     
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> GUIChart

@@ -739,11 +739,7 @@ public class OperationJSONUtente {
                                     JSONObject transaction = (JSONObject) transactions.get(i);
 
                                     Transaction[i][j].setAmount((double) transaction.get("amount"));
-<<<<<<< HEAD
                                     Transaction[i][j].setNameTransaction((String) transaction.get("nameTransaction"));
-=======
-                                    Transaction[i][j].setNameTransaction((String) transaction.get("nameTransaction"));
->>>>>>> 1e61754 (some perfetions)
                                     Transaction[i][j].setDate((String) transaction.get("date"));
                                     Transaction[i][j].setTime((String) transaction.get("time"));
                                     Transaction[i][j].setCurrency(assetSymbol);
@@ -803,11 +799,7 @@ public class OperationJSONUtente {
                                 JSONObject transaction = (JSONObject) transactions.get(i);
 
                                 Transaction[i].setAmount((double) transaction.get("amount"));
-<<<<<<< HEAD
                                 Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
-=======
-                                Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
->>>>>>> 1e61754 (some perfetions)
                                 Transaction[i].setDate((String) transaction.get("date"));
                                 Transaction[i].setTime((String) transaction.get("time"));
                                 Transaction[i].setCurrency((String) transaction.get("currency"));
