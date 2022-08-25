@@ -669,7 +669,11 @@ public class OperationJSONUtente {
                                         JSONObject transaction = (JSONObject) transactions.get(i);
 
                                         Transaction[i].setAmount((double) transaction.get("amount"));
+<<<<<<< HEAD
                                         Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
+=======
+                                        Transaction[i].nameTransaction = (String) transaction.get("nameTransaction");
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
                                         Transaction[i].setDate((String) transaction.get("date"));
                                         Transaction[i].setTime((String) transaction.get("time"));
                                         Transaction[i].setCurrency((String) asset.get("symbolAsset"));
@@ -739,7 +743,11 @@ public class OperationJSONUtente {
                                     JSONObject transaction = (JSONObject) transactions.get(i);
 
                                     Transaction[i][j].setAmount((double) transaction.get("amount"));
+<<<<<<< HEAD
                                     Transaction[i][j].setNameTransaction((String) transaction.get("nameTransaction"));
+=======
+                                    Transaction[i][j].nameTransaction = (String) transaction.get("nameTransaction");
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
                                     Transaction[i][j].setDate((String) transaction.get("date"));
                                     Transaction[i][j].setTime((String) transaction.get("time"));
                                     Transaction[i][j].setCurrency(assetSymbol);
@@ -799,7 +807,11 @@ public class OperationJSONUtente {
                                 JSONObject transaction = (JSONObject) transactions.get(i);
 
                                 Transaction[i].setAmount((double) transaction.get("amount"));
+<<<<<<< HEAD
                                 Transaction[i].setNameTransaction((String) transaction.get("nameTransaction"));
+=======
+                                Transaction[i].nameTransaction = (String) transaction.get("nameTransaction");
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
                                 Transaction[i].setDate((String) transaction.get("date"));
                                 Transaction[i].setTime((String) transaction.get("time"));
                                 Transaction[i].setCurrency((String) transaction.get("currency"));
@@ -819,7 +831,11 @@ public class OperationJSONUtente {
 
         return Transaction;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
     public static TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
 
         TransactionJson[] Transaction = null;

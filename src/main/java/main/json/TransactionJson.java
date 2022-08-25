@@ -2,23 +2,39 @@ package main.json;
 
 public class TransactionJson {
     
+<<<<<<< HEAD
     private String nameTransaction;
+=======
+    String nameTransaction;
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
     private String date;
     private String time;
     private String currency;
     private double amount;
     
+<<<<<<< HEAD
     public TransactionJson(String nameTransaction, String date, String time, double amount){
         this.setAmount(amount);
         this.setNameTransaction(nameTransaction);
+=======
+    TransactionJson(String nameTransaction, String date, String time, double amount){
+        this.setAmount(amount);
+        this.nameTransaction = nameTransaction;
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
         this.setDate(date);
         this.setTime(time);
         this.setCurrency("euro");
     }
     
+<<<<<<< HEAD
     public TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
         this.setAmount(amount);
         this.setNameTransaction(nameTransaction);
+=======
+    TransactionJson(String nameTransaction, String date, String time, double amount, String currency){
+        this.setAmount(amount);
+        this.nameTransaction = nameTransaction;
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
         this.setDate(date);
         this.setTime(time);
         this.setCurrency(currency);
@@ -55,6 +71,7 @@ public class TransactionJson {
     public void setTime(String time) {
         this.time = time;
     }
+<<<<<<< HEAD
 
     public String getNameTransaction() {
         return nameTransaction;
@@ -63,6 +80,8 @@ public class TransactionJson {
     public void setNameTransaction(String nameTransaction) {
         this.nameTransaction = nameTransaction;
     }
+=======
+>>>>>>> c8d3b6d (a horrible bug, application doesn't read utente.json anymore)
     
 
 }
