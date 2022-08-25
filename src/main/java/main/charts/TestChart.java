@@ -4,6 +4,14 @@ import main.json.TransactionJson;
 
 public class TestChart {
     
+    /**
+     * This is class is just  a example I did for test the graphic charts,
+     * because unluckily something went wrong in a commit and we notice that 
+     * OperationJSONUtente stop to work, it cannot read the file .json anymore.
+     * So I did this example.
+     * 
+     * */
+    
     public static TransactionJson[] esempioTransaction() {
         TransactionJson tr1 = new TransactionJson("deposito", "21/12/2021", "10:10", 1000);
         TransactionJson tr2 = new TransactionJson("comet", "01/01/2022", "01:10", -100);
