@@ -1,31 +1,14 @@
 package main.charts;
 
-import javafx.geometry.Insets;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import javafx.application.Application;
-import javafx.beans.binding.ObjectExpression;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import main.json.TransactionJson;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 
 public class LineChartBuilder {
     
@@ -79,7 +62,6 @@ public class LineChartBuilder {
         XYChart.Series series1 = new XYChart.Series();
         XYChart.Series series2 = new XYChart.Series();
         
-        int days = getDaysBetween(date1, date2);
         double uscite = 0;
         double entrate = 0;
         
@@ -109,25 +91,4 @@ public class LineChartBuilder {
         return areaChart;
     }
     
-    static int getDaysBetween(Date date1, Date date2) {
-        int i = 0;
-        while(date1.before(date2)) {
-            i++;
-            date1 = addDays(date1, 1);
-        }
-        return 0;
-    }
-    
-    public static Date addDays(Date date, int days){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
-        return cal.getTime();
-    }
-    
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> GUIChart
