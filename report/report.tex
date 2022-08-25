@@ -32,6 +32,10 @@ In the year 2022 due to the federal reserve's decision, a lot of liquidity flood
 But the market is like an ocean, teeming with volatilities. 
 Though various platforms have emerged, we lacked a tool to manage every income and expenditure, our idea is to build a cloud-based platform that connects to various markets, provides analysis tools to clients to minimize the risk, and get the big picture of actual assets. .
 It's a tiny project of about 80 hours amount of work, hence it will only be a prototype.
+\\
+This software was supposed to provide visual tools to analyze market conditions, but it will be implemented once all basic functionalities are satisfied.
+%
+Such as using deep learning to analyze future accounts' conditions based on the historic data. (Backtracking).
 
 \subsection*{Elementi positivi}
 \begin{itemize}
@@ -46,10 +50,6 @@ It's a tiny project of about 80 hours amount of work, hence it will only be a pr
     \item This software depends on if a platform such as \textit{Binance} \footnote{\url{https://www.binance.com/en/binance-api}} gives an open API, then your action on the budmate will actually be executed on the Binance platform.
 \end{itemize}
 
-\subsection*{Esempio}
-This software was supposed to provide visual tools to analyze market conditions, but it will be implemented once all basic functionalities are satisfied.
-%
-Such as using deep learning to analyze future accounts' conditions based on the historic data. (Backtracking).
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
@@ -82,8 +82,6 @@ such as expenses, bank accounts, investment accounts, holding accounts, and even
     \item Its functionality is dependent on access to the internet, If a user is offline, it's hard to do any trading operation.
 \end{itemize}
 
-\subsection*{Esempio}
-You can see the architecture below.
 
 \begin{figure}[H]
 \centering{}
@@ -113,21 +111,7 @@ Our design fulfills tremendously \textit{5 design principles}
     \item We use other threads to compute tasks that uses a lot of time.
 \end{itemize}
 
-\subsection*{Elementi negativi}
-\begin{itemize}
-    \item We asked many people and in the forum, but it seems we couldn't create a reference of the controller without being static.
-\end{itemize}
 
-
-\subsection*{Esempio}
-
-Even though using the private static volatile controller is a bad solution, it works correctly with synchronization between the thread from the controller and the components on the JavaFX thread. 
-I have been working on that for more than 15 hours, but still couldn't find a solution. In this case, we have multiple \textit{view}s, each of them is attached to the one controller, it wasn't something that we didn't intend to do.
-Instead on the he part of controller, all \textit{view}s are accessible from a thread pool created by Executor services. 
-
-\subsection*{Note:}
-As far it's 20 August, I finally found the solution to substitute the static properties by using Application.launch(view.class, args). If I created the controller and then assign it to the views, it would be a null reference. If I create a view first, then create a controller on the JavaFX Thread. Then it wouldn't be the null reference. It's just that then I'll have to use JavaFX as the main library.
-I spent like more than 20 hours just to fix this error.... I hope that it's worthy. -Song
 \begin{figure}[H]
     \centering{}
     \makebox[\textwidth][c]{\includegraphics[width=0.75\textwidth]{img/MVC.png}}%
@@ -258,7 +242,7 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
             \end{figure}
         \paragraph{Note:}The class which stores the user credentials would have been useful for retrieving all user information from a JSON database that was unfortunately not implemented due to a bug.
         
-    \subsection{Password Change}
+    \subsubsection{Password Change}
         \paragraph{Problem:}While implementing the user profile, i wanted to allow password changes using different "authentications".
         \paragraph{Solution:}Since the algorithm to change password is almost always the same, and only differs on the authentication check, I used strategy to be able to change the behavior of PasswordChanger runtime.
             \begin{figure}[H]
@@ -267,7 +251,7 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
                 \label{fig:my_label}
             \end{figure}
         
-    \subsection{ProfileScene}
+    \subsubsection{ProfileScene}
         \paragraph{Problem:}When my view was being updated it stalled the all application for about 1.5 seconds. This happened because I was retrieving all the market information while being on the JavaFx thread.
         \paragraph{Solution:}I created a Task on ControllerImpl, to be executed by a different thread, leaving the data retrieving work to Song's Observers.
             \begin{figure}[H]
@@ -281,15 +265,15 @@ And by thinking that, I used most of my 80 hours to make it easier for the other
 	\subsubsection{JSON}
 		\paragraph{Problem:}Since I've start to think about this project,  about the profiles, the operations, I thought we need to save and manage data. 
 		\paragraph{Solution:}Toghether with the team we chose to use json, in a local file, for write and read users data. For this reason I spend most of my time more than 10 days writing a class for do that easily.
-		
+		\\
 		I've chose to desingne the json structure in this way:
-		
+		\\
 		User (name, lastName,  email, username, password, );
-		
-		The username it want to be the unique identifier of the user;
-		
+		\\
+		The username it want to be the unique identifier of the user in our program corresponds to the fc (fiscal code)
+        \\
 		Each user has also BankAccounts[], MoneyBox[], InvestmentAccount[];
-		
+		\\
 		BankAccount is identified with a name and it has transactions[], transaction (nameTransaction, amount, date, time);
 		
 		Alike BankAccount also MoneyBox has a name to identify it and it's transactions, otherwise to bank account MoneyBox transactions has also a field currency because I want to give the possibility to the user to use money box even for the assets and make it currency freedom.
@@ -461,6 +445,17 @@ I have to say that I'm agree with Alessandro we spend less time on planning and 
 
 \section{Difficoltà incontrate e commenti per i docenti}
 \subsection*{Zhaohui Song}
+
+\subsection*{Problem encountered:}
+
+Even though using the private static volatile controller is a bad solution, it works correctly with synchronization between the thread from the controller and the components on the JavaFX thread. 
+I have been working on that for more than 15 hours, but still couldn't find a solution. In this case, we have multiple \textit{view}s, each of them is attached to the one controller, it wasn't something that we didn't intend to do.
+Instead on the he part of controller, all \textit{view}s are accessible from a thread pool created by Executor services. 
+
+\subsection*{Note:}
+As far it's 20 August, I finally found the solution to substitute the static properties by using Application.launch(view.class, args). If I created the controller and then assign it to the views, it would be a null reference. If I create a view first, then create a controller on the JavaFX Thread. Then it wouldn't be the null reference. It's just that then I'll have to use JavaFX as the main library.
+I spent like more than 20 hours just to fix this error.... I hope that it's worthy.
+
 Thanks to prof Viroli for extending our deadline to carry out the project.
 %
 This course was amazing, more than I expected from what could be learning programming in java. 
@@ -470,19 +465,13 @@ A big thank you to every professor of this course, your lecture was easy to unde
 \appendix
 \chapter{Guida utente}
 
-fattello voi un po'... L'ho quasi finito la relazione tutto da solo di nuovo. :( sigh...
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
- \item Si istruisce in modo semplice l'utente sull'uso dell'applicazione, eventualmente facendo uso di schermate e descrizioni.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Si descrivono in modo eccessivamente minuzioso tutte le caratteristiche, anche minori, del software in oggetto.
- \item Manca una descrizione che consenta ad un utente qualunque di utilizzare almeno le funzionalità primarie dell'applicativo.
-\end{itemize}
+Once the application is launched the user will be presented with a login graphic interface.
+By clicking on "Accedi" you will access the application with a DEMO account since the data retrieval
+from JSON was not implemented due to bugs.
+If the user wants he can also click on "Registrati" to create a brand new account with the data inserted
+in the registration fields.
+Once accessed the user can create an account inside the "Profilo" page, and then by clicking on "Investimenti"
+is able to buy any asset on the selected account by inserting the asset's symbol (you can try AAPL, BTC-USD, AAL, TSLA ...)
 
 \chapter{Esercitazioni di laboratorio}
 
