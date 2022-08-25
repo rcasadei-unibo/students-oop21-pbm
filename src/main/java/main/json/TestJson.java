@@ -18,19 +18,19 @@ public class TestJson {
     public static void proviamo() {
         OperationJSONUtente prova = new OperationJSONUtente();
 
-        if (prova.userExist("Gin")==true) {
+        if (OperationJSONUtente.userExist("GNIPNI58B03E289A")==true) {
             System.out.println("utente esiste");
             System.out.println("controllo riuscito");
         } else {
             System.out.println("controllo fallito");
         }
-        if (prova.userPasswordCheck("Gin","cacca")==true) {
+        if (prova.userPasswordCheck("GNIPNI58B03E289A","cara")==true) {
             System.out.println("utente password corretti");
             System.out.println("controllo riuscito");
         } else {
             System.out.println("controllo fallito");
         }
-        if (prova.userPasswordCheck("Gin","merda")==false) {
+        if (prova.userPasswordCheck("GNIPNI58B03E289A","mda")==false) {
             System.out.println("utente corretto password sbagliata ");
             System.out.println("controllo riuscito");
         } else {
