@@ -8,74 +8,68 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import main.json.TransactionJson;
 
 public class TableBuilder {
     
-    public static TableView buildTable(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException{ 
+    @SuppressWarnings({ "null", "unchecked" })
+    public static TableView<TransactionJson> buildTable(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException{ 
+        
         Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
         Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);    
         
-        TableView tableView = new TableView();
-
-        TableColumn<Object, Object> column1 = new TableColumn<>("Transazione");
+        TableView<TransactionJson> tableView = new TableView<TransactionJson>();
         
-        column1.setCellValueFactory(new PropertyValueFactory<>("Date"));
-
-
-        TableColumn<Object, Object> column2 = new TableColumn<>("Data");
+        final Label label = new Label("Spese");
+        label.setFont(new Font("Arial", 20));
+ 
+        tableView.setEditable(true);
+ 
+        TableColumn<TransactionJson, String> nameTransactionCol = new TableColumn<>("Transazione");
+        //nameTransactionCol.setMinWidth(100);
+ 
+        TableColumn<TransactionJson, String> dateCol = new TableColumn<>("Data");
+        //dateCol.setMinWidth(100);
         
-        column2.setCellValueFactory(new PropertyValueFactory<>("Data"));
+ 
+        TableColumn<TransactionJson, String> timeCol = new TableColumn<>("Ora");
+        //timeCol.setMinWidth(200);
         
-        TableColumn<Object, Object> column3 = new TableColumn<>("Ora");
-                
-        column3.setCellValueFactory(new PropertyValueFactory<>("Ora"));
+        TableColumn<TransactionJson, Number> amountCol = new TableColumn<>("Importo");
+        //amountCol.setMinWidth(200);
         
-        TableColumn<Object, Object> column4 = new TableColumn<>("Data");
-                
-        column4.setCellValueFactory(new PropertyValueFactory<>("Importo"));
 
-
-        tableView.getColumns().add(column1);
-        tableView.getColumns().add(column2);
-        tableView.getColumns().add(column3);
-        tableView.getColumns().add(column4);
+        nameTransactionCol.setCellValueFactory(new PropertyValueFactory<>("nameTransaction"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         
-        TransactionJson[] prova = TestChart.esempioTransaction();
+        tableView.getColumns().addAll(nameTransactionCol, dateCol, timeCol, amountCol);
+        
+        ObservableList<TransactionJson> data1 = FXCollections.observableArrayList();
+        
         for(int i=0; i<transaction.length; i++) {
+            
             Date dateTrans = new SimpleDateFormat("dd/MM/yyyy").parse(transaction[i].getDate());
             
             if(dateTrans.after(date1) && dateTrans.before(date2)) {
-                List<Object> list = ReflexionUtils.getListOfFields(transaction[i]);
                 
-                tableView.getItems().add(list);
+                data1.addAll(transaction[i]);
                 
             }
             
         }
+ 
+        tableView.setItems(data1);
         
         return tableView;
     }
-    
-    public static class ReflexionUtils {
-
-        public static List<Object>  getListOfFields(Object bean){
-          List<Object> result = new ArrayList<Object>();
-          for (Field f : bean.getClass().getDeclaredFields()) {
-            try{
-              String name = f.getName();
-              name = name.substring(0,1).toUpperCase() + name.substring(1);
-              Method m = bean.getClass().getDeclaredMethod("get"+name, null);
-              Object o = m.invoke(bean, null);
-              result.add(o);
-            } catch (Exception e){
-              System.out.println(e.getMessage());
-            }
-          }
-          return result;
-        }
-      }
 }
