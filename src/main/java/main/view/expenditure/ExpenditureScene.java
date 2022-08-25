@@ -74,30 +74,15 @@ public class ExpenditureScene extends BaseScene{
     @SuppressWarnings("unchecked")
     @Override
     protected void updateCenter() {
-        //final Pane profilePage = new StackPane();
         
-        /*LineChart linechart = null;
-        try {
-            linechart = LineChartBuilder.chartNumberCategory(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
         PieChart pie = null;
+        
         try {
             pie = PieChartBuilder.builderChart(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        /*
-        AreaChart area = null;
-        try {
-            area = LineChartBuilder.areaChartBuilder(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
         
         //Creating a stack pane to hold the chart
         StackPane pane = new StackPane(pie);
@@ -106,10 +91,8 @@ public class ExpenditureScene extends BaseScene{
         
 
         final Pane centerLayout = getGadgets().createVerticalPanel();
-
-        final Text titleInv = getGadgets().createText("Expenditure", TITLE_DIM);
         
-        centerLayout.getChildren().addAll(titleInv, pie);
+        centerLayout.getChildren().addAll(pie);
         this.root.setCenter(centerLayout);
     }
 
@@ -139,17 +122,15 @@ public class ExpenditureScene extends BaseScene{
     protected void updateRight() {
         final Pane rightLayout = getGadgets().createVerticalPanel();
 
-        TableView tableView = null;
+        TableView<TransactionJson> tableView = null;
         try {
             tableView = TableBuilder.buildTable(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        final Text titleInv = getGadgets().createText("Expenditure", TITLE_DIM);
-        
-        rightLayout.getChildren().addAll(titleInv, tableView);
+                
+        rightLayout.getChildren().addAll(tableView);
         this.root.setRight(rightLayout);
     }
 }
