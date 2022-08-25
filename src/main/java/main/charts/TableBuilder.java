@@ -20,6 +20,20 @@ import main.json.TransactionJson;
 
 public class TableBuilder {
     
+    
+    /**
+     * 
+     * this method build a TableView of the transaction did in a determinate period
+     * 
+     * @param transaction is a array of TransactionJson 
+     * @param sDate1 is a string corresponding to the star date of the period
+     * @param sDate2 is a string corresponding to the end date of the period
+     * 
+     * @return TableView with the only data of the input period,
+     *          that's a graphic showing of all the transaction did with their name and data time
+     * 
+     * */
+    
     @SuppressWarnings({ "null", "unchecked" })
     public static TableView<TransactionJson> buildTable(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException{ 
         

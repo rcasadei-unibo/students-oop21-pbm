@@ -70,6 +70,10 @@ public class ExpenditureScene extends BaseScene{
         final Pane bottomLayout = getGadgets().createHorizontalPanel();
         this.root.setBottom(bottomLayout);
     }
+    
+    /**
+     * Here I set the center of the scene with the pie chart
+     * */
 
     @SuppressWarnings("unchecked")
     @Override
@@ -78,6 +82,8 @@ public class ExpenditureScene extends BaseScene{
         PieChart pie = null;
         
         try {
+            //once reading json will be fixed we can call a get-Transaction method and put it into the first element
+            //once set button on the view for chose date start and date end we will be able to see the asked data
             pie = PieChartBuilder.builderChart(TestChart.esempioTransaction(), "00/01/2022 00:00", "00/02/2022 00:00");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -95,6 +101,10 @@ public class ExpenditureScene extends BaseScene{
         centerLayout.getChildren().addAll(pie);
         this.root.setCenter(centerLayout);
     }
+    
+    /**
+     * Here I set the left side of the scene with the area chart
+     * */
 
     @Override
     protected void updateLeft() {
@@ -102,6 +112,8 @@ public class ExpenditureScene extends BaseScene{
         
         AreaChart<String, Number> area = null;
         try {
+            //once reading json will be fixed we can call a get-Transaction method and put it into the first element
+            //once set button on the view for chose date start and date end we will be able to see the asked data
             area = LineChartBuilder.areaChartBuilder(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -117,6 +129,10 @@ public class ExpenditureScene extends BaseScene{
         leftLayout.getChildren().addAll(area);
         this.root.setLeft(leftLayout);
     }
+    
+    /**
+     * Here I set the right side of the screen with the table view
+     * */
 
     @Override
     protected void updateRight() {
@@ -124,6 +140,8 @@ public class ExpenditureScene extends BaseScene{
 
         TableView<TransactionJson> tableView = null;
         try {
+            //once reading json will be fixed we can call a get-Transaction method and put it into the first element
+            //once set button on the view for chose date start and date end we will be able to see the asked data
             tableView = TableBuilder.buildTable(TestChart.esempioTransaction(), "00/01/2022", "00/02/2022");
         } catch (ParseException e) {
             // TODO Auto-generated catch block

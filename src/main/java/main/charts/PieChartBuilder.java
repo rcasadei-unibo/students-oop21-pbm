@@ -12,6 +12,18 @@ import main.json.TransactionJson;
 
 public class PieChartBuilder {
     
+    /**
+     * 
+     * this method build a PieChart of the transaction did in a determinate period
+     * 
+     * @param transaction is a array of TransactionJson 
+     * @param sDate1 is a string corresponding to the star date of the period
+     * @param sDate2 is a string corresponding to the end date of the period
+     * 
+     * @return PieChart with the only data of the input period, with the total profit and total expenditure 
+     * 
+     * */
+    
     public static PieChart builderChart(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException {
         
         Date date1 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sDate1);

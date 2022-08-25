@@ -12,6 +12,18 @@ import javafx.scene.chart.XYChart;
 
 public class LineChartBuilder {
     
+    /**
+     * 
+     * this method build a LineChart of the transaction did in a determinate period
+     * 
+     * @param transaction is a array of TransactionJson 
+     * @param sDate1 is a string corresponding to the star date of the period
+     * @param sDate2 is a string corresponding to the end date of the period
+     * 
+     * @return the Line chart with the only data of the input period
+     * 
+     * */
+    
     public static LineChart<String, Number> chartNumberCategory(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException {
         
         Date date1 = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sDate1);
@@ -43,6 +55,19 @@ public class LineChartBuilder {
         
         return linechart;
     }
+    
+    /**
+     * 
+     * this method build a AreaChart of the transaction did in a determinate period
+     * 
+     * @param transaction is a array of TransactionJson 
+     * @param sDate1 is a string corresponding to the star date of the period
+     * @param sDate2 is a string corresponding to the end date of the period
+     * 
+     * @return AreaChart with the only data of the input period, with two different color
+     *          one for the expenditure and one for the profit
+     * 
+     * */
     
     public static AreaChart<String, Number> areaChartBuilder(TransactionJson[] transaction, String sDate1, String sDate2) throws ParseException {
         
