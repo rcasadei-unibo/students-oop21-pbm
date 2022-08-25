@@ -48,7 +48,7 @@ public class TestJson {
         } else {
             System.out.println("controllo fallito");
         }
-        TransactionJson[] transaction = OperationJSONUtente.ReadBanckTransaction("Gin", "BPER");
+        TransactionJson[] transaction = OperationJSONUtente.readBanckTransaction("Gin", "BPER");
         for(int i=0; i<transaction.length; i++) {
             System.out.println(transaction[i].getDate());
         }
