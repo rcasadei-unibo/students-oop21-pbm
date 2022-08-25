@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Optional;
 
 import javafx.concurrent.Task;
 import main.control.investment.InvestmentViewObserver;
 import main.control.investment.InvestmentViewObserverimpl;
+import main.json.OperationJSONUtente;
 import main.model.account.InvestmentAccount;
 import main.model.account.InvestmentAccountTypeFactory;
 import main.model.account.InvestmentAccountTypeFactoryImpl;
@@ -19,7 +21,7 @@ import main.model.account.NotEnoughFundsException;
 import main.model.account.NotEnoughSharesException;
 import main.model.market.Equity;
 import main.model.market.EquityPool;
-import main.model.market.EquityPoolStock;
+import main.model.market.EquityPoolBasic;
 import main.model.market.HoldingAccount;
 import main.model.market.HoldingAccountImpl;
 import main.model.market.Market;
@@ -35,7 +37,9 @@ import main.model.profile.ProfileEconomy;
 import main.model.profile.ProfileEconomyImpl;
 import main.model.profile.SimplePassword;
 import main.view.PageState;
+import main.view.SubscriptionPlans;
 import main.view.View;
+import main.view.profile.AddAccountView;
 import main.view.profile.PasswordChangeView;
 
 public class ControllerImpl implements Controller {
@@ -44,10 +48,10 @@ public class ControllerImpl implements Controller {
 
     private ProfileCredentials profileCred; // these two cannot be final if we want to change profile
 
-    private final List<View> views;
-    private final Market market;
-    private final EquityPool ep;
-    private final InvestmentViewObserver ivo;
+    private List<View> views;
+    private Market market;
+    private EquityPool ep;
+    private InvestmentViewObserver ivo;
     private static final int refleshRate = 1000;
     private static final int NUMTHREADS = 10;
     // when we access database to retain some symbols that may takes a lot of times,
@@ -66,56 +70,10 @@ public class ControllerImpl implements Controller {
         // it later: such as reading from the configuration file
         // based on the configuration, reads from various platform, be it locally, from
         // a database or create a new one.
-        profile = new ProfileEconomyImpl();
-
-        market = new MarketImpl();
-        ep = new EquityPoolStock();
-        ivo = new InvestmentViewObserverimpl(profile);
-
-//        update something every s seconds, to use this, i need to create 
-//      an enum class to switch interface states.. along with message boxes,
-//          let's see if i have enough time to do it..
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                if (pageState == PageState.INVEST)
-//                    updateMarketInfo();
-//            }
-//        }, 0, refleshRate);
-
-        this.profileCred = new ProfileCredentials("Mario", "Rossi", "MRRSS10T99533K", "mario.rossi@studio.unibo.it",
-                new SimplePassword("SuperMario"));
-
-        InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
-        InvestmentAccount invAcc = f.createForFree("Etoro");
-        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolStock(), "Etoro");
-        invAcc.deposit(10000);
-        Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
-        market.buyAsset(invAcc, hAcc, o);
-        o = new OrderImpl(ep.getEquity("AAPL").get(), 0.3);
-        market.buyAsset(invAcc, hAcc, o);
-        o = new OrderImpl(ep.getEquity("GME").get(), 3.0);
-        market.buyAsset(invAcc, hAcc, o);
-        o = new OrderImpl(ep.getEquity("JNJ").get(), 5.0);
-        market.buyAsset(invAcc, hAcc, o);
-        o = new OrderImpl(ep.getEquity("ETH-USD").get(), 1.0);
-        market.buyAsset(invAcc, hAcc, o);
-        profile.addHoldingAccount(hAcc);
-        profile.addInvestmentAccount(invAcc);
-        InvestmentAccount invAcc2 = f.createWithOperationFees(x -> x * 0.01, "Binance");
-        o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
-        HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolStock(), "Binance");
-        invAcc2.deposit(1000000);
-        market.buyAsset(invAcc2, hAcc2, o);
-        o = new OrderImpl(ep.getEquity("AAL").get(), 17);
-        market.buyAsset(invAcc2, hAcc2, o);
-        profile.addHoldingAccount(hAcc2);
-        profile.addInvestmentAccount(invAcc2);
 
         this.views = List.of(Arrays.copyOf(views, views.length));
         for (final var view : views) {
             view.setObserver(this);
-            // view.show(args);
         }
 
     }
@@ -146,7 +104,6 @@ public class ControllerImpl implements Controller {
             }
 
         };
-        // new Thread(task).start();
         executor.execute(task);
     }
 
@@ -175,7 +132,6 @@ public class ControllerImpl implements Controller {
             }
 
         };
-        // new Thread(task).start();
         executor.execute(task);
     }
 
@@ -225,9 +181,11 @@ public class ControllerImpl implements Controller {
     @Override
     public void terminateApp() {
         executor.shutdown();
-        // save files.. to be implemented.
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showProfile() {
 
@@ -263,30 +221,84 @@ public class ControllerImpl implements Controller {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerProfile(final String name, final String surname, final String fc, final String eMail,
             final String password) {
-        this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
-//        this.profile = new ProfileEconomyImpl(); 
+        init(name, surname, fc, eMail, password);
     }
 
+    private void init(String name, String surname, String fc, String eMail, String password) {
+        this.profileCred = new ProfileCredentials(name, surname, fc, eMail, new SimplePassword(password));
+        this.profile = new ProfileEconomyImpl();
+        market = new MarketImpl();
+        ep = new EquityPoolBasic();
+        ivo = new InvestmentViewObserverimpl(profile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void accessProfile(final String eMail, final String password) {
         // this is just a version to let the application run
         // this method needs to retrieve the user profile from json database
+        createDemoAccount();
 
     }
 
+    private void createDemoAccount() {
+        init("Mario", "Rossi", "MRRSS10T99533K", "mario.rossi@studio.unibo.it", "SuperMario");
+
+        InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
+        InvestmentAccount invAcc = f.createForFree("Etoro");
+        HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolBasic(), "Etoro");
+        invAcc.deposit(10000);
+        Order o = new OrderImpl(ep.getEquity("TSLA").get(), 0.7);
+        market.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("AAPL").get(), 0.3);
+        market.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("GME").get(), 3.0);
+        market.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("JNJ").get(), 5.0);
+        market.buyAsset(invAcc, hAcc, o);
+        o = new OrderImpl(ep.getEquity("ETH-USD").get(), 1.0);
+        market.buyAsset(invAcc, hAcc, o);
+        profile.addHoldingAccount(hAcc);
+        profile.addInvestmentAccount(invAcc);
+        InvestmentAccount invAcc2 = f.createWithOperationFees(x -> x * 0.01, "Binance");
+        o = new OrderImpl(ep.getEquity("BTC-USD").get(), 0.7);
+        HoldingAccount hAcc2 = new HoldingAccountImpl(new EquityPoolBasic(), "Binance");
+        invAcc2.deposit(1000000);
+        market.buyAsset(invAcc2, hAcc2, o);
+        o = new OrderImpl(ep.getEquity("AAL").get(), 17);
+        market.buyAsset(invAcc2, hAcc2, o);
+        profile.addHoldingAccount(hAcc2);
+        profile.addInvestmentAccount(invAcc2);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showPasswordChangeView() {
         new PasswordChangeView(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProfileCredentials getUsrInfo() {
         return this.profileCred;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void changePword(final String strategy, final String newPword, final String confPword, final String id) {
         final PasswordChanger changer;
@@ -302,8 +314,72 @@ public class ControllerImpl implements Controller {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProfileEconomy getUsrEconomy() {
         return this.profile;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showAddAccountView() {
+        new AddAccountView(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean createAcc(final String name, final double value, final SubscriptionPlans subPlan) {
+        if (this.profile.getHoldingAccounts().stream().map(acc -> acc.getID()).collect(Collectors.toList())
+                .contains(name)) {
+            return false;
+        } else {
+            final InvestmentAccountTypeFactory f = new InvestmentAccountTypeFactoryImpl();
+            final InvestmentAccount invAcc = f.createWithOperationFees(x -> x * subPlan.getFee(), name);
+            final HoldingAccount hAcc = new HoldingAccountImpl(new EquityPoolBasic(), name);
+            invAcc.deposit(value);
+            this.profile.addHoldingAccount(hAcc);
+            this.profile.addInvestmentAccount(invAcc);
+            return true;
+        }
+    }
+    @Override
+    public void showExpenditure() {
+
+        final Task<Queue<List<?>>> task = new Task<Queue<List<?>>>() {
+            @Override
+            public Queue<List<?>> call() {
+                final Queue<List<?>> q = new LinkedList<>();
+                final List<String> invAccId = new LinkedList<>();
+                final List<Double> invAccValues = new LinkedList<>();
+                profile.getInvestmentAccounts().forEach(acc -> {
+                    invAccId.add(acc.getID());
+                    invAccValues.add(acc.getBalance());
+                    invAccValues.add(acc.getInvestedBalance());
+                });
+                final List<String> holAccId = new LinkedList<>();
+                final List<Double> holAccValues = new LinkedList<>();
+                profile.getHoldingAccounts().forEach(acc -> {
+                    holAccId.add(acc.getID());
+                    holAccValues.add(acc.getTotalValue());
+                });
+
+                q.add(invAccId);
+                q.add(invAccValues);
+                q.add(holAccId);
+                q.add(holAccValues);
+                return q;
+            }
+        };
+        task.setOnSucceeded(e -> {
+            updateView(task, PageState.EXPENSE);
+        });
+        executor.execute(task);
+
     }
 }

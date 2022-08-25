@@ -10,29 +10,37 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import main.model.market.EquityPool;
-import main.model.market.EquityPoolStock;
+import main.model.market.EquityPoolAPICoinBase;
+import main.model.market.EquityPoolAPITradingView;
+import main.model.market.EquityPoolBasic;
 import main.model.profile.ProfileEconomy;
 
 public final class InvestmentViewObserverimpl implements InvestmentViewObserver {
 
     private final ProfileEconomy profile;
     private final EquityPool ep;
-   // private final View view;
 
     public InvestmentViewObserverimpl(final ProfileEconomy profile) {
         super();
         this.profile = profile;
-        ep = new EquityPoolStock();
+        // let's always try to use the maximum research level
+        ep = new EquityPoolAPITradingView(new EquityPoolAPICoinBase(new EquityPoolBasic()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> getAllHoldingSymbols() {
-        return profile.getHoldingAccounts().stream().map(x -> x.getHoldingSymbols()).flatMap(Collection::stream).distinct()
-                .collect(Collectors.toUnmodifiableList());
+        return profile.getHoldingAccounts().stream().map(x -> x.getHoldingSymbols()).flatMap(Collection::stream)
+                .distinct().collect(Collectors.toUnmodifiableList());
     }
 
     // for the sake of performance and less redundancy, let's get the symbols from
     // parameters.
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Double> getAllHoldingInPrices(final List<String> symbols) {
         final List<Double> prices = new ArrayList<>();
@@ -41,6 +49,9 @@ public final class InvestmentViewObserverimpl implements InvestmentViewObserver 
         return Collections.unmodifiableList(prices);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Double> getAllHoldingInValue(final List<Double> prices, final List<Double> shares) {
         if (prices.size() != shares.size()) {
@@ -50,6 +61,9 @@ public final class InvestmentViewObserverimpl implements InvestmentViewObserver 
                 .map(i -> prices.get(i) * shares.get(i)).collect(Collectors.toUnmodifiableList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Double> getAllHoldingShares(final List<String> symbols) {
         // maybe later i will change it to tree map, so the ticker can be

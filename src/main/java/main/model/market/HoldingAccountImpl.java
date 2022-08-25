@@ -89,6 +89,9 @@ public class HoldingAccountImpl implements HoldingAccount {
         return holdings.containsKey(symbol) ? holdings.get(symbol).doubleValue() : 0.0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getID() {
         return this.id;

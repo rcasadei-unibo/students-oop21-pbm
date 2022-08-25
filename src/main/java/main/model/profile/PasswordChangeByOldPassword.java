@@ -7,6 +7,10 @@ public class PasswordChangeByOldPassword implements PasswordChangeStrategy {
     public PasswordChangeByOldPassword(final ProfileCredentials profile) {
         this.profile = profile;
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void changePassword(final String newPass, final String confNewPass, final String id) {
         if (id.equals(this.profile.getPassword()) && newPass.equals(confNewPass)) {

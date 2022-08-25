@@ -15,6 +15,8 @@ import main.control.ControllerImpl;
 import main.view.investment.InvestmentScene;
 import main.view.profile.LoginScene;
 import main.view.profile.ProfileScene;
+import main.view.expenditure.ExpenditureScene;
+
 
 public class JavaFxView extends Application implements View {
 
@@ -22,7 +24,11 @@ public class JavaFxView extends Application implements View {
     private volatile Controller controller;
     private volatile CustomScene investScene;
     private volatile CustomScene profileScene;
+    private volatile CustomScene expenditureScene;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final GUIFactoryImpl.Builder b = new GUIFactoryImpl.Builder(Screen.getPrimary().getBounds().getWidth(),
@@ -42,6 +48,7 @@ public class JavaFxView extends Application implements View {
 
         this.investScene = new InvestmentScene(new BorderPane(), primaryStage, this.controller);
         this.profileScene = new ProfileScene(new BorderPane(), primaryStage, this.controller);
+        this.expenditureScene = new ExpenditureScene(new BorderPane(), primaryStage, this.controller);
     }
 
     private Scene getLoginScene(final Stage primaryStage, final Scene mainScene) {
@@ -83,6 +90,7 @@ public class JavaFxView extends Application implements View {
         case BANKACCOUNT:
             break;
         case EXPENSE:
+            this.expenditureScene.updateEverythingNeeded(queue.get());
             break;
         case INVEST:
             this.investScene.updateEverythingNeeded(queue.get());

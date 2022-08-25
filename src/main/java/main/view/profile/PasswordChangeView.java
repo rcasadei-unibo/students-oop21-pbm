@@ -12,7 +12,11 @@ import javafx.stage.Stage;
 import main.control.Controller;
 import main.view.GUIFactory;
 import main.view.GUIFactoryImpl;
-
+/**
+ * Creates a new Stage with the functionalities necessary to
+ * change password in different ways.
+ *
+ */
 public class PasswordChangeView {
 
     private static final int W_RATIO = 5;

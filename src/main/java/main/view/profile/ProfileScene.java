@@ -13,11 +13,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.control.Controller;
-import main.model.account.InvestmentAccount;
-import main.model.market.HoldingAccount;
 import main.view.BaseScene;
 import main.view.MainScene;
 
+/**
+ * Creates ProfileScene. Shows informations about the profile credentials
+ * and economy.
+ *
+ */
 public class ProfileScene extends BaseScene {
 
     private static final int TEXT_DIM = 10;
@@ -34,6 +37,9 @@ public class ProfileScene extends BaseScene {
         this.scene = getGadgets().createScene(root);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateEverythingNeeded(final Queue<List<?>> things) {
         this.updateables = things;
@@ -41,17 +47,25 @@ public class ProfileScene extends BaseScene {
         super.getPrimaryStage().setScene(this.scene);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Scene getScene() {
         return this.scene;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateTop() {
         this.root.setTop(super.getMenuBar());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateBottom() {
         // nothing to be done here
@@ -59,6 +73,9 @@ public class ProfileScene extends BaseScene {
         this.root.setBottom(bottomLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     protected void updateCenter() {
@@ -92,6 +109,9 @@ public class ProfileScene extends BaseScene {
         this.root.setCenter(centerLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateLeft() {
         final Pane leftLayout = getGadgets().createVerticalPanel();
@@ -103,10 +123,14 @@ public class ProfileScene extends BaseScene {
         this.root.setLeft(leftLayout);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void updateRight() {
-        final Pane rightLayout = getGadgets().createVerticalPanel();
+        final BorderPane rightLayout = new BorderPane();
 
+        final Pane usrBtns = getGadgets().createVerticalPanel();
         final Button changePassword = getGadgets().createButton("Cambia Password");
         changePassword.setOnAction(e -> {
             getController().showPasswordChangeView();
@@ -118,8 +142,17 @@ public class ProfileScene extends BaseScene {
                             .getScene());
             getPrimaryStage().centerOnScreen();
         });
+        usrBtns.getChildren().addAll(changePassword, logOut);
 
-        rightLayout.getChildren().addAll(changePassword, logOut);
+        final Pane ecoBtns = getGadgets().createVerticalPanel();
+        final Button newAcc = getGadgets().createButton("Nuovo Account");
+        newAcc.setOnAction(e -> {
+            getController().showAddAccountView();
+        });
+        ecoBtns.getChildren().add(newAcc);
+
+        rightLayout.setTop(usrBtns);
+        rightLayout.setBottom(ecoBtns);
         this.root.setRight(rightLayout);
     }
 }

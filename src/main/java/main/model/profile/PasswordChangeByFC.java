@@ -8,6 +8,9 @@ public class PasswordChangeByFC implements PasswordChangeStrategy {
         this.profile = profile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void changePassword(final String newPass, final String confNewPass, final String id) {
         if (id.equals(this.profile.getFc()) && newPass.equals(confNewPass)) {
