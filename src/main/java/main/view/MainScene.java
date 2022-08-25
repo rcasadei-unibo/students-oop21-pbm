@@ -1,26 +1,12 @@
 package main.view;
 
-import java.text.ParseException;
-
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import main.charts.LineChartBuilder;
-import main.charts.PieChartBuilder;
-import main.charts.TestChart;
 import main.control.Controller;
-import main.json.OperationJSONUtente;
 
 public class MainScene {
 
