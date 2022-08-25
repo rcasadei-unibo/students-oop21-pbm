@@ -34,17 +34,17 @@ public class TableBuilder {
         tableView.setEditable(true);
  
         TableColumn<TransactionJson, String> nameTransactionCol = new TableColumn<>("Transazione");
-        //nameTransactionCol.setMinWidth(100);
+        nameTransactionCol.setMinWidth(100);
  
         TableColumn<TransactionJson, String> dateCol = new TableColumn<>("Data");
-        //dateCol.setMinWidth(100);
+        dateCol.setMinWidth(50);
         
  
         TableColumn<TransactionJson, String> timeCol = new TableColumn<>("Ora");
-        //timeCol.setMinWidth(200);
+        timeCol.setMinWidth(50);
         
         TableColumn<TransactionJson, Number> amountCol = new TableColumn<>("Importo");
-        //amountCol.setMinWidth(200);
+        amountCol.setMinWidth(70);
         
 
         nameTransactionCol.setCellValueFactory(new PropertyValueFactory<>("nameTransaction"));
@@ -69,6 +69,8 @@ public class TableBuilder {
         }
  
         tableView.setItems(data1);
+        
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
         return tableView;
     }

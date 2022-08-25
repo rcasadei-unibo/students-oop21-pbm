@@ -621,7 +621,7 @@ public class OperationJSONUtente {
         }
     }
 
-    public TransactionJson[] ReadAssetTransaction(String username, String nameInvestimentAccount, String symbolAsset) {
+    public TransactionJson[] readAssetTransaction(String username, String nameInvestimentAccount, String symbolAsset) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -693,7 +693,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    public TransactionJson[][] ReadAssetsTransaction(String username, String nameInvestimentAccount) {
+    public TransactionJson[][] readAssetsTransaction(String username, String nameInvestimentAccount) {
 
         TransactionJson[][] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -765,7 +765,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
 
-    public TransactionJson[] ReadMoneyBoxTransaction(String username, String nameMoneyBox) {
+    public TransactionJson[] readMoneyBoxTransaction(String username, String nameMoneyBox) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -828,7 +828,7 @@ public class OperationJSONUtente {
         return Transaction;
     }
     
-    public static TransactionJson[] ReadBanckTransaction(String username, String nameBanckAccount) {
+    public static TransactionJson[] readBanckTransaction(String username, String nameBanckAccount) {
 
         TransactionJson[] Transaction = null;
         JSONParser parser = new JSONParser();
@@ -897,7 +897,7 @@ public class OperationJSONUtente {
 
         double totalAmount = 0;
 
-        TransactionJson[] BanckTransaction = ReadBanckTransaction(username, nameBanckAccount);
+        TransactionJson[] BanckTransaction = readBanckTransaction(username, nameBanckAccount);
 
         for (TransactionJson i : BanckTransaction) {
             totalAmount += i.getAmount();
@@ -910,7 +910,7 @@ public class OperationJSONUtente {
 
         TransactionJson[] totalAssetsAccount = null;
 
-        TransactionJson[][] AssetsTransaction = ReadAssetsTransaction(username, nameInvestimentAccount);
+        TransactionJson[][] AssetsTransaction = readAssetsTransaction(username, nameInvestimentAccount);
 
         for (int i = 0; i < AssetsTransaction.length; i++) {
             for (int j = 0; j < AssetsTransaction[i].length; j++) {
@@ -925,7 +925,7 @@ public class OperationJSONUtente {
 
         double totalAmount = 0;
 
-        TransactionJson[] BanckTransaction = ReadAssetTransaction(username, nameInvestimentAccount, symbolAsset);
+        TransactionJson[] BanckTransaction = readAssetTransaction(username, nameInvestimentAccount, symbolAsset);
 
         for (TransactionJson i : BanckTransaction) {
             totalAmount += i.getAmount();
